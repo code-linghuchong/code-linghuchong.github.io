@@ -20,9 +20,7 @@
       
         <tags>
             
-            <tag> 主题 </tag>
-            
-            <tag> 教程 </tag>
+            <tag> system </tag>
             
         </tags>
       
@@ -45,6 +43,12 @@
       </categories>
       
       
+        <tags>
+            
+            <tag> 磁盘 </tag>
+            
+        </tags>
+      
     </entry>
     
     
@@ -66,9 +70,7 @@
       
         <tags>
             
-            <tag> 主题 </tag>
-            
-            <tag> 教程 </tag>
+            <tag> 用户 </tag>
             
         </tags>
       
