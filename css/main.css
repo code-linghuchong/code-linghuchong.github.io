@@ -18,6 +18,25 @@
   --btn-default-hover-color: #222;
   --btn-default-hover-border-color: #222;
 }
+body {
+  background: url("/images/haohanyuzhou.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: 50% 50%;
+}
+.content-wrap {
+  opacity: 0.9;
+}
+.sidebar {
+  opacity: 0.9;
+}
+.header-inner {
+  background: rgba(255,255,255,0.9);
+}
+.popup {
+  opacity: 0.9;
+}
 html {
   line-height: 1.15; /* 1 */
   -webkit-text-size-adjust: 100%; /* 2 */
@@ -1168,7 +1187,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #a6d5ff;
+  background: #25ff00;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
