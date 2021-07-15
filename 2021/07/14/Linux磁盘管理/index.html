@@ -1,0 +1,474 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Linux磁盘管理 - 大雄的日记</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="Fechin,Linux磁盘知识总结"> 
+    <meta name="description" content="静香是我的全部,Linux磁盘管理1. 磁盘的分类及特点[TOC]
+1.1 磁盘的分类
+机械硬盘hdd—容量大，价格便宜速度慢 ；
+固态硬盘sdd—容量小，价格较贵速度快；
+
+1.2 磁盘接口
+IDE（Integr,"> 
+    <meta name="author" content="大雄"> 
+    <link rel="alternative" href="atom.xml" title="大雄的日记" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="loading">
+    <span id="config-title" style="display:none">大雄的日记</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="iconfont icon-home image-icon" href="javascript:;" data-url="https://www.dennis.net.cn"></a>
+    <div title="播放/暂停" class="iconfont icon-play"></div>
+    <h3 class="subtitle">Linux磁盘管理</h3>
+    <div class="social">
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="iconfont icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">Linux磁盘管理</h1>
+        <div class="stuff">
+            <span>七月 14, 2021</span>
+            
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E7%A3%81%E7%9B%98/" rel="tag">磁盘</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <h1 id="Linux磁盘管理"><a href="#Linux磁盘管理" class="headerlink" title="Linux磁盘管理"></a>Linux磁盘管理</h1><h2 id="1-磁盘的分类及特点"><a href="#1-磁盘的分类及特点" class="headerlink" title="1. 磁盘的分类及特点"></a>1. 磁盘的分类及特点</h2><p>[TOC]</p>
+<h4 id="1-1-磁盘的分类"><a href="#1-1-磁盘的分类" class="headerlink" title="1.1 磁盘的分类"></a>1.1 磁盘的分类</h4><ul>
+<li>机械硬盘hdd—容量大，价格便宜速度慢 ；</li>
+<li>固态硬盘sdd—容量小，价格较贵速度快；</li>
+</ul>
+<h4 id="1-2-磁盘接口"><a href="#1-2-磁盘接口" class="headerlink" title="1.2 磁盘接口"></a>1.2 磁盘接口</h4><ul>
+<li><p>IDE（Integrated Drive Electronics）</p>
+<p><img src="https://exp-picture.cdn.bcebos.com/e9a4f2eeadbcbe2fb5bfecad54dae43b3a867865.jpg?x-bce-process=image/resize,m_lfit,w_500,limit_1/format,f_jpg/quality,q_80" alt="硬盘的接口种类"></p>
+<ul>
+<li>本意是指把“硬盘控制器”与“盘体”集成在一起的硬盘驱动器；</li>
+<li>优点：价格低廉兼容性好；</li>
+</ul>
+</li>
+<li><p>SCSI（Small Computer System Interface ）</p>
+<p><img src="https://exp-picture.cdn.bcebos.com/edafb3bcbe2f4770b5d7756f6f3b3b8603217965.jpg?x-bce-process=image/resize,m_lfit,w_500,limit_1/format,f_jpg/quality,q_80" alt="硬盘的接口种类"></p>
+<ul>
+<li>不是专门为硬盘设计的，而是一种总线型的系统接口；</li>
+<li>优点：适应面广高性能同时具备内、外置；</li>
+</ul>
+</li>
+<li><p>FC（Fibre Channel ）</p>
+<p><img src="https://exp-picture.cdn.bcebos.com/51cd85cec7f88a772f0d22f96e4a2f27e6eff865.jpg?x-bce-process=image/resize,m_lfit,w_500,limit_1/format,f_jpg/quality,q_80" alt="硬盘的接口种类"></p>
+<ul>
+<li>FC最初是专门为网络系统设计的随着存储系统对速度的需求，逐渐应用到硬盘系统中；</li>
+<li>优点：带宽高、连接距离长、连接设备数量大；</li>
+</ul>
+</li>
+<li><p>SATA（Serial ATA ）</p>
+<p><img src="http://www.dnpz.net/uploads/allimg/180122/983-1P1221054295Z.jpg" alt="电脑硬件知识：带你了解硬盘的各种接口类型"></p>
+<ul>
+<li>是一种完全不同于并行ATA的新型硬盘接口类型，由于采用串行方式传输数据而得名；</li>
+<li>优点：一对一连接，独享带宽、支持热插拔、低电压信号、带宽升级潜力大；</li>
+</ul>
+</li>
+<li><p>SAS（Serial Attached SCSI ） </p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/4101dfdf9cf599b1de7b5314b0861421.png" alt="image"></p>
+<ul>
+<li><p>即串行连接SCSI，是新一代的SCSI技术，和SATA相同，都是采用串行技术以获得更高的传输速度，并通过缩短连接线改善内部空间 </p>
+</li>
+<li><p>优点：兼容性好、数据传输率高；</p>
+</li>
+</ul>
+<p>搭配方式：</p>
+<p>SSD+SAS==》土豪</p>
+<p>SSD+SATA==》常规，对速度有特殊要求</p>
+<p>机械+SAS==》常规，对速度要求一般，比较核心业务使用</p>
+<p>机械+SATA==》公司内部服务</p>
+</li>
+</ul>
+<h4 id="1-3-磁盘性能指标"><a href="#1-3-磁盘性能指标" class="headerlink" title="1.3 磁盘性能指标"></a>1.3 磁盘性能指标</h4><ul>
+<li>容量<ul>
+<li>家用：1T、2T……</li>
+<li>企业: 300G、600G、900G……</li>
+</ul>
+</li>
+<li>转速<ul>
+<li>家用：4.5k\7.2krpm</li>
+<li>企业：7.2k、10k、15k</li>
+</ul>
+</li>
+<li>缓存</li>
+</ul>
+<h4 id="1-4-磁盘组成"><a href="#1-4-磁盘组成" class="headerlink" title="1.4 磁盘组成"></a>1.4 磁盘组成</h4><table>
+<thead>
+<tr>
+<th align="center">磁盘知识点</th>
+<th align="center">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">磁头 header</td>
+<td align="center">读取或写入数据,移动只能是径向方法,磁头是从0开始,磁头数==盘面数</td>
+</tr>
+<tr>
+<td align="center">磁道tracker</td>
+<td align="center">当磁盘旋转时，磁头若保持在一个位置上，则每个磁头都会在磁盘表面划出一个圆形轨迹，这些圆形轨迹就叫做磁道。</td>
+</tr>
+<tr>
+<td align="center">扇区sector</td>
+<td align="center">扇区，是指磁盘上划分的区域。磁盘上的每个磁道被等分为若干个弧段，这些弧段便是磁盘的扇区，硬盘的读写以扇区为基本单位，从1开始</td>
+</tr>
+<tr>
+<td align="center">柱面cylinder</td>
+<td align="center">硬盘通常由重叠的一组盘片构成，每个盘面都被划分为数目相等的磁道，并从外缘的“0”开始编号，具有相同编号的磁道形成一个圆柱，称之为磁盘的柱面</td>
+</tr>
+</tbody></table>
+<ul>
+<li><p>扇区（512KB）是磁盘读取的基本单位</p>
+</li>
+<li><p>block（4KB）是系统层面上面读写数据的单位 </p>
+</li>
+</ul>
+<p><img src="../AppData/Roaming/Typora/typora-user-images/image-20210330201437498.png" alt="image-20210330201437498"></p>
+<h2 id="2-RAID独立冗余磁盘阵列"><a href="#2-RAID独立冗余磁盘阵列" class="headerlink" title="2. RAID独立冗余磁盘阵列"></a>2. RAID独立冗余磁盘阵列</h2><h4 id="2-1-概念"><a href="#2-1-概念" class="headerlink" title="2.1 概念"></a>2.1 概念</h4><p>简单的说，RAID是一种把多块独立的硬盘（物理硬盘）按不同的方式组 合起来形成一个硬盘组（逻辑硬盘），从而提高存储性能和容错功能。</p>
+<h4 id="2-2-raid级别"><a href="#2-2-raid级别" class="headerlink" title="2.2 raid级别"></a>2.2 raid级别</h4><ul>
+<li><p><em>raid0</em></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">容量：N块盘合在一起的容量；</span><br><span class="line">性能：理论上是N块盘合在一起的读写速度，实际上是略低一些；</span><br><span class="line">冗余性：不允许坏任何一块硬盘，一块坏，全部gg;</span><br><span class="line">场合：追求读写性能，但对数据安全性无要求；</span><br><span class="line">特点:追求速度，不考虑数据安全；</span><br><span class="line">ps:可以考虑用集群服务器</span><br></pre></td></tr></table></figure></li>
+<li><p><em>raid1</em></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">至少2快盘</span><br><span class="line">容量：一块盘的容量</span><br><span class="line">性能：几乎就是一块盘的读写速度</span><br><span class="line">冗余性：可以坏一块盘，另外一块盘有完整的数据；一块存数据，一块备份数据（备份过）</span><br><span class="line">场合：对数据安全性有要求，对读写速度没有要求</span><br><span class="line">特点:追求数据安全，不考虑速度</span><br><span class="line">ps:主要用于服务器的系统盘</span><br></pre></td></tr></table></figure></li>
+<li><p><em>raid5</em>(结余raid0与raid1之间，是一种折中的方案)</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">至少三块盘，两两之间做奇偶校验，相同结果为0，不同结果为1</span><br><span class="line">容量：以三快盘为例，只有两块容量可用，一块作为校验</span><br><span class="line">性能：读写速度低于raid0，高于raid1</span><br><span class="line">冗余性：可以坏一块盘，其余两块可通过奇偶校验推导出坏盘的数据</span><br><span class="line">场合：一般场合都可使用</span><br><span class="line">ps:兼顾了速度和安全性</span><br></pre></td></tr></table></figure></li>
+<li><p><em>raid10</em>(raid1和raid0整合的产物，兼顾了raid1的数据安全性和raid0的性能，成本高)</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">至少4块</span><br><span class="line">容量：所有容量的一半</span><br><span class="line">性能：读写速度很快</span><br><span class="line">冗余性：可以损坏一半，但损毁的的不能再一组</span><br><span class="line">场合：</span><br><span class="line">ps:性能和冗余很好的业务。数据库主库和存储的主节点</span><br></pre></td></tr></table></figure></li>
+<li><p>冗余 raid1 raid10 raid5 raid0</p>
+</li>
+<li><p>读写性能 raid0 raid10 raid5 raid1</p>
+</li>
+<li><p>成本 raid0、raid5、raid1、raid10</p>
+</li>
+</ul>
+<h2 id="3-磁盘分区"><a href="#3-磁盘分区" class="headerlink" title="3. 磁盘分区"></a>3. 磁盘分区</h2><p><strong>1.分区表</strong></p>
+<ul>
+<li>MBR</li>
+</ul>
+<p>磁盘主引导记录 0磁头0磁道1扇区 大小512k</p>
+<p>磁盘分区表结构：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">446bytes:</span><br><span class="line">	主引导记录MBR所在地址；</span><br><span class="line">64bytes:</span><br><span class="line">	磁盘分区信息 DPT，磁盘分区表；</span><br><span class="line">2bytes:</span><br><span class="line">	55AA,分区信息结束 DPT 磁盘分区表；</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>GPT</p>
+<ul>
+<li>mbr升级版</li>
+<li>主分区足够用</li>
+<li>可支持大容量硬盘</li>
+</ul>
+<p>区别:</p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">gpt</th>
+<th align="center">mbr</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">主分区数量不限</td>
+<td align="center">主分区最多4个扩展分区1个</td>
+</tr>
+<tr>
+<td align="center">可额外支持大容量2tb以上硬盘</td>
+<td align="center">mbr只支持2tb以内的硬盘</td>
+</tr>
+</tbody></table>
+<ul>
+<li>主分区p：存放数据，必须拥有；</li>
+<li>扩展分区e：用来给逻辑分区创造空间；</li>
+<li>逻辑分区l：在扩展分区下面，进行创建，使用扩展分区空间；</li>
+</ul>
+<p><em><strong>2.询磁盘信息</strong></em></p>
+<p>一般查询磁盘信息主要查看这三个指标</p>
+<ul>
+<li>使用率</li>
+<li>当前读写速度</li>
+<li>其它信息</li>
+</ul>
+<p>1.df命令 ： 查看当前磁盘容量使用率（不用参数以k为单位）；</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">df -i #查看inode使用情况</span><br><span class="line">df -h #以人性化方式显示</span><br><span class="line">df -T  #查看磁盘分区类型（文件系统类型）</span><br><span class="line"></span><br><span class="line">[root@yum_server_100 /]# df -i</span><br><span class="line">Filesystem                Inodes IUsed    IFree IUse% Mounted on</span><br><span class="line">devtmpfs                  121457   393   121064    1% /dev</span><br><span class="line">tmpfs                     124460     1   124459    1% /dev/shm</span><br><span class="line">tmpfs                     124460   765   123695    1% /run</span><br><span class="line">tmpfs                     124460    16   124444    1% /sys/fs/cgroup</span><br><span class="line">/dev/mapper/centos-root 26214400 47406 26166994    1% /</span><br><span class="line">/dev/mapper/centos-home 24637440    13 24637427    1% /home</span><br><span class="line">/dev/sde1                 524288   326   523962    1% /boot</span><br><span class="line">tmpfs                     124460     1   124459    1% /run/user/0</span><br><span class="line">[root@yum_server_100 /]# </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">root@yum_server_100 /]# df -h</span><br><span class="line">Filesystem               Size  Used Avail Use% Mounted on</span><br><span class="line">devtmpfs                 475M     0  475M   0% /dev</span><br><span class="line">tmpfs                    487M     0  487M   0% /dev/shm</span><br><span class="line">tmpfs                    487M  7.6M  479M   2% /run</span><br><span class="line">tmpfs                    487M     0  487M   0% /sys/fs/cgroup</span><br><span class="line">/dev/mapper/centos-root   50G   14G   37G  27% /</span><br><span class="line">/dev/mapper/centos-home   47G   33M   47G   1% /home</span><br><span class="line">/dev/sde1               1014M  137M  878M  14% /boot</span><br><span class="line">tmpfs                     98M     0   98M   0% /run/user/0</span><br><span class="line"></span><br><span class="line">[root@yum_server_100 /]# df -T</span><br><span class="line">Filesystem              Type     1K-blocks     Used Available Use% Mounted on</span><br><span class="line">devtmpfs                devtmpfs    485828        0    485828   0% /dev</span><br><span class="line">tmpfs                   tmpfs       497840        0    497840   0% /dev/shm</span><br><span class="line">tmpfs                   tmpfs       497840     7768    490072   2% /run</span><br><span class="line">tmpfs                   tmpfs       497840        0    497840   0% /sys/fs/cgroup</span><br><span class="line">/dev/mapper/centos-root xfs       52403200 13739376  38663824  27% /</span><br><span class="line">/dev/mapper/centos-home xfs       49250820    33044  49217776   1% /home</span><br><span class="line">/dev/sde1               xfs        1038336   140076    898260  14% /boot</span><br><span class="line">tmpfs                   tmpfs        99572        0     99572   0% /run/user/0</span><br></pre></td></tr></table></figure>
+
+<p>2.使用lsblk查看分区情况</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[root@yum_server_100 /]# lsblk</span><br><span class="line">NAME            MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT</span><br><span class="line">sda               8:0    0    1G  0 disk </span><br><span class="line">sdb               8:16   0    1G  0 disk </span><br><span class="line">└─sdb1            8:17   0  100M  0 part </span><br><span class="line">sdc               8:32   0    1G  0 disk </span><br><span class="line">sdd               8:48   0    3T  0 disk </span><br><span class="line">sde               8:64   0  100G  0 disk </span><br><span class="line">├─sde1            8:65   0    1G  0 part /boot</span><br><span class="line">└─sde2            8:66   0   99G  0 part </span><br><span class="line">  ├─centos-root 253:0    0   50G  0 lvm  /</span><br><span class="line">  ├─centos-swap 253:1    0    2G  0 lvm  [SWAP]</span><br><span class="line">  └─centos-home 253:2    0   47G  0 lvm  /home</span><br><span class="line">sr0              11:0    1  3.7G  0 rom  </span><br><span class="line">sr1              11:1    1  4.5G  0 rom  </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>3.使用du命令查看目录或者文件容量，不参加以k为单位</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">du -sh #人性化输出显示大小</span><br><span class="line">-s :summary 总结，汇总列出总和</span><br><span class="line">-h:人性化显示容量信息，人类可读 </span><br></pre></td></tr></table></figure>
+
+<p>4.iotop  显示当前硬盘读取速度</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">iotop #显示磁盘io</span><br><span class="line">iotop -o 只显示进行读写进程信息</span><br><span class="line">dd if=/dev/zero  of=/tmp/big    bs=1k  count=10000000</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-1-fdisk-分区"><a href="#3-1-fdisk-分区" class="headerlink" title="3.1 fdisk 分区"></a>3.1 fdisk 分区</h4><ul>
+<li><p>fdisk :这个命令是磁盘分区表操作工具，fdisk能将磁盘分区，同时也能为每个分区指定分区类型，总的来说，fdisk就是磁盘工具。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">fdisk -l	#查看硬盘分区表</span><br><span class="line"><span class="meta">#</span><span class="bash"> fdisk -l</span></span><br><span class="line">  Device Boot      Start         End      Blocks   Id  System</span><br><span class="line">/dev/sdb1            2048      206847      102400   83  Linux</span><br><span class="line">/dev/sdb2          206848      616447      204800   83  Linux</span><br><span class="line">/dev/sdb3          616448     1230847      307200    5  Extended</span><br><span class="line">/dev/sdb5          618496      638975       10240   83  Linux</span><br><span class="line">/dev/sdb6          641024      661503       10240   83  Linux</span><br><span class="line">/dev/sdb7          663552      684031       10240   83  Linux</span><br><span class="line">/dev/sdb8          686080      890879      102400    c  W95 FAT32 (LBA)</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li><p>fdisk /dev/sdb 分区</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">[root@yum_server_100 /]# fdisk /dev/sdb</span><br><span class="line"><span class="meta">#</span><span class="bash">进入Command 分区命令行；如果输入错误用ctrl+u进行删除重新输入命令</span></span><br><span class="line">Welcome to fdisk (util-linux 2.23.2).</span><br><span class="line"></span><br><span class="line">Changes will remain in memory only, until you decide to write them.</span><br><span class="line">Be careful before using the write command.</span><br><span class="line"></span><br><span class="line">Device does not contain a recognized partition table</span><br><span class="line">Building a new DOS disklabel with disk identifier 0xe42d9531.</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> p -- 展示指定硬盘已有分区（目前没有增加分区）</span></span><br><span class="line">Command (m for help): p</span><br><span class="line">Disk /dev/sdc: 1073 MB, 1073741824 bytes, 2097152 sectors</span><br><span class="line">Units = sectors of 1 * 512 = 512 bytes</span><br><span class="line">Sector size (logical/physical): 512 bytes / 512 bytes</span><br><span class="line">I/O size (minimum/optimal): 512 bytes / 512 bytes</span><br><span class="line">Disk label type: dos</span><br><span class="line">Disk identifier: 0xe42d9531</span><br><span class="line"></span><br><span class="line">   Device Boot      Start         End      Blocks   Id  System</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> n--在硬盘中新增一个主分区</span></span><br><span class="line">Command (m for help): n</span><br><span class="line"><span class="meta">#</span><span class="bash"> 会有选p主分区 e扩展分区 默认空白是p主分区</span> </span><br><span class="line">Partition type:</span><br><span class="line">   p   primary (0 primary, 0 extended, 4 free)</span><br><span class="line">   e   extended</span><br><span class="line">Select (default p): p</span><br><span class="line">Partition number (1-4, default 1): 1  #分区编号默认编号1</span><br><span class="line">First sector (2048-2097151, default 2048): #选择分区开始位置这里忽略只在意结束位置（大小）</span><br><span class="line">Using default value 2048</span><br><span class="line">Last sector, +sectors or +size&#123;K,M,G&#125; (2048-2097151, default 2097151): +100M #指定分区大小</span><br><span class="line">Partition 1 of type Linux and of size 100 MiB is set  #成功！！！</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">分区后 p展示分区信息</span></span><br><span class="line">Command (m for help): p</span><br><span class="line">  Device Boot      Start         End      Blocks   Id  System</span><br><span class="line">/dev/sdc1            2048      206847      102400   83  Linux</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#同理要想建立扩展分区 在n之后选择e即可 扩展分区建立后 才能建立逻辑分区</span></span> </span><br><span class="line"></span><br><span class="line">d 删除分区</span><br><span class="line">t 将分区换类型</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="3-2-parted分区"><a href="#3-2-parted分区" class="headerlink" title="3.2 parted分区"></a>3.2 parted分区</h4><p><strong>一.parted的用用途及说明：</strong></p>
+<ul>
+<li>parted ：parted分区是fdisk分区升级版本，可以划分多个主分，支持2TB以上的磁盘分区，并且允许调整分区的大小。</li>
+<li>parted是一个用于硬盘分区或调整分区大小的工具。使用它你可以创建、清除、调整、移动和复制ext2、ext3、linux-swap、FAT、FAT32和reiserfs分区；也能创建、调整和移动苹果系统的HFS分区；还能检测jfs、ntfs、ufs和xfs分区。该工具常用于为新安装的操作系统创建空间，重新分配硬盘使用情况，在将数据拷贝到新硬盘的时候也常常使用。</li>
+</ul>
+<p><strong>二.parted的使用方法及步骤</strong></p>
+<p>1.对磁盘进行分区</p>
+<p>(1) 命令方式：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">parted /dev/sdb mklabel gpt mkpart 1 ext3 1 1T</span><br></pre></td></tr></table></figure>
+
+<p>(2)交互式：</p>
+<ul>
+<li>命令：</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">p (print) 	    #显示磁盘分区信息</span><br><span class="line">mktable 	#创建磁盘分区表 gpt/msdos</span><br><span class="line">mkpart 		#创建磁盘分区 mkpart primary 0 100</span><br><span class="line">rm 			#删除磁盘分区</span><br><span class="line">q 			#quit</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>分区步骤:</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="left">命令</th>
+<th align="left">解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">#parted  /dev/sdb</td>
+<td align="left">对/dev/sdb进行分区或管理操作</td>
+</tr>
+<tr>
+<td align="left">GNU Parted 3.1<br/>Using /dev/sda<br/>Welcome to GNU Parted! Type ‘help’ to view a list of commands.</td>
+<td align="left">系统返回值</td>
+</tr>
+<tr>
+<td align="left">(parted)   mklabel  gpt</td>
+<td align="left">定义分区表格式常用的有msdos和gpt分区表格式，msdos不支持2TB以上（常用的有msdos和gpt分区表格式，msdos不支持2TB以上容量的磁盘，所以大于2TB的磁盘选gpt分区表格式）</td>
+</tr>
+<tr>
+<td align="left">(parted) mkpart p1</td>
+<td align="left">创建第1个分区，名称为p1</td>
+</tr>
+<tr>
+<td align="left">File system type?  [ext2]?</td>
+<td align="left">定义分区格式（不支持ext4，想分ext4格式分区，可以通过mkfs.ext4格式化ext4格式）</td>
+</tr>
+<tr>
+<td align="left">Start？  1</td>
+<td align="left">定义分区的起始位置（单位支持K,M,G,T）</td>
+</tr>
+<tr>
+<td align="left">End？  1G</td>
+<td align="left">定义分区的结束位置（单位支持K,M,G,T）</td>
+</tr>
+<tr>
+<td align="left">(parted)   print</td>
+<td align="left">查看当前分区情况</td>
+</tr>
+<tr>
+<td align="left">Model: VMware, VMware Virtual S (scsi)<br/>Disk /dev/sda: 1074MB<br/>Sector size (logical/physical): 512B/512B<br/>Partition Table: gpt<br/>Disk Flags: <br/><br/>Number  Start   End     Size    File    system  Name  Flags<br/> 1      1049kB  1073MB      1072MB</td>
+<td align="left">系统返回值</td>
+</tr>
+</tbody></table>
+<ul>
+<li>删除分区步骤：</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>(parted)   rm</th>
+<th>rm删除命令(删除前必须检查是否挂载)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Partition number？ 1</td>
+<td>删除第一个分区</td>
+</tr>
+<tr>
+<td>(parted)   print</td>
+<td>查看当前分区情况</td>
+</tr>
+<tr>
+<td>(parted)   print</td>
+<td>查看当前分区情况</td>
+</tr>
+<tr>
+<td>Model:   ATA VBOX HARDDISK (scsibr/Disk   /dev/sda: 21.5GB<br/><br/>Sector   size (logical/physical): 512B/512B<br/><br/>Partition   Table: msdos<br/><br/>Number  Start     End   Size  File system  Name  Flags<br/></td>
+<td>系统返回值</td>
+</tr>
+</tbody></table>
+<h2 id="4-挂载与格式化"><a href="#4-挂载与格式化" class="headerlink" title="4. 挂载与格式化"></a>4. 挂载与格式化</h2><p><strong>挂载三部曲：</strong></p>
+<ul>
+<li>磁盘分区：fdisk、parted、gdisk；</li>
+<li>格式化：创建文件系统（使磁盘可以存储文件）；</li>
+<li>挂载：设置设备入口，给用户访问·。</li>
+</ul>
+<h4 id="4-1-第一部—创建磁盘分区"><a href="#4-1-第一部—创建磁盘分区" class="headerlink" title="4.1 第一部—创建磁盘分区"></a>4.1 第一部—创建磁盘分区</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">fdisk  </span><br><span class="line">n</span><br><span class="line">Disk /dev/sdb: 1073 MB, 1073741824 bytes, 2097152 sectors</span><br><span class="line">Units = sectors of 1 * 512 = 512 bytes</span><br><span class="line">Sector size (logical/physical): 512 bytes / 512 bytes</span><br><span class="line">I/O size (minimum/optimal): 512 bytes / 512 bytes</span><br><span class="line">Disk label type: dos</span><br><span class="line">Disk identifier: 0xc2483040</span><br><span class="line">   Device Boot     Start         End     Blocks   Id </span><br><span class="line">System</span><br><span class="line">/dev/sdb1            2048     2097151     1047552   83 </span><br><span class="line">Linux</span><br></pre></td></tr></table></figure>
+
+<h4 id="4-2-第二部—格式化创建文件系统"><a href="#4-2-第二部—格式化创建文件系统" class="headerlink" title="4.2 第二部—格式化创建文件系统"></a>4.2 第二部—格式化创建文件系统</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> mkf.xfs /dev/sdb1</span> </span><br><span class="line">meta-data=/dev/sdb1              isize=512    agcount=4, </span><br><span class="line">agsize=65472 blks</span><br><span class="line">         =                       sectsz=512   attr=2, </span><br><span class="line">projid32bit=1</span><br><span class="line">         =                       crc=1        finobt=0, </span><br><span class="line">sparse=0</span><br><span class="line">data     =                       bsize=4096   </span><br><span class="line">blocks=261888, imaxpct=25</span><br><span class="line">         =                       sunit=0      swidth=0</span><br><span class="line">blks</span><br><span class="line">naming   =version 2              bsize=4096   ascii-ci=0</span><br><span class="line">ftype=1</span><br><span class="line">log      =internal log           bsize=4096   blocks=855, </span><br><span class="line">version=2</span><br><span class="line">         =                       sectsz=512   sunit=0</span><br><span class="line">blks, lazy-count=1</span><br><span class="line">realtime =none                   extsz=4096   blocks=0, </span><br><span class="line">rtextents=0</span><br></pre></td></tr></table></figure>
+
+<h4 id="4-3-第三部—挂载"><a href="#4-3-第三部—挂载" class="headerlink" title="4.3 第三部—挂载"></a>4.3 第三部—挂载</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">mount 设备 入口</span><br><span class="line">mount /d v/sdb1   /mnt  </span><br><span class="line">[root@oldboyedu ~]# mount /de/sdb1 /mnt/</span><br><span class="line">[root@oldboyedu ~]# df -h</span><br><span class="line">Filesystem               Size Used Avail Use% Mounted on</span><br><span class="line">devtmpfs                 475M     0 475M   0% /dev</span><br><span class="line">tmpfs                   487M     0 487M   0% /dev/shm</span><br><span class="line">tmpfs                   487M  7.7M 479M   2% /run</span><br><span class="line">tmpfs                   487M     0 487M   0% </span><br><span class="line">/sys/fs/cgroup</span><br><span class="line">/dev/mapper/centos-root   37G   16G   22G  43% /</span><br><span class="line">/dev/sda1               1014M 137M 878M  14% /boot</span><br><span class="line">tmpfs                     98M     0   98M   0% </span><br><span class="line">/run/user/0</span><br><span class="line">/dev/sdb1               1020M   33M 988M   4% /mnt</span><br></pre></td></tr></table></figure>
+
+<h4 id="4-4-永久挂载"><a href="#4-4-永久挂载" class="headerlink" title="4.4 永久挂载"></a>4.4 永久挂载</h4><p>上述挂载方式为临时挂载方式接下来介绍两种永久挂载方式：</p>
+<ul>
+<li>方法一：通用写法，把挂载命令写到开机执行，开机启动文件 /etc/rc.d/rc.loacl</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/rc.d/rc.local</span><br><span class="line">把挂载命令写到开机执行文件上</span><br><span class="line">mount /dev/sdb /mount</span><br><span class="line">chmod +x /etc/rc.d/rc.local</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>方法二：专业写法，开机开机自动挂载信息表    /etc/fstab</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">/etc/fstab文件内容格式说明</span><br><span class="line">/dev/mapper/centos-root /                       xfs     defaults        0 0</span><br><span class="line">UUID=0b6d9742-6dc9-434e-acb3-88d46bc5210c /boot                   xfs     defaults        0 0</span><br><span class="line">/dev/mapper/centos-home /home                   xfs     defaults        0 0</span><br><span class="line">/dev/mapper/centos-swap swap                    swap    defaults        0 0</span><br><span class="line"></span><br><span class="line">弟1列：备名称、uuid</span><br><span class="line">第2列：挂载点</span><br><span class="line">第3列：文件系统类型</span><br><span class="line">第4列：挂载选项</span><br><span class="line">第5列：是否备份</span><br><span class="line">第6列：是否开机检查</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-SWAP"><a href="#5-SWAP" class="headerlink" title="5. SWAP"></a>5. SWAP</h2><ul>
+<li>swap 交换分区，内存不足时将物理内存充当临时内存。</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">通过创建文件增加swap</span><br><span class="line">1）创建文件 dd  if=/dev/zero  of=/tmp/swap  bs=1M count=500</span><br><span class="line">2)转换为swap 	 mkswap /tmp/swap</span><br><span class="line">3)激活 		 swapon /tmp/swap</span><br><span class="line"></span><br><span class="line">free -h 查看系统内存情况</span><br><span class="line">swapon -s 查看当前系统swap组成</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>永久生效</p>
+<ul>
+<li>swapon /tmp/swap 命令写到 /etc/rc.local</li>
+<li>将swap分区属性写到 /etc/fstab</li>
+</ul>
+</li>
+<li><p>umount /mnt 卸载</p>
+</li>
+<li><p>umount -lf 强制卸载</p>
+</li>
+</ul>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        
+                            <li title='0' data-url='http://link.hhtjim.com/163/425570951.mp3'></li>
+                        
+                    
+                        
+                            <li title='1' data-url='http://link.hhtjim.com/163/425570954.mp3'></li>
+                        
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+		data-enable='false'
+        data-ae='false'
+        data-ci=''
+        data-cs=''
+        data-r=''
+        data-o=''
+        data-a=''
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/typed.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+</html>
