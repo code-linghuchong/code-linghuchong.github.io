@@ -125,13 +125,18 @@ span:first-child {
     min-width: 50%;
 }
 
-#web_bg {
-  /* webkit内核 5.1 - 6.0 */
-  background: -webkit-linear-gradient(left, red, blue);
-  /* Opera 11.1 - 12.0 */
-  background: -o-linear-gradient(right, red, blue);
-  /* Firefox 3.6 - 15 */
-  background: -moz-linear-gradient(right, red, blue);
-  /* 标准的语法 */
-  background: linear-gradient(to right, red, blue);
+
+/* 彩带 */
+.card-info-avatar:hover {
+  background: url(https://cdn.jsdelivr.net/gh/rigodlee/BLOGCDN/img/H3342af90d24b4d62b9bbfec9688ccc25M.gif);
 }
+
+/* 花 */
+/* .card-info-avatar:hover {
+ *   background: url(https://cdn.jsdelivr.net/gh/rigodlee/BLOGCDN/img/20200530181856.gif);
+ *   } */
+
+
+
+
+
