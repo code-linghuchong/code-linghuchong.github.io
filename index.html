@@ -1,1633 +1,258 @@
+
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" class="loading">
 <head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-<meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.4.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
-  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>dennis的博客</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="Fechin,"> 
+    <meta name="description" content="个人博客,"> 
+    <meta name="author" content="dennis"> 
+    <link rel="alternative" href="atom.xml" title="dennis的博客" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    
+    
+<link rel="stylesheet" href="/css/diaspora.css">
 
-<link rel="stylesheet" href="/css/main.css">
+<meta name="generator" content="Hexo 5.4.0"></head>
 
+<body class="loading">
+    <span id="config-title" style="display:none">dennis的博客</span>
+    <div id="loader"></div>
+    <div class="nav">
+    <ul id="menu-menu" class="menu">
+        
+        <li class="pview menu-item menu-item-type-post_type menu-item-object-page">
+            <a href="//" title="首页" target="_blank" rel="noopener">首页</a>
+        </li>
+        
+        <li class="pview menu-item menu-item-type-post_type menu-item-object-page">
+            <a href="/categories/" title="分类" target="_blank" rel="noopener">分类</a>
+        </li>
+        
+        <li class="pview menu-item menu-item-type-post_type menu-item-object-page">
+            <a href="/tags/" title="标签" target="_blank" rel="noopener">标签</a>
+        </li>
+        
+        <li class="pview menu-item menu-item-type-post_type menu-item-object-page">
+            <a href="/archives/" title="归档" target="_blank" rel="noopener">归档</a>
+        </li>
+        
+        <li class="pview menu-item menu-item-type-post_type menu-item-object-page">
+            <a href="/about/" title="关于" target="_blank" rel="noopener">关于</a>
+        </li>
+        
+    </ul>
+	<span class="target"></span>
+	<center>
+	<div class="hitokoto">
+		<span class="typed" id="hitokoto" data-st="true"></span>
+	</div>
+	</center>
+	
+	<p class="footerlinks">
+		<a href="#" class="iconfont icon-null"></a>
+		
+            <a href="/" title="facebook" class="iconfont icon-facebook" target="_blank" rel="noopener"> </a>
+        
+            <a href="/" title="twitter" class="iconfont icon-twitter" target="_blank" rel="noopener"> </a>
+        
+            <a href="/" title="github" class="iconfont icon-github" target="_blank" rel="noopener"> </a>
+        
+            <a href="/img/logo.png" title="wechat" class="iconfont icon-wechat" target="_blank" rel="noopener"> </a>
+        
+            <a href="mailto:xxxx@gmail.com" title="email" class="iconfont icon-email" target="_blank" rel="noopener"> </a>
+        
+		<a href="#" class="iconfont icon-null"></a>
+	</p>
+	
+    <p id="copyright">
+        &copy; 2021 dennis.
+        <span> | </span>Powered by <a href="https://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a>
+        <span> | </span>Theme <a href="https://github.com/Fechin/hexo-theme-diaspora" title="Diaspora" target="_blank" rel="noopener">Diaspora</a> by Fechin
+		
+		<span> | </span><a rel="nofollow" href="http://www.beian.miit.gov.cn" target="_blank">京ICP备2021014273号</a>
+		
+    </p>
+</div>
 
-<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
-  <link rel="stylesheet" href="/lib/pace/pace-theme-flash.min.css">
-  <script src="/lib/pace/pace.min.js"></script>
-
-<script id="hexo-configurations">
-    var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"www.dennis.net.cn","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
-  </script>
-
-  <meta name="description" content="个人博客">
-<meta property="og:type" content="website">
-<meta property="og:title" content="dennis的博客">
-<meta property="og:url" content="https://www.dennis.net.cn/index.html">
-<meta property="og:site_name" content="dennis的博客">
-<meta property="og:description" content="个人博客">
-<meta property="og:locale" content="zh_CN">
-<meta property="article:author" content="dennis">
-<meta name="twitter:card" content="summary">
-
-<link rel="canonical" href="https://www.dennis.net.cn/">
-
-
-<script id="page-configurations">
-  // https://hexo.io/docs/variables.html
-  CONFIG.page = {
-    sidebar: "",
-    isHome : true,
-    isPost : false,
-    lang   : 'zh-CN'
-  };
-</script>
-
-  <title>dennis的博客</title>
-  
-
-
-
-
-
-
-  <noscript>
-  <style>
-  .use-motion .brand,
-  .use-motion .menu-item,
-  .sidebar-inner,
-  .use-motion .post-block,
-  .use-motion .pagination,
-  .use-motion .comments,
-  .use-motion .post-header,
-  .use-motion .post-body,
-  .use-motion .collection-header { opacity: initial; }
-
-  .use-motion .site-title,
-  .use-motion .site-subtitle {
-    opacity: initial;
-    top: initial;
-  }
-
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
-  </style>
-</noscript>
-
-</head>
-
-<body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
-    <div class="headband"></div>
-
-    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-container">
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏">
-      <span class="toggle-line toggle-line-first"></span>
-      <span class="toggle-line toggle-line-middle"></span>
-      <span class="toggle-line toggle-line-last"></span>
+<div id="container">
+    
+<div id="screen">
+    <div id="mark">
+        <div class="layer" data-depth="0.4">
+            <img src="/img/cover.jpg" id="cover" crossorigin="anonymous" width="1920" height="1080">
+        </div>
     </div>
-  </div>
+    <div id="vibrant">
+        <svg viewBox="0 0 2880 1620" height="100%" preserveAspectRatio="xMaxYMax slice">
+            <polygon opacity="0.7" points="2000,1620 0,1620 0,0 600,0 "/>
+        </svg>
+        <div></div>
+    </div>
+    <div id="header">
+        <div>
+            <a class="image-logo" href="/"></a>
+			
+            <div class="iconfont icon-menu switchmenu"></div>
+        </div>
+    </div>
+    
+    <div id="post0">
+        <p>七月 20, 2021</p>
+        <h2><a href="/mysql/%E5%88%9D%E5%A7%8B%E6%95%B0%E6%8D%AE%E5%BA%93/" title="初始数据库" class="posttitle">初始数据库</a></h2>
+        <p class="summary">
+MySQL 介绍和安装部署数据库的概述
+数据库（Database）是按照数据结构来组织、存储和管理数据的仓库。
+...</p>
+    </div>
+    
+</div>
 
-  <div class="site-meta">
-
-    <a href="/" class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">dennis的博客</h1>
-      <span class="logo-line-after"><i></i></span>
+    <div id="primary">
+        
+<div class="post">
+    <a href="/Linux%E5%9F%BA%E7%A1%80/%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/" title="定时任务">
+        <img src="https://img0.baidu.com/it/u=3660881998,2785257225&fm=26&fmt=auto&gp=0.jpg" class="cover" width="680" height="440">
     </a>
-  </div>
+    <div class="else">
+        <p>七月 19, 2021</p>
+        <h3><a href="/Linux%E5%9F%BA%E7%A1%80/%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/" title="定时任务" class="posttitle">定时任务</a></h3>
+        <p>Linux定时任务[TOC]
 
-  <div class="site-nav-right">
-    <div class="toggle popup-trigger">
-        <i class="fa fa-search fa-fw fa-lg"></i>
+1. 定时任务基本概述
+crond简介
+Linux系统上面有很多计划性的工作，比如在某个时间点需要执行某个动作，在Linu...</p>
     </div>
-  </div>
 </div>
 
 
-
-
-<nav class="site-nav">
-  <ul id="menu" class="main-menu menu">
-        <li class="menu-item menu-item-home">
-
-    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
-
-  </li>
-        <li class="menu-item menu-item-about">
-
-    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
-
-  </li>
-        <li class="menu-item menu-item-tags">
-
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
-
-  </li>
-        <li class="menu-item menu-item-categories">
-
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
-
-  </li>
-        <li class="menu-item menu-item-archives">
-
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
-
-  </li>
-      <li class="menu-item menu-item-search">
-        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
-        </a>
-      </li>
-  </ul>
-</nav>
-
-
-
-  <div class="search-pop-overlay">
-    <div class="popup search-popup">
-        <div class="search-header">
-  <span class="search-icon">
-    <i class="fa fa-search"></i>
-  </span>
-  <div class="search-input-container">
-    <input autocomplete="off" autocapitalize="off"
-           placeholder="搜索..." spellcheck="false"
-           type="search" class="search-input">
-  </div>
-  <span class="popup-btn-close">
-    <i class="fa fa-times-circle"></i>
-  </span>
-</div>
-<div id="search-result">
-  <div id="no-result">
-    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
-  </div>
-</div>
-
+<div class="post">
+    <a href="/Linux%E5%9F%BA%E7%A1%80/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86/" title="Linux系统管理">
+        <img src="https://img1.baidu.com/it/u=2853647099,2796829215&fm=26&fmt=auto&gp=0.jpg" class="cover" width="680" height="440">
+    </a>
+    <div class="else">
+        <p>七月 14, 2021</p>
+        <h3><a href="/Linux%E5%9F%BA%E7%A1%80/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86/" title="Linux系统管理" class="posttitle">Linux系统管理</a></h3>
+        <p>系统调试[TOC]
+1. linux开机启动流程1.1 centos6开机启动流程linux启动时我们会看到许多启动信息。
+Linux系统的启动过程并不是...</p>
     </div>
-  </div>
-
-</div>
-    </header>
-
-    
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
-
-
-    <main class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
-
-          <div class="content index posts-expand">
-            
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://www.dennis.net.cn/mysql/%E5%88%9D%E5%A7%8B%E6%95%B0%E6%8D%AE%E5%BA%93/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/Boy-01.png">
-      <meta itemprop="name" content="dennis">
-      <meta itemprop="description" content="个人博客">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dennis的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/mysql/%E5%88%9D%E5%A7%8B%E6%95%B0%E6%8D%AE%E5%BA%93/" class="post-title-link" itemprop="url">初始数据库</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-07-20 00:18:29" itemprop="dateCreated datePublished" datetime="2021-07-20T00:18:29+08:00">2021-07-20</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-21 00:01:04" itemprop="dateModified" datetime="2021-07-21T00:01:04+08:00">2021-07-21</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <span id="more"></span>
-<h1 id="MySQL-介绍和安装部署"><a href="#MySQL-介绍和安装部署" class="headerlink" title="MySQL 介绍和安装部署"></a>MySQL 介绍和安装部署</h1><h2 id="数据库的概述"><a href="#数据库的概述" class="headerlink" title="数据库的概述"></a>数据库的概述</h2><blockquote>
-<p>数据库（Database）是按照数据结构来组织、存储和管理数据的仓库。</p>
-<p>每个数据库都有一个或多个不同的 API 用于创建，访问，管理，搜索和复制所保存的数据。</p>
-<p>我们也可以将数据存储在文件中，但是在文件中读写数据速度相对较慢。</p>
-<p>所以，现在我们使用关系型数据库管理系统（RDBMS）来存储和管理大数据量。所谓的关系型数据库，是建立在关系模型基础上的数据库，借助于集合代数等数学概念和方法来处理数据库中的数据。</p>
-<p>RDBMS 即关系数据库管理系统(Relational Database Management System)的特点：</p>
-<ul>
-<li>1.数据以表格的形式出现</li>
-<li>2.每行为各种记录名称</li>
-<li>3.每列为记录名称所对应的数据域</li>
-<li>4.许多的行和列组成一张表单</li>
-<li>5.若干的表单组成database</li>
-</ul>
-</blockquote>
-<h2 id="RDBMS术语"><a href="#RDBMS术语" class="headerlink" title="RDBMS术语"></a>RDBMS术语</h2><p>在我们开始学习MySQL 数据库前，让我们先了解下RDBMS的一些术语：</p>
-<ul>
-<li><strong>数据库:</strong> 数据库是一些关联表的集合。</li>
-<li><strong>数据表:</strong> 表是数据的矩阵。在一个数据库中的表看起来像一个简单的电子表格。</li>
-<li><strong>列:</strong> 一列(数据元素) 包含了相同类型的数据, 例如邮政编码的数据。</li>
-<li><strong>行：</strong>一行（=元组，或记录）是一组相关的数据，例如一条用户订阅的数据。</li>
-<li><strong>冗余</strong>：存储两倍数据，冗余降低了性能，但提高了数据的安全性。</li>
-<li><strong>主键</strong>：主键是唯一的。一个数据表中只能包含一个主键。你可以使用主键来查询数据。</li>
-<li><strong>外键：</strong>外键用于关联两个表。</li>
-<li><strong>复合键</strong>：复合键（组合键）将多个列作为一个索引键，一般用于复合索引。</li>
-<li><strong>索引：</strong>使用索引可快速访问数据库表中的特定信息。索引是对数据库表中一列或多列的值进行排序的一种结构。类似于书籍的目录。</li>
-<li><strong>参照完整性:</strong> 参照的完整性要求关系中不允许引用不存在的实体。与实体完整性是关系模型必须满足的完整性约束条件，目的是保证数据的一致性。</li>
-</ul>
-<p>MySQL 为关系型数据库(Relational Database Management System), 这种所谓的”关系型”可以理解为”表格”的概念, 一个关系型数据库由一个或数个表格组成, 如图所示的一个表格:</p>
-<p><img src="https://www.runoob.com/wp-content/uploads/2014/03/0921_1.jpg" alt="img"></p>
-<ul>
-<li>表头(header): 每一列的名称;</li>
-<li>列(col): 具有相同数据类型的数据的集合;</li>
-<li>行(row): 每一行用来描述某条记录的具体信息;</li>
-<li>值(value): 行的具体信息, 每个值必须与该列的数据类型相同;</li>
-<li><strong>键(key)</strong>: 键的值在当前列中具有唯一性。</li>
-</ul>
-<h2 id="MySQL数据库"><a href="#MySQL数据库" class="headerlink" title="MySQL数据库"></a>MySQL数据库</h2><p>MySQL 是一个关系型数据库管理系统，由瑞典 MySQL AB 公司开发，目前属于 Oracle 公司。MySQL 是一种关联数据库管理系统，关联数据库将数据保存在不同的表中，而不是将所有数据放在一个大仓库内，这样就增加了速度并提高了灵活性。</p>
-<ul>
-<li>MySQL 是开源的，目前隶属于 Oracle 旗下产品。</li>
-<li>MySQL 支持大型的数据库。可以处理拥有上千万条记录的大型数据库。</li>
-<li>MySQL 使用标准的 SQL 数据语言形式。</li>
-<li>MySQL 可以运行于多个系统上，并且支持多种语言。这些编程语言包括 C、C++、Python、Java、Perl、PHP、Eiffel、Ruby 和 Tcl 等。</li>
-<li>MySQL 对PHP有很好的支持，PHP 是目前最流行的 Web 开发语言。</li>
-<li>MySQL 支持大型数据库，支持 5000 万条记录的数据仓库，32 位系统表文件最大可支持 4GB，64 位系统支持最大的表文件为8TB。</li>
-<li>MySQL 是可以定制的，采用了 GPL 协议，你可以修改源码来开发自己的 MySQL 系统。</li>
-</ul>
-<script src='https://cdn.jsdelivr.net/gh/sviptzk/HexoStaticFile@latest/Hexo/js/mouse_snow.min.js'></script>
-
-
-
-
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://www.dennis.net.cn/Linux%E5%9F%BA%E7%A1%80/%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/Boy-01.png">
-      <meta itemprop="name" content="dennis">
-      <meta itemprop="description" content="个人博客">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dennis的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/Linux%E5%9F%BA%E7%A1%80/%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/" class="post-title-link" itemprop="url">定时任务</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2021-07-19 16:13:44 / 修改时间：16:58:54" itemprop="dateCreated datePublished" datetime="2021-07-19T16:13:44+08:00">2021-07-19</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index"><span itemprop="name">Linux基础</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Linux定时任务"><a href="#Linux定时任务" class="headerlink" title="Linux定时任务"></a>Linux定时任务</h1><p>[TOC]</p>
-<hr>
-<h2 id="1-定时任务基本概述"><a href="#1-定时任务基本概述" class="headerlink" title="1. 定时任务基本概述"></a>1. 定时任务基本概述</h2><ul>
-<li><p>crond简介</p>
-<p>Linux系统上面有很多计划性的工作，比如在某个时间点需要执行某个动作，在Linux中，一般使用crontab命令来实现控制计划任务，通过crontab 命令，我们可以在固定的间隔时间执行指定的系统指令或 shell script脚本。时间间隔的单位可以是分钟、小时、日、月、周及以上的任意组合。这个命令非常设合周期性的日志分析或数据备份等工作。crontab命令是基于crond这个系统服务的，crond服务是安装Linux系统时自动安装的，它会检查当前系统中是否有要执行的任务。</p>
-<p>Crond服务会定期（默认每分钟检查一次）检查系统中是否有要执行的任务工作，如果有，便会根据其预先设定的定时任务规则自动执行该定时任务工作，这个crond定时任务服务就相当于我们平时早起使用的闹钟一样。</p>
-</li>
-<li><p>Linux下的任务调度分为系统层面的任务调度和用户自定义的任务调度。</p>
-</li>
-</ul>
-<ol>
-<li><p><strong>系统级别的定时任务</strong></p>
-<p>比如写缓存数据到硬盘、临时文件清理、系统信息采集、日志文件切割。</p>
-<p>在/etc目录下有一个crontab文件，这个就是系统任务调度的配置文件。打开/etc目录，我们可以看到有很多cron相关的目录，如下：    </p>
-<img src="AppData/Roaming/Typora/typora-user-images/image-20210413155628596.png" alt="image-20210413155628596" style="zoom:150%;" />
-
-<p>cron.deny表示该文件中所列的用户不允许使用crontab命令;</p>
-<p>cron.daily表示每天都要按照计划完成的任务；</p>
-<p>cron.hourly表示每个小时都要按照计划完成的任务；</p>
-<p>cron.weekly表示每个小时都要按照计划完成的任务；</p>
-</li>
-<li><p><strong>用户级别的定时任务</strong></p>
-<p>定时向互联网同步时间、定时备份系统配置文件、定时备份数据库的数据。</p>
-<p>*/var/spool/cron/*目录是所有crontab文件存放的目录，以用户名命名</p>
-<p>如centos7.9下：/var/spool/cron/root </p>
-</li>
-</ol>
-<hr>
-<h2 id="2-crontab配置文件"><a href="#2-crontab配置文件" class="headerlink" title="2. crontab配置文件"></a>2. crontab配置文件</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/crontab</span><br><span class="line">SHELL=/bin/bash</span><br><span class="line">PATH=/sbin:/bin:/usr/sbin:/usr/bin</span><br><span class="line">MAILTO=root</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> For details see man 4 crontabs</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Example of job definition:</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> .---------------- minute (0 - 59)</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> |  .------------- hour (0 - 23)</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> |  |  .---------- day of month (1 - 31)</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> |  |  |  .------- month (1 - 12) OR jan,feb,mar,apr ...</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> |  |  |  |  .---- day of week (0 - 6) (Sunday=0 or 7) OR sun,mon,tue,wed,thu,fri,sat</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> |  |  |  |  |</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> *  *  *  *  * user-name  <span class="built_in">command</span> to be executed</span></span><br><span class="line"></span><br><span class="line">备注：</span><br><span class="line">1） *  表示任意的(分、时、日、月、周)时间都执行</span><br><span class="line">2） -  表示一个时间范围段, 如5-7点</span><br><span class="line">3） ,  表示分隔时段, 如6,0,4表示周六、日、四</span><br><span class="line">4） /  表示每隔n单位时间, 如*/10 每10分钟</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="3-设置定时任务"><a href="#3-设置定时任务" class="headerlink" title="3. 设置定时任务"></a>3. 设置定时任务</h2><h3 id="3-1-crontab-命令选项："><a href="#3-1-crontab-命令选项：" class="headerlink" title="3.1 crontab 命令选项："></a>3.1 crontab 命令选项：</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">-e                    #编辑定时任务</span><br><span class="line">-l                     #查看定时任务</span><br><span class="line">-r                     #删除定时任务</span><br><span class="line">-u                    #指定其他用户</span><br><span class="line">-i                     #在删除用户的crontab文件时给确认提示。</span><br></pre></td></tr></table></figure>
-
-<p><strong>服务操作说明</strong>：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">需提前安装软件包</span></span><br><span class="line">yum install -y ntpdate</span><br><span class="line">服务操作说明：</span><br><span class="line"></span><br><span class="line">/sbin/service crond start //启动服务</span><br><span class="line"></span><br><span class="line">/sbin/service crond stop //关闭服务</span><br><span class="line"></span><br><span class="line">/sbin/service crond restart //重启服务</span><br><span class="line"></span><br><span class="line">/sbin/service crond reload //重新载入配置</span><br><span class="line"></span><br><span class="line">/sbin/service crond status //启动服务</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="3-2-任务实例："><a href="#3-2-任务实例：" class="headerlink" title="3.2 任务实例："></a>3.2 任务实例：</h3><p><strong>示例一：</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">示例1：使用root用户每2分钟执行一次时间同步</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">先在Linux系统上查看命令是否正确</span></span><br><span class="line">[root@tom ~]# ntpdate ntp1.aliyun.com</span><br><span class="line">12 Apr 12:59:18 ntpdate[69500]: adjust time server 120.25.115.20 offset 0.024905 sec</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">配置定时任务</span></span><br><span class="line"><span class="meta">#</span><span class="bash">编辑定时任务</span></span><br><span class="line">[root@tom  ~]# crontab -e -u root</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">每2分钟执行一次时间同步 by wxg At 2021.04.12</span></span><br><span class="line">*/2 * * * * /usr/sbin/ntpdate ntp1.aliyun.com &amp;&gt;/dev/null</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">查看定时任务</span></span><br><span class="line">[root@tom  ~]# crontab -l -u root</span><br><span class="line"><span class="meta">#</span><span class="bash">每2分钟执行一次时间同步 by wxg At 2021.04.12</span></span><br><span class="line">*/2 * * * * /usr/sbin/ntpdate ntp1.aliyun.com &amp;&gt;/dev/null</span><br></pre></td></tr></table></figure>
-
-<p><strong>示例二</strong>：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">示例2：每天凌晨6点做一次备份 打包备份/etc/ 备份到/tmp中并命名当天日期</span><br><span class="line">crontab -e -u root</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">每天凌晨3点做一次备份？ 打包备份/etc/</span></span><br><span class="line"><span class="meta">#</span><span class="bash">  % 在crontab中比较特殊应用 \ 转义</span></span><br><span class="line">00 06 * * * tar zcf /tmp/`date +\%F_\%w`_etc.tar.gz /etc    </span><br><span class="line"></span><br><span class="line">pr 12 13:09:01 tom CRON[69714]: (tom) CMD (sudo tar ar zcf /tmp/`date +%F`_etc.tar.gz /etc   )</span><br></pre></td></tr></table></figure>
-
-<h3 id="3-3-crond拒绝某个用户使用"><a href="#3-3-crond拒绝某个用户使用" class="headerlink" title="3.3 crond拒绝某个用户使用"></a>3.3 crond拒绝某个用户使用</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">1.使用root将需要拒绝的用户加入/etc/cron.deny</span></span><br><span class="line">[root@tom  ~]# echo &quot;Jerry&quot; &gt;&gt; /etc/cron.deny</span><br><span class="line"><span class="meta">#</span><span class="bash">2.登陆该普通用户，测试是否能编写定时任务</span></span><br><span class="line">[oldboy@tom  ~]$ crontab -e</span><br><span class="line">You (Jerry) are not allowed to use this program </span><br><span class="line">(crontab)</span><br><span class="line">See crontab(1) for more information</span><br></pre></td></tr></table></figure>
-
-<h3 id="3-4-crond注意的事项"><a href="#3-4-crond注意的事项" class="headerlink" title="3.4 crond注意的事项"></a><em>3.4 crond</em>注意的事项</h3><ol>
-<li><p>给定时任务注释</p>
-</li>
-<li><p>将需要定期执行的任务写入<em>Shell</em>脚本中，避免直接使用命令无法执行的情况<em>tar date</em></p>
-</li>
-<li><p>定时任务的结尾一定要有*&amp;&gt;/dev/null*或者将结果追加重定向&gt;&gt;/tmp/date.log文件</p>
-<p>每条任务调度执行完毕，系统都会将任务输出信息通过电子邮件的形式发送给当前系统用户，这样日积月累，日志信息会非常大，可能会影响系统的正常运行，因此，将每条任务进行重定向处理非常重要。</p>
-</li>
-<li><p>注意有些命令是无法成功执行的 <em>echo “123” &gt;&gt;/tmp/test.log &amp;&gt;/dev/null</em></p>
-</li>
-<li><p>如果一定要是用命令，命令必须使用绝对路径</p>
-</li>
-</ol>
-<h3 id="3-5-crontab备份"><a href="#3-5-crontab备份" class="headerlink" title="3.5 crontab备份"></a>3.5 crontab备份</h3><p>通过查找*/var/log/cron*中执行的记录，去推算任务执行的时间</p>
-<p>定时的备份*/var/spool/cron/{username}*</p>
-<h2 id="4-定时任务安全项目实战练习"><a href="#4-定时任务安全项目实战练习" class="headerlink" title="4. 定时任务安全项目实战练习"></a>4. 定时任务安全项目实战练习</h2><ul>
-<li><p>项目名称: XXXXX网站安全检查项目</p>
-</li>
-<li><p>项目背景: 网站因为安全配置导致病毒入侵,如何快速排查出哪些是病毒(被感染的文件或命令)</p>
-</li>
-<li><p>项目步骤: </p>
-<p><img src="AppData/Roaming/Typora/typora-user-images/image-20210414211016694.png" alt="image-20210414211016694"></p>
-</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">将系统中/etc/目录下的文件做指纹，指纹结果定向到file.md5中</span></span><br><span class="line">find /etc/ -type f | xargs md5sum &gt;&gt; /file.md5</span><br><span class="line"><span class="meta">#</span><span class="bash">进行校验</span></span><br><span class="line"><span class="meta">#</span><span class="bash">若无文件被修改 则输出ok ，若有则输出filed</span></span><br><span class="line">md5sum -c  file.md5</span><br><span class="line"><span class="meta">#</span><span class="bash">使被篡改的文件输出</span></span><br><span class="line">md5sum -c --quiet file.md5</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="5-错误排查"><a href="#5-错误排查" class="headerlink" title="5. 错误排查"></a>5. 错误排查</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">crontab -e</span><br><span class="line">no crontab <span class="keyword">for</span> root - using an empty one</span><br><span class="line">/bin/sh: /usr/bin/vi: No such file or directory</span><br><span class="line">crontab: <span class="string">&quot;/usr/bin/vi&quot;</span> exited with status 127</span><br><span class="line"></span><br><span class="line">发生这种情况是因为没有正确定义编辑器。为此，您必须指定二进制文件的完整路径：</span><br><span class="line"><span class="built_in">export</span> EDITOR=/usr/bin/vim</span><br><span class="line">或者</span><br><span class="line"><span class="built_in">export</span> EDITOR=/usr/bin/vi</span><br></pre></td></tr></table></figure>
-
-<script src='https://cdn.jsdelivr.net/gh/sviptzk/HexoStaticFile@latest/Hexo/js/mouse_snow.min.js'></script>
-
-
-
-
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://www.dennis.net.cn/Linux%E5%9F%BA%E7%A1%80/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/Boy-01.png">
-      <meta itemprop="name" content="dennis">
-      <meta itemprop="description" content="个人博客">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dennis的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/Linux%E5%9F%BA%E7%A1%80/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86/" class="post-title-link" itemprop="url">Linux系统管理</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-07-14 09:30:31" itemprop="dateCreated datePublished" datetime="2021-07-14T09:30:31+08:00">2021-07-14</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-16 20:17:35" itemprop="dateModified" datetime="2021-07-16T20:17:35+08:00">2021-07-16</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index"><span itemprop="name">Linux基础</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="系统调试"><a href="#系统调试" class="headerlink" title="系统调试"></a>系统调试</h1><p>[TOC]</p>
-<h2 id="1-linux开机启动流程"><a href="#1-linux开机启动流程" class="headerlink" title="1. linux开机启动流程"></a>1. linux开机启动流程</h2><h3 id="1-1-centos6开机启动流程"><a href="#1-1-centos6开机启动流程" class="headerlink" title="1.1 centos6开机启动流程"></a>1.1 centos6开机启动流程</h3><p>linux启动时我们会看到许多启动信息。</p>
-<p>Linux系统的启动过程并不是大家想象中的那么复杂，其过程可以分为5个阶段：</p>
-<ul>
-<li>内核的引导。</li>
-<li>运行 init。</li>
-<li>系统初始化。</li>
-<li>建立终端 。</li>
-<li>用户登录系统。</li>
-</ul>
-<p>init程序的类型：</p>
-<ul>
-<li><strong>SysV:</strong> init, CentOS 5之前, 配置文件： /etc/inittab。</li>
-<li><strong>Upstart:</strong> init,CentOS 6, 配置文件： /etc/inittab, /etc/init/*.conf。</li>
-<li><strong>Systemd：</strong> systemd, CentOS 7,配置文件： /usr/lib/systemd/system、 /etc/systemd/system。</li>
-</ul>
-<hr>
-<h4 id="1-内核引导"><a href="#1-内核引导" class="headerlink" title="1. 内核引导"></a>1. 内核引导</h4><p> 当计算机打开电源后，首先是BIOS开机自检，按照BIOS中设置的启动设备（通常是硬盘）来启动。</p>
-<p>操作系统接管硬件以后，首先读入 /boot 目录下的内核文件。</p>
-<p><img src="https://www.runoob.com/wp-content/uploads/2014/06/bg2013081702.png" alt="img"></p>
-<h4 id="2-运行init"><a href="#2-运行init" class="headerlink" title="2. 运行init"></a>2. 运行init</h4><p>init 进程是系统所有进程的起点，你可以把它比拟成系统所有进程的老祖宗，没有这个进程，系统中任何进程都不会启动。</p>
-<p>init 程序首先是需要读取配置文件 /etc/inittab。</p>
-<p><img src="https://www.runoob.com/wp-content/uploads/2014/06/bg2013081703.png" alt="img"></p>
-<h4 id="3-运行级别"><a href="#3-运行级别" class="headerlink" title="3. 运行级别"></a>3. 运行级别</h4><p>许多程序需要开机启动。它们在Windows叫做”服务”（service），在Linux就叫做”守护进程”（daemon）。</p>
-<p>init进程的一大任务，就是去运行这些开机启动的程序。</p>
-<p>但是，不同的场合需要启动不同的程序，比如用作服务器时，需要启动Apache，用作桌面就不需要。</p>
-<p>Linux允许为不同的场合，分配不同的开机启动程序，这就叫做”运行级别”（runlevel）。也就是说，启动时根据”运行级别”，确定要运行哪些程序。</p>
-<p><img src="https://www.runoob.com/wp-content/uploads/2014/06/bg2013081704.png" alt="img"></p>
-<h4 id="4-系统初始化"><a href="#4-系统初始化" class="headerlink" title="4. 系统初始化"></a>4. 系统初始化</h4><p>在init的配置文件中有这么一行： si::sysinit:/etc/rc.d/rc.sysinit　它调用执行了/etc/rc.d/rc.sysinit，而rc.sysinit是一个bash shell的脚本，它主要是完成一些系统初始化的工作，rc.sysinit是每一个运行级别都要首先运行的重要脚本。</p>
-<p>它主要完成的工作有：激活交换分区，检查磁盘，加载硬件模块以及其它一些需要优先执行任务。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">l5:5:wait:/etc/rc.d/rc 5</span><br><span class="line">这一行表示以5为参数运行/etc/rc.d/rc，/etc/rc.d/rc是一个Shell脚本，它接受5作为参数，去执行/etc/rc.d/rc5.d/目录下的所有的rc启动脚本，/etc/rc.d/rc5.d/目录中的这些启动脚本实际上都是一些连接文件，而不是真正的rc启动脚本，真正的rc启动脚本实际上都是放在/etc/rc.d/init.d/目录下。</span><br><span class="line">而这些rc启动脚本有着类似的用法，它们一般能接受start、stop、restart、status等参数。</span><br><span class="line">/etc/rc.d/rc5.d/中的rc启动脚本通常是K或S开头的连接文件，对于以 S 开头的启动脚本，将以start参数来运行。</span><br><span class="line">而如果发现存在相应的脚本也存在K打头的连接，而且已经处于运行态了(以/var/lock/subsys/下的文件作为标志)，则将首先以stop为参数停止这些已经启动了的守护进程，然后再重新运行。</span><br><span class="line">这样做是为了保证是当init改变运行级别时，所有相关的守护进程都将重启。</span><br><span class="line">至于在每个运行级中将运行哪些守护进程，用户可以通过chkconfig或setup中的&quot;System Services&quot;来自行设定。</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://www.runoob.com/wp-content/uploads/2014/06/bg2013081705.png" alt="img"></p>
-<h4 id="5-建立终端"><a href="#5-建立终端" class="headerlink" title="5. 建立终端"></a>5. 建立终端</h4><p>rc执行完毕后，返回init。这时基本系统环境已经设置好了，各种守护进程也已经启动了。</p>
-<p>init接下来会打开6个终端，以便用户登录系统。在inittab中的以下6行就是定义了6个终端：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1:2345:respawn:/sbin/mingetty tty1</span><br><span class="line">2:2345:respawn:/sbin/mingetty tty2</span><br><span class="line">3:2345:respawn:/sbin/mingetty tty3</span><br><span class="line">4:2345:respawn:/sbin/mingetty tty4</span><br><span class="line">5:2345:respawn:/sbin/mingetty tty5</span><br><span class="line">6:2345:respawn:/sbin/mingetty tty6</span><br></pre></td></tr></table></figure>
-
-<p>从上面可以看出在2、3、4、5的运行级别中都将以respawn方式运行mingetty程序，mingetty程序能打开终端、设置模式。</p>
-<p>同时它会显示一个文本登录界面，这个界面就是我们经常看到的登录界面，在这个登录界面中会提示用户输入用户名，而用户输入的用户将作为参数传给login程序来验证用户的身份。</p>
-<h4 id="6-用户登录系统"><a href="#6-用户登录系统" class="headerlink" title="6. 用户登录系统"></a>6. 用户登录系统</h4><p>一般来说，用户的登录方式有三种：</p>
-<ul>
-<li>（1）命令行登录</li>
-<li>（2）ssh登录</li>
-<li>（3）图形界面登录</li>
-</ul>
-<p><img src="https://www.runoob.com/wp-content/uploads/2014/06/bg2013081706.png" alt="img"></p>
-<hr>
-<h3 id="1-2-centos7开机启动流程"><a href="#1-2-centos7开机启动流程" class="headerlink" title="1.2 centos7开机启动流程"></a>1.2 centos7开机启动流程</h3><h4 id="1-开机自检"><a href="#1-开机自检" class="headerlink" title="1. 开机自检"></a>1. 开机自检</h4><h4 id="2-MBR-GPT引导系统启动"><a href="#2-MBR-GPT引导系统启动" class="headerlink" title="2. MBR/GPT引导系统启动"></a>2. MBR/GPT引导系统启动</h4><h4 id="3-加载GRUB2菜单"><a href="#3-加载GRUB2菜单" class="headerlink" title="3. 加载GRUB2菜单"></a>3. 加载GRUB2菜单</h4><p>（选择内核版本）</p>
-<h4 id="4-加载内核选项"><a href="#4-加载内核选项" class="headerlink" title="4. 加载内核选项"></a>4. 加载内核选项</h4><h4 id="5-内核初始化使用systemd进程"><a href="#5-内核初始化使用systemd进程" class="headerlink" title="5. 内核初始化使用systemd进程"></a>5. 内核初始化使用<em>systemd</em>进程</h4><p>（启动的linux系统的第一个进程systemd）</p>
-<h4 id="6-读取运行级别"><a href="#6-读取运行级别" class="headerlink" title="6. 读取运行级别"></a>6. 读取运行级别</h4><p>(桌面模式,命令模式)(/etc/systemd/system/default.target)</p>
-<h4 id="7-初始化系统"><a href="#7-初始化系统" class="headerlink" title="7. 初始化系统"></a>7. 初始化系统</h4><p>(/usr/lib/systemd/system/sysinit.target)（挂载，启动网络，主机名……）</p>
-<h4 id="8-根据运行级-别、并行启动服务"><a href="#8-根据运行级-别、并行启动服务" class="headerlink" title="8. 根据运行级 别、并行启动服务"></a>8. 根据运行级 别、并行启动服务</h4><p>(网络服务，ssh服务，定时任务……)</p>
-<h4 id="9-显示login界面-输入用户和密码"><a href="#9-显示login界面-输入用户和密码" class="headerlink" title="9. 显示login界面 (输入用户和密码)"></a>9. 显示<em>login</em>界面 (输入用户和密码)</h4><p>(/usr/lib/systemd/system/getty.target)</p>
-<hr>
-<h2 id="2-linux关机相关操作"><a href="#2-linux关机相关操作" class="headerlink" title="2. linux关机相关操作"></a>2. linux关机相关操作</h2><h4 id="2-1-shutdown"><a href="#2-1-shutdown" class="headerlink" title="2.1 shutdown"></a>2.1 shutdown</h4><p>shutdown 会给系统计划一个时间关机。它可以被用于停止、关机、重启机器。shutdown 会给系统计划一个时间关机。它可以被用于停止、关机、重启机器。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">shutdown -p now  ### 关闭机器</span><br><span class="line">shutdown -H now  ### 停止机器      </span><br><span class="line">shutdown -r 09:35 ### 在 09:35am 重启机器</span><br></pre></td></tr></table></figure>
-
-<p>要取消即将进行的关机，只要输入下面的命令：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shutdown -c</span><br></pre></td></tr></table></figure>
-
-<h4 id="2-2-halt"><a href="#2-2-halt" class="headerlink" title="2.2 halt"></a>2.2 halt</h4><p>halt 命令通知硬件来停止所有的 CPU 功能，但是仍然保持通电。你可以用它使系统处于低层维护状态。注意在有些情况会它会完全关闭系统。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">halt             ### 停止机器</span><br><span class="line">halt -p          ### 关闭机器、关闭电源</span><br><span class="line">halt --reboot    ### 重启机器</span><br></pre></td></tr></table></figure>
-
-<h4 id="2-3-poweroff"><a href="#2-3-poweroff" class="headerlink" title="2.3 poweroff"></a>2.3 poweroff</h4><p>poweroff 会发送一个 ACPI 信号来通知系统关机。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">poweroff           ### 关闭机器、关闭电源</span><br><span class="line">poweroff --halt    ### 停止机器</span><br><span class="line">poweroff --reboot  ### 重启机器</span><br></pre></td></tr></table></figure>
-
-<h4 id="2-4-reboot"><a href="#2-4-reboot" class="headerlink" title="2.4 reboot"></a>2.4 reboot</h4><p>reboot 命令 reboot 通知系统重启。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">reboot           ### 重启机器</span><br><span class="line">reboot --halt    ### 停止机器</span><br><span class="line">reboot -p        ### 关闭机器</span><br></pre></td></tr></table></figure>
-
-<h2 id="3-linux系统运行级别"><a href="#3-linux系统运行级别" class="headerlink" title="3. linux系统运行级别"></a>3. linux系统运行级别</h2><h4 id="3-1-centos6"><a href="#3-1-centos6" class="headerlink" title="3.1 centos6"></a>3.1 centos6</h4><p>Linux系统有7个运行级别(runlevel)：</p>
-<ul>
-<li>运行级别0：系统停机状态，系统默认运行级别不能设为0，否则不能正常启动</li>
-<li>运行级别1：单用户工作状态，root权限，用于系统维护，禁止远程登陆</li>
-<li>运行级别2：多用户状态(没有NFS)</li>
-<li>运行级别3：完全的多用户状态(有NFS)，登陆后进入控制台命令行模式</li>
-<li>运行级别4：系统未使用，保留</li>
-<li>运行级别5：X11控制台，登陆后进入图形GUI模式</li>
-<li>运行级别6：系统正常关闭并重启，默认运行级别不能设为6，否则不能正常启动</li>
-</ul>
-<h4 id="3-2-centos7"><a href="#3-2-centos7" class="headerlink" title="3.2 centos7"></a>3.2 centos7</h4><ul>
-<li>运行级别0：系统停机状态，系统默认运行级别不能设为0，否则不能正常启动</li>
-<li>运行级别1：救援模式，root权限，用于系统维护，禁止远程登陆</li>
-<li>运行级别2：多用户状态</li>
-<li>运行级别3：多用户状态</li>
-<li>运行级别4：多用户状态</li>
-<li>运行级别5：X11控制台，登陆后进入图形GUI模式</li>
-<li>运行级别6：系统正常关闭并重启，默认运行级别不能设为6，否则不能正常启动</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">centos6系统</span></span><br><span class="line">runlevel #查看运行级别</span><br><span class="line">N 3 #如果N是其他数字,代表上一次运行级别</span><br><span class="line">init 3   #切换运行级别</span><br><span class="line">/etc/inittab #永久修改运行级别存放的配置文件</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">centos7系统</span></span><br><span class="line">systemctl get-default #查看系统默认启动运行级别</span><br><span class="line">systemctl set-default TARGET.target   #</span><br><span class="line">修改默认启动运行级别（永久生效）</span><br><span class="line">multi-user.target: analogous to runlevel 3</span><br><span class="line">graphical.target: analogous to runlevel 5</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="4-系统的systemd"><a href="#4-系统的systemd" class="headerlink" title="4.系统的systemd"></a>4.系统的systemd</h2><ul>
-<li><p>什么是关闭/开启<strong>正在运行</strong>的服务/软件 systemctl stop/start sshd</p>
-</li>
-<li><p>什么是关闭/开启 <strong>开机自启动</strong>项 ?? systemctl disable/enable sshd</p>
-</li>
-</ul>
-<h4 id="1-systemd的由来"><a href="#1-systemd的由来" class="headerlink" title="1.systemd的由来"></a><strong><em>1.systemd</em>的由来</strong></h4><p><em>Linux</em>一直以来都是采用<em>init</em>进程作为祖宗进程，但是<em>init</em>有两个缺点： </p>
-<p><em>1</em>、<strong>启动时间长</strong>。<em>Init</em>进程是串行启动，只有前一个进程启动完，才会启动下一 </p>
-<p>个进程。 </p>
-<p><em>2</em>、<strong>启动脚本复杂</strong>，初始化完成后系统会加载很多脚本，脚本都会处理各自的 </p>
-<p>情况，这会让脚本多而复杂。 </p>
-<p><em>Centos5</em> 是启动速度最慢的，串行启动过程，无论进程相互之间有无依赖关系。</p>
-<p><em>Centos6</em> 相对启动速度有所改进。有依赖的进程之间依次启动而其他与之没有依赖关系的则并行同步启动。</p>
-<p><em>Centos7</em> 所有进程无论有无依赖关系则都是并行启动（当然很多时候进程没有真正启动而是只有一个信号或者说是标记而已，在真正利用的时候才会真正启 动）</p>
-<img src="../AppData/Roaming/Typora/typora-user-images/image-20210406205736481.png" alt="image-20210406205736481" style="zoom: 80%;" />
-
-
-
-<h4 id="2-什么是systemd"><a href="#2-什么是systemd" class="headerlink" title="2.什么是systemd"></a><strong>2.什么是systemd</strong></h4><p><em>systemd</em>即为<strong>system daemon</strong>守护进程，<em>systemd</em>主要解决上文的问题而诞 </p>
-<p>生，<em>systemd</em>的目标是，为系统的启动和管理提供一套完整的解决方案。</p>
-<p><strong>3.systemd的优势</strong></p>
-<p><em>1</em>、最新系统都采用<em>systemd</em>管理（<em>RedHat7,CentOS7,Ubuntu15</em>等） <em>systemctl</em> </p>
-<p><em>2</em>、<em>Centos7</em>支持开机并行启动服务，显著提高开机启动效率。 </p>
-<p><em>3</em>、<em>Centos7</em>关机只关闭正在运行的服务，而<em>Centos6</em>全部都关闭一次。 </p>
-<p><em>4</em>、<em>Centos7</em>服务的启动与停止不在使用脚本进行管理*,C7<em>下面都是配置</em>(/usr/lib/systemd/system/xxxx.service)<em>，也就是</em>/etc/init.d(CentOS 6)*下不在有脚 </p>
-<p>本。</p>
-<p><em>5</em>、<em>Centos7</em>使用<em>systemd</em>解决原有模式缺陷，比如原有<em>service</em>不会关闭程序产生的子进程。</p>
-<h4 id="3-systemd相关配置文件"><a href="#3-systemd相关配置文件" class="headerlink" title="3.systemd相关配置文件"></a><strong>3.systemd相关配置文件</strong></h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">/usr/lib/systemd/system/ #记录这一个就</span><br><span class="line">ok. 类似Centos6系统的启动脚本，/etc/init.d/</span><br><span class="line">/etc/systemd/system/    #系统配置存放,了解         </span><br><span class="line">\#类似Centos6系统的/etc/rc.d/rcN.d/</span><br><span class="line">/etc/systemd/system/multi-user.target.wants/*  #系统配置存放,了解</span><br></pre></td></tr></table></figure>
-
-<h4 id="4-systemd管理服务相关命令"><a href="#4-systemd管理服务相关命令" class="headerlink" title="4.systemd管理服务相关命令"></a><strong>4.systemd管理服务相关命令</strong></h4><ul>
-<li><em>systemctl</em>管理服务的启动、重启、停止、重载、查看状态等常用命令</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>System Vinit（6系统）</th>
-<th>systemctl命令（7系统）</th>
-<th><strong>作用</strong></th>
-</tr>
-</thead>
-<tbody><tr>
-<td>service crond start   <br>/etc/init.dcrond start</td>
-<td>systemctl start crond.service</td>
-<td>启动服务当前运行</td>
-</tr>
-<tr>
-<td>service crond stop</td>
-<td>systemctl stop crond.service</td>
-<td>停止服务</td>
-</tr>
-<tr>
-<td>service crond restart</td>
-<td>systemctl restart crond.service</td>
-<td>重启服务</td>
-</tr>
-<tr>
-<td>service crond reload</td>
-<td>systemctl reload crond.service</td>
-<td>优雅的重启重新加载配置<br>(不终止服务，不影响正在处理的请求的用户)</td>
-</tr>
-<tr>
-<td>service crond status</td>
-<td>systemctl status crond.service</td>
-<td>查看服务运行状态</td>
-</tr>
-<tr>
-<td></td>
-<td>systemctl is-active crond.service</td>
-<td>查看服务是否在运行中</td>
-</tr>
-<tr>
-<td></td>
-<td>systemctl mask  crond.service</td>
-<td>禁止服务运行</td>
-</tr>
-<tr>
-<td></td>
-<td>systemctl unmask crond.service</td>
-<td>取消禁止服务运行</td>
-</tr>
-</tbody></table>
-<ul>
-<li>systemctl 设置服务<strong>开机启动</strong>、不启动、查看各级别下服务启动状态等常用命令</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>System Vinit（6系统）</th>
-<th>systemctl命令（7系统）</th>
-<th><strong>作用</strong></th>
-</tr>
-</thead>
-<tbody><tr>
-<td>chkconfig crond on</td>
-<td>systemctl <strong>enable</strong> crond.service</td>
-<td>开机自动启动</td>
-</tr>
-<tr>
-<td>chkconfig crond off</td>
-<td>systemctl disable crond.service</td>
-<td>关闭开机自启动</td>
-</tr>
-<tr>
-<td>chkconfig –list</td>
-<td>systemctl list-unit-files</td>
-<td>查看各个级别下服务的<br>启动与禁用</td>
-</tr>
-<tr>
-<td>chkconfig –list crond</td>
-<td>systemctl is-enabled crond.service</td>
-<td>产看指定服务是否为开机自启动</td>
-</tr>
-<tr>
-<td>chkconfig –add crond</td>
-<td>systemctl daemon-reload</td>
-<td>创建新服务文件或者变设置</td>
-</tr>
-</tbody></table>
-<ul>
-<li>systemctl 服务状态说明</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th><strong>服务状态</strong></th>
-<th><strong>状态说明</strong></th>
-</tr>
-</thead>
-<tbody><tr>
-<td>loaded</td>
-<td>服务单元的配置文件已经被处理, 配置放在了/usr/lib/systemd/system/</td>
-</tr>
-<tr>
-<td>active(running)</td>
-<td>服务的一个或多个进程在运行中 最常见的状态 start</td>
-</tr>
-<tr>
-<td>active(exited)</td>
-<td><strong>一次性</strong>运行的服务成功被执行并退出(服务运行后完成任务,相关进程会自动退出)</td>
-</tr>
-<tr>
-<td>active(waiting)</td>
-<td>服务已经运行但在等待某个事件</td>
-</tr>
-<tr>
-<td>inactive</td>
-<td>服务没有在运行 stop</td>
-</tr>
-<tr>
-<td>enabled</td>
-<td>服务设定为开机运行</td>
-</tr>
-<tr>
-<td>disabled</td>
-<td>服务设定为开机不运行</td>
-</tr>
-<tr>
-<td>static</td>
-<td>服务不能被设定开机启动,但可以由其他服务启动该服务</td>
-</tr>
-</tbody></table>
-<ul>
-<li><em>systemctl</em>的<em>journalctl</em>日志 </li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">服务启动或管理,排错流程</span></span><br><span class="line">systemctl 启动/重启/关闭 服务失败,报错   </span><br><span class="line">journalctl -xe   #-e按页显示   -x进行一些翻译,指出一些故障提示</span><br><span class="line">找error 或 err 或warn 或fail </span><br><span class="line">故障模拟 修改网卡配置文件, IPADDR</span><br><span class="line"></span><br><span class="line">journalctl -n 20    #查看最后20行</span><br><span class="line">journalctl -f       #动态查看日志 ※※※</span><br><span class="line">journalctl -p err   #查看日志的级别</span><br><span class="line">journalctl -u crond #查看某个服务的单元的日志</span><br></pre></td></tr></table></figure>
-
-<p> “auto_save_delay_in_seconds”: 0.15,</p>
-<p>netstat -tupln | grep id 查看进程端口</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://www.dennis.net.cn/Linux%E5%9F%BA%E7%A1%80/Linux%E7%A3%81%E7%9B%98%E7%AE%A1%E7%90%86/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/Boy-01.png">
-      <meta itemprop="name" content="dennis">
-      <meta itemprop="description" content="个人博客">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dennis的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/Linux%E5%9F%BA%E7%A1%80/Linux%E7%A3%81%E7%9B%98%E7%AE%A1%E7%90%86/" class="post-title-link" itemprop="url">Linux磁盘管理</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-07-14 00:09:30" itemprop="dateCreated datePublished" datetime="2021-07-14T00:09:30+08:00">2021-07-14</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-20 22:49:46" itemprop="dateModified" datetime="2021-07-20T22:49:46+08:00">2021-07-20</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index"><span itemprop="name">Linux基础</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Linux磁盘管理"><a href="#Linux磁盘管理" class="headerlink" title="Linux磁盘管理"></a>Linux磁盘管理</h1><h2 id="1-磁盘的分类及特点"><a href="#1-磁盘的分类及特点" class="headerlink" title="1. 磁盘的分类及特点"></a>1. 磁盘的分类及特点</h2><h3 id="1-1-磁盘的分类"><a href="#1-1-磁盘的分类" class="headerlink" title="1.1 磁盘的分类"></a>1.1 磁盘的分类</h3><ul>
-<li>机械硬盘hdd—容量大，价格便宜速度慢 ；</li>
-<li>固态硬盘sdd—容量小，价格较贵速度快；</li>
-</ul>
-<h3 id="1-2-磁盘接口"><a href="#1-2-磁盘接口" class="headerlink" title="1.2 磁盘接口"></a>1.2 磁盘接口</h3><ul>
-<li><p>IDE（Integrated Drive Electronics）</p>
-<p><img src="https://exp-picture.cdn.bcebos.com/e9a4f2eeadbcbe2fb5bfecad54dae43b3a867865.jpg?x-bce-process=image/resize,m_lfit,w_500,limit_1/format,f_jpg/quality,q_80" alt="硬盘的接口种类"></p>
-<ul>
-<li>本意是指把“硬盘控制器”与“盘体”集成在一起的硬盘驱动器；</li>
-<li>优点：价格低廉兼容性好；</li>
-</ul>
-</li>
-<li><p>SCSI（Small Computer System Interface ）</p>
-<p><img src="https://exp-picture.cdn.bcebos.com/edafb3bcbe2f4770b5d7756f6f3b3b8603217965.jpg?x-bce-process=image/resize,m_lfit,w_500,limit_1/format,f_jpg/quality,q_80" alt="硬盘的接口种类"></p>
-<ul>
-<li>不是专门为硬盘设计的，而是一种总线型的系统接口；</li>
-<li>优点：适应面广高性能同时具备内、外置；</li>
-</ul>
-</li>
-<li><p>FC（Fibre Channel ）</p>
-<p><img src="https://exp-picture.cdn.bcebos.com/51cd85cec7f88a772f0d22f96e4a2f27e6eff865.jpg?x-bce-process=image/resize,m_lfit,w_500,limit_1/format,f_jpg/quality,q_80" alt="硬盘的接口种类"></p>
-<ul>
-<li>FC最初是专门为网络系统设计的随着存储系统对速度的需求，逐渐应用到硬盘系统中；</li>
-<li>优点：带宽高、连接距离长、连接设备数量大；</li>
-</ul>
-</li>
-<li><p>SATA（Serial ATA ）</p>
-<p><img src="http://www.dnpz.net/uploads/allimg/180122/983-1P1221054295Z.jpg" alt="电脑硬件知识：带你了解硬盘的各种接口类型"></p>
-<ul>
-<li>是一种完全不同于并行ATA的新型硬盘接口类型，由于采用串行方式传输数据而得名；</li>
-<li>优点：一对一连接，独享带宽、支持热插拔、低电压信号、带宽升级潜力大；</li>
-</ul>
-</li>
-<li><p>SAS（Serial Attached SCSI ） </p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/4101dfdf9cf599b1de7b5314b0861421.png" alt="image"></p>
-<ul>
-<li><p>即串行连接SCSI，是新一代的SCSI技术，和SATA相同，都是采用串行技术以获得更高的传输速度，并通过缩短连接线改善内部空间 </p>
-</li>
-<li><p>优点：兼容性好、数据传输率高；</p>
-</li>
-</ul>
-<p>搭配方式：</p>
-<p>SSD+SAS==》土豪</p>
-<p>SSD+SATA==》常规，对速度有特殊要求</p>
-<p>机械+SAS==》常规，对速度要求一般，比较核心业务使用</p>
-<p>机械+SATA==》公司内部服务</p>
-</li>
-</ul>
-<h3 id="1-3-磁盘性能指标"><a href="#1-3-磁盘性能指标" class="headerlink" title="1.3 磁盘性能指标"></a>1.3 磁盘性能指标</h3><ul>
-<li>容量<ul>
-<li>家用：1T、2T……</li>
-<li>企业: 300G、600G、900G……</li>
-</ul>
-</li>
-<li>转速<ul>
-<li>家用：4.5k\7.2krpm</li>
-<li>企业：7.2k、10k、15k</li>
-</ul>
-</li>
-<li>缓存</li>
-</ul>
-<h3 id="1-4-磁盘组成"><a href="#1-4-磁盘组成" class="headerlink" title="1.4 磁盘组成"></a>1.4 磁盘组成</h3><table>
-<thead>
-<tr>
-<th align="center">磁盘知识点</th>
-<th align="center">说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">磁头 header</td>
-<td align="center">读取或写入数据,移动只能是径向方法,磁头是从0开始,磁头数==盘面数</td>
-</tr>
-<tr>
-<td align="center">磁道tracker</td>
-<td align="center">当磁盘旋转时，磁头若保持在一个位置上，则每个磁头都会在磁盘表面划出一个圆形轨迹，这些圆形轨迹就叫做磁道。</td>
-</tr>
-<tr>
-<td align="center">扇区sector</td>
-<td align="center">扇区，是指磁盘上划分的区域。磁盘上的每个磁道被等分为若干个弧段，这些弧段便是磁盘的扇区，硬盘的读写以扇区为基本单位，从1开始</td>
-</tr>
-<tr>
-<td align="center">柱面cylinder</td>
-<td align="center">硬盘通常由重叠的一组盘片构成，每个盘面都被划分为数目相等的磁道，并从外缘的“0”开始编号，具有相同编号的磁道形成一个圆柱，称之为磁盘的柱面</td>
-</tr>
-</tbody></table>
-<ul>
-<li><p>扇区（512KB）是磁盘读取的基本单位</p>
-</li>
-<li><p>block（4KB）是系统层面上面读写数据的单位 </p>
-</li>
-</ul>
-<p><img src="../AppData/Roaming/Typora/typora-user-images/image-20210330201437498.png" alt="image-20210330201437498"></p>
-<h2 id="2-RAID独立冗余磁盘阵列"><a href="#2-RAID独立冗余磁盘阵列" class="headerlink" title="2. RAID独立冗余磁盘阵列"></a>2. RAID独立冗余磁盘阵列</h2><h3 id="2-1-概念"><a href="#2-1-概念" class="headerlink" title="2.1 概念"></a>2.1 概念</h3><p>简单的说，RAID是一种把多块独立的硬盘（物理硬盘）按不同的方式组 合起来形成一个硬盘组（逻辑硬盘），从而提高存储性能和容错功能。</p>
-<h3 id="2-2-raid级别"><a href="#2-2-raid级别" class="headerlink" title="2.2 raid级别"></a>2.2 raid级别</h3><ul>
-<li><p><em>raid0</em></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">容量：N块盘合在一起的容量；</span><br><span class="line">性能：理论上是N块盘合在一起的读写速度，实际上是略低一些；</span><br><span class="line">冗余性：不允许坏任何一块硬盘，一块坏，全部gg;</span><br><span class="line">场合：追求读写性能，但对数据安全性无要求；</span><br><span class="line">特点:追求速度，不考虑数据安全；</span><br><span class="line">ps:可以考虑用集群服务器</span><br></pre></td></tr></table></figure></li>
-<li><p><em>raid1</em></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">至少2快盘</span><br><span class="line">容量：一块盘的容量</span><br><span class="line">性能：几乎就是一块盘的读写速度</span><br><span class="line">冗余性：可以坏一块盘，另外一块盘有完整的数据；一块存数据，一块备份数据（备份过）</span><br><span class="line">场合：对数据安全性有要求，对读写速度没有要求</span><br><span class="line">特点:追求数据安全，不考虑速度</span><br><span class="line">ps:主要用于服务器的系统盘</span><br></pre></td></tr></table></figure></li>
-<li><p><em>raid5</em>(结余raid0与raid1之间，是一种折中的方案)</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">至少三块盘，两两之间做奇偶校验，相同结果为0，不同结果为1</span><br><span class="line">容量：以三快盘为例，只有两块容量可用，一块作为校验</span><br><span class="line">性能：读写速度低于raid0，高于raid1</span><br><span class="line">冗余性：可以坏一块盘，其余两块可通过奇偶校验推导出坏盘的数据</span><br><span class="line">场合：一般场合都可使用</span><br><span class="line">ps:兼顾了速度和安全性</span><br></pre></td></tr></table></figure></li>
-<li><p><em>raid10</em>(raid1和raid0整合的产物，兼顾了raid1的数据安全性和raid0的性能，成本高)</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">至少4块</span><br><span class="line">容量：所有容量的一半</span><br><span class="line">性能：读写速度很快</span><br><span class="line">冗余性：可以损坏一半，但损毁的的不能再一组</span><br><span class="line">场合：</span><br><span class="line">ps:性能和冗余很好的业务。数据库主库和存储的主节点</span><br></pre></td></tr></table></figure></li>
-<li><p>冗余 raid1 raid10 raid5 raid0</p>
-</li>
-<li><p>读写性能 raid0 raid10 raid5 raid1</p>
-</li>
-<li><p>成本 raid0、raid5、raid1、raid10</p>
-</li>
-</ul>
-<h2 id="3-磁盘分区"><a href="#3-磁盘分区" class="headerlink" title="3. 磁盘分区"></a>3. 磁盘分区</h2><p><strong>1.分区表</strong></p>
-<ul>
-<li>MBR</li>
-</ul>
-<p>磁盘主引导记录 0磁头0磁道1扇区 大小512k</p>
-<p>磁盘分区表结构：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">446bytes:</span><br><span class="line">	主引导记录MBR所在地址；</span><br><span class="line">64bytes:</span><br><span class="line">	磁盘分区信息 DPT，磁盘分区表；</span><br><span class="line">2bytes:</span><br><span class="line">	55AA,分区信息结束 DPT 磁盘分区表；</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p>GPT</p>
-<ul>
-<li>mbr升级版</li>
-<li>主分区足够用</li>
-<li>可支持大容量硬盘</li>
-</ul>
-<p>区别:</p>
-</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th align="center">gpt</th>
-<th align="center">mbr</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">主分区数量不限</td>
-<td align="center">主分区最多4个扩展分区1个</td>
-</tr>
-<tr>
-<td align="center">可额外支持大容量2tb以上硬盘</td>
-<td align="center">mbr只支持2tb以内的硬盘</td>
-</tr>
-</tbody></table>
-<ul>
-<li>主分区p：存放数据，必须拥有；</li>
-<li>扩展分区e：用来给逻辑分区创造空间；</li>
-<li>逻辑分区l：在扩展分区下面，进行创建，使用扩展分区空间；</li>
-</ul>
-<p><em><strong>2.询磁盘信息</strong></em></p>
-<p>一般查询磁盘信息主要查看这三个指标</p>
-<ul>
-<li>使用率</li>
-<li>当前读写速度</li>
-<li>其它信息</li>
-</ul>
-<p>1.df命令 ： 查看当前磁盘容量使用率（不用参数以k为单位）；</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">df -i #查看inode使用情况</span><br><span class="line">df -h #以人性化方式显示</span><br><span class="line">df -T  #查看磁盘分区类型（文件系统类型）</span><br><span class="line"></span><br><span class="line">[root@yum_server_100 /]# df -i</span><br><span class="line">Filesystem                Inodes IUsed    IFree IUse% Mounted on</span><br><span class="line">devtmpfs                  121457   393   121064    1% /dev</span><br><span class="line">tmpfs                     124460     1   124459    1% /dev/shm</span><br><span class="line">tmpfs                     124460   765   123695    1% /run</span><br><span class="line">tmpfs                     124460    16   124444    1% /sys/fs/cgroup</span><br><span class="line">/dev/mapper/centos-root 26214400 47406 26166994    1% /</span><br><span class="line">/dev/mapper/centos-home 24637440    13 24637427    1% /home</span><br><span class="line">/dev/sde1                 524288   326   523962    1% /boot</span><br><span class="line">tmpfs                     124460     1   124459    1% /run/user/0</span><br><span class="line">[root@yum_server_100 /]# </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">root@yum_server_100 /]# df -h</span><br><span class="line">Filesystem               Size  Used Avail Use% Mounted on</span><br><span class="line">devtmpfs                 475M     0  475M   0% /dev</span><br><span class="line">tmpfs                    487M     0  487M   0% /dev/shm</span><br><span class="line">tmpfs                    487M  7.6M  479M   2% /run</span><br><span class="line">tmpfs                    487M     0  487M   0% /sys/fs/cgroup</span><br><span class="line">/dev/mapper/centos-root   50G   14G   37G  27% /</span><br><span class="line">/dev/mapper/centos-home   47G   33M   47G   1% /home</span><br><span class="line">/dev/sde1               1014M  137M  878M  14% /boot</span><br><span class="line">tmpfs                     98M     0   98M   0% /run/user/0</span><br><span class="line"></span><br><span class="line">[root@yum_server_100 /]# df -T</span><br><span class="line">Filesystem              Type     1K-blocks     Used Available Use% Mounted on</span><br><span class="line">devtmpfs                devtmpfs    485828        0    485828   0% /dev</span><br><span class="line">tmpfs                   tmpfs       497840        0    497840   0% /dev/shm</span><br><span class="line">tmpfs                   tmpfs       497840     7768    490072   2% /run</span><br><span class="line">tmpfs                   tmpfs       497840        0    497840   0% /sys/fs/cgroup</span><br><span class="line">/dev/mapper/centos-root xfs       52403200 13739376  38663824  27% /</span><br><span class="line">/dev/mapper/centos-home xfs       49250820    33044  49217776   1% /home</span><br><span class="line">/dev/sde1               xfs        1038336   140076    898260  14% /boot</span><br><span class="line">tmpfs                   tmpfs        99572        0     99572   0% /run/user/0</span><br></pre></td></tr></table></figure>
-
-<p>2.使用lsblk查看分区情况</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[root@yum_server_100 /]# lsblk</span><br><span class="line">NAME            MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT</span><br><span class="line">sda               8:0    0    1G  0 disk </span><br><span class="line">sdb               8:16   0    1G  0 disk </span><br><span class="line">└─sdb1            8:17   0  100M  0 part </span><br><span class="line">sdc               8:32   0    1G  0 disk </span><br><span class="line">sdd               8:48   0    3T  0 disk </span><br><span class="line">sde               8:64   0  100G  0 disk </span><br><span class="line">├─sde1            8:65   0    1G  0 part /boot</span><br><span class="line">└─sde2            8:66   0   99G  0 part </span><br><span class="line">  ├─centos-root 253:0    0   50G  0 lvm  /</span><br><span class="line">  ├─centos-swap 253:1    0    2G  0 lvm  [SWAP]</span><br><span class="line">  └─centos-home 253:2    0   47G  0 lvm  /home</span><br><span class="line">sr0              11:0    1  3.7G  0 rom  </span><br><span class="line">sr1              11:1    1  4.5G  0 rom  </span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>3.使用du命令查看目录或者文件容量，不参加以k为单位</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">du -sh #人性化输出显示大小</span><br><span class="line">-s :summary 总结，汇总列出总和</span><br><span class="line">-h:人性化显示容量信息，人类可读 </span><br></pre></td></tr></table></figure>
-
-<p>4.iotop  显示当前硬盘读取速度</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">iotop #显示磁盘io</span><br><span class="line">iotop -o 只显示进行读写进程信息</span><br><span class="line">dd if=/dev/zero  of=/tmp/big    bs=1k  count=10000000</span><br></pre></td></tr></table></figure>
-
-<h3 id="3-1-fdisk-分区"><a href="#3-1-fdisk-分区" class="headerlink" title="3.1 fdisk 分区"></a>3.1 fdisk 分区</h3><ul>
-<li><p>fdisk :这个命令是磁盘分区表操作工具，fdisk能将磁盘分区，同时也能为每个分区指定分区类型，总的来说，fdisk就是磁盘工具。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">fdisk -l	#查看硬盘分区表</span><br><span class="line"><span class="meta">#</span><span class="bash"> fdisk -l</span></span><br><span class="line">  Device Boot      Start         End      Blocks   Id  System</span><br><span class="line">/dev/sdb1            2048      206847      102400   83  Linux</span><br><span class="line">/dev/sdb2          206848      616447      204800   83  Linux</span><br><span class="line">/dev/sdb3          616448     1230847      307200    5  Extended</span><br><span class="line">/dev/sdb5          618496      638975       10240   83  Linux</span><br><span class="line">/dev/sdb6          641024      661503       10240   83  Linux</span><br><span class="line">/dev/sdb7          663552      684031       10240   83  Linux</span><br><span class="line">/dev/sdb8          686080      890879      102400    c  W95 FAT32 (LBA)</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
-<li><p>fdisk /dev/sdb 分区</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">[root@yum_server_100 /]# fdisk /dev/sdb</span><br><span class="line"><span class="meta">#</span><span class="bash">进入Command 分区命令行；如果输入错误用ctrl+u进行删除重新输入命令</span></span><br><span class="line">Welcome to fdisk (util-linux 2.23.2).</span><br><span class="line"></span><br><span class="line">Changes will remain in memory only, until you decide to write them.</span><br><span class="line">Be careful before using the write command.</span><br><span class="line"></span><br><span class="line">Device does not contain a recognized partition table</span><br><span class="line">Building a new DOS disklabel with disk identifier 0xe42d9531.</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> p -- 展示指定硬盘已有分区（目前没有增加分区）</span></span><br><span class="line">Command (m for help): p</span><br><span class="line">Disk /dev/sdc: 1073 MB, 1073741824 bytes, 2097152 sectors</span><br><span class="line">Units = sectors of 1 * 512 = 512 bytes</span><br><span class="line">Sector size (logical/physical): 512 bytes / 512 bytes</span><br><span class="line">I/O size (minimum/optimal): 512 bytes / 512 bytes</span><br><span class="line">Disk label type: dos</span><br><span class="line">Disk identifier: 0xe42d9531</span><br><span class="line"></span><br><span class="line">   Device Boot      Start         End      Blocks   Id  System</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> n--在硬盘中新增一个主分区</span></span><br><span class="line">Command (m for help): n</span><br><span class="line"><span class="meta">#</span><span class="bash"> 会有选p主分区 e扩展分区 默认空白是p主分区</span> </span><br><span class="line">Partition type:</span><br><span class="line">   p   primary (0 primary, 0 extended, 4 free)</span><br><span class="line">   e   extended</span><br><span class="line">Select (default p): p</span><br><span class="line">Partition number (1-4, default 1): 1  #分区编号默认编号1</span><br><span class="line">First sector (2048-2097151, default 2048): #选择分区开始位置这里忽略只在意结束位置（大小）</span><br><span class="line">Using default value 2048</span><br><span class="line">Last sector, +sectors or +size&#123;K,M,G&#125; (2048-2097151, default 2097151): +100M #指定分区大小</span><br><span class="line">Partition 1 of type Linux and of size 100 MiB is set  #成功！！！</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">分区后 p展示分区信息</span></span><br><span class="line">Command (m for help): p</span><br><span class="line">  Device Boot      Start         End      Blocks   Id  System</span><br><span class="line">/dev/sdc1            2048      206847      102400   83  Linux</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#同理要想建立扩展分区 在n之后选择e即可 扩展分区建立后 才能建立逻辑分区</span></span> </span><br><span class="line"></span><br><span class="line">d 删除分区</span><br><span class="line">t 将分区换类型</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h3 id="3-2-parted分区"><a href="#3-2-parted分区" class="headerlink" title="3.2 parted分区"></a>3.2 parted分区</h3><p><strong>一.parted的用用途及说明：</strong></p>
-<ul>
-<li>parted ：parted分区是fdisk分区升级版本，可以划分多个主分，支持2TB以上的磁盘分区，并且允许调整分区的大小。</li>
-<li>parted是一个用于硬盘分区或调整分区大小的工具。使用它你可以创建、清除、调整、移动和复制ext2、ext3、linux-swap、FAT、FAT32和reiserfs分区；也能创建、调整和移动苹果系统的HFS分区；还能检测jfs、ntfs、ufs和xfs分区。该工具常用于为新安装的操作系统创建空间，重新分配硬盘使用情况，在将数据拷贝到新硬盘的时候也常常使用。</li>
-</ul>
-<p><strong>二.parted的使用方法及步骤</strong></p>
-<p>1.对磁盘进行分区</p>
-<p>(1) 命令方式：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">parted /dev/sdb mklabel gpt mkpart 1 ext3 1 1T</span><br></pre></td></tr></table></figure>
-
-<p>(2)交互式：</p>
-<ul>
-<li>命令：</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">p (print) 	    #显示磁盘分区信息</span><br><span class="line">mktable 	#创建磁盘分区表 gpt/msdos</span><br><span class="line">mkpart 		#创建磁盘分区 mkpart primary 0 100</span><br><span class="line">rm 			#删除磁盘分区</span><br><span class="line">q 			#quit</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>分区步骤:</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th align="left">命令</th>
-<th align="left">解释</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">#parted  /dev/sdb</td>
-<td align="left">对/dev/sdb进行分区或管理操作</td>
-</tr>
-<tr>
-<td align="left">GNU Parted 3.1<br/>Using /dev/sda<br/>Welcome to GNU Parted! Type ‘help’ to view a list of commands.</td>
-<td align="left">系统返回值</td>
-</tr>
-<tr>
-<td align="left">(parted)   mklabel  gpt</td>
-<td align="left">定义分区表格式常用的有msdos和gpt分区表格式，msdos不支持2TB以上（常用的有msdos和gpt分区表格式，msdos不支持2TB以上容量的磁盘，所以大于2TB的磁盘选gpt分区表格式）</td>
-</tr>
-<tr>
-<td align="left">(parted) mkpart p1</td>
-<td align="left">创建第1个分区，名称为p1</td>
-</tr>
-<tr>
-<td align="left">File system type?  [ext2]?</td>
-<td align="left">定义分区格式（不支持ext4，想分ext4格式分区，可以通过mkfs.ext4格式化ext4格式）</td>
-</tr>
-<tr>
-<td align="left">Start？  1</td>
-<td align="left">定义分区的起始位置（单位支持K,M,G,T）</td>
-</tr>
-<tr>
-<td align="left">End？  1G</td>
-<td align="left">定义分区的结束位置（单位支持K,M,G,T）</td>
-</tr>
-<tr>
-<td align="left">(parted)   print</td>
-<td align="left">查看当前分区情况</td>
-</tr>
-<tr>
-<td align="left">Model: VMware, VMware Virtual S (scsi)<br/>Disk /dev/sda: 1074MB<br/>Sector size (logical/physical): 512B/512B<br/>Partition Table: gpt<br/>Disk Flags: <br/><br/>Number  Start   End     Size    File    system  Name  Flags<br/> 1      1049kB  1073MB      1072MB</td>
-<td align="left">系统返回值</td>
-</tr>
-</tbody></table>
-<ul>
-<li>删除分区步骤：</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>(parted)   rm</th>
-<th>rm删除命令(删除前必须检查是否挂载)</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Partition number？ 1</td>
-<td>删除第一个分区</td>
-</tr>
-<tr>
-<td>(parted)   print</td>
-<td>查看当前分区情况</td>
-</tr>
-<tr>
-<td>(parted)   print</td>
-<td>查看当前分区情况</td>
-</tr>
-<tr>
-<td>Model:   ATA VBOX HARDDISK (scsibr/Disk   /dev/sda: 21.5GB<br/><br/>Sector   size (logical/physical): 512B/512B<br/><br/>Partition   Table: msdos<br/><br/>Number  Start     End   Size  File system  Name  Flags<br/></td>
-<td>系统返回值</td>
-</tr>
-</tbody></table>
-<h2 id="4-挂载与格式化"><a href="#4-挂载与格式化" class="headerlink" title="4. 挂载与格式化"></a>4. 挂载与格式化</h2><p><strong>挂载三部曲：</strong></p>
-<ul>
-<li>磁盘分区：fdisk、parted、gdisk；</li>
-<li>格式化：创建文件系统（使磁盘可以存储文件）；</li>
-<li>挂载：设置设备入口，给用户访问·。</li>
-</ul>
-<h3 id="4-1-第一部—创建磁盘分区"><a href="#4-1-第一部—创建磁盘分区" class="headerlink" title="4.1 第一部—创建磁盘分区"></a>4.1 第一部—创建磁盘分区</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">fdisk  </span><br><span class="line">n</span><br><span class="line">Disk /dev/sdb: 1073 MB, 1073741824 bytes, 2097152 sectors</span><br><span class="line">Units = sectors of 1 * 512 = 512 bytes</span><br><span class="line">Sector size (logical/physical): 512 bytes / 512 bytes</span><br><span class="line">I/O size (minimum/optimal): 512 bytes / 512 bytes</span><br><span class="line">Disk label type: dos</span><br><span class="line">Disk identifier: 0xc2483040</span><br><span class="line">   Device Boot     Start         End     Blocks   Id </span><br><span class="line">System</span><br><span class="line">/dev/sdb1            2048     2097151     1047552   83 </span><br><span class="line">Linux</span><br></pre></td></tr></table></figure>
-
-<h3 id="4-2-第二部—格式化创建文件系统"><a href="#4-2-第二部—格式化创建文件系统" class="headerlink" title="4.2 第二部—格式化创建文件系统"></a>4.2 第二部—格式化创建文件系统</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> mkf.xfs /dev/sdb1</span> </span><br><span class="line">meta-data=/dev/sdb1              isize=512    agcount=4, </span><br><span class="line">agsize=65472 blks</span><br><span class="line">         =                       sectsz=512   attr=2, </span><br><span class="line">projid32bit=1</span><br><span class="line">         =                       crc=1        finobt=0, </span><br><span class="line">sparse=0</span><br><span class="line">data     =                       bsize=4096   </span><br><span class="line">blocks=261888, imaxpct=25</span><br><span class="line">         =                       sunit=0      swidth=0</span><br><span class="line">blks</span><br><span class="line">naming   =version 2              bsize=4096   ascii-ci=0</span><br><span class="line">ftype=1</span><br><span class="line">log      =internal log           bsize=4096   blocks=855, </span><br><span class="line">version=2</span><br><span class="line">         =                       sectsz=512   sunit=0</span><br><span class="line">blks, lazy-count=1</span><br><span class="line">realtime =none                   extsz=4096   blocks=0, </span><br><span class="line">rtextents=0</span><br></pre></td></tr></table></figure>
-
-<h3 id="4-3-第三部—挂载"><a href="#4-3-第三部—挂载" class="headerlink" title="4.3 第三部—挂载"></a>4.3 第三部—挂载</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">mount 设备 入口</span><br><span class="line">mount /d v/sdb1   /mnt  </span><br><span class="line">[root@oldboyedu ~]# mount /de/sdb1 /mnt/</span><br><span class="line">[root@oldboyedu ~]# df -h</span><br><span class="line">Filesystem               Size Used Avail Use% Mounted on</span><br><span class="line">devtmpfs                 475M     0 475M   0% /dev</span><br><span class="line">tmpfs                   487M     0 487M   0% /dev/shm</span><br><span class="line">tmpfs                   487M  7.7M 479M   2% /run</span><br><span class="line">tmpfs                   487M     0 487M   0% </span><br><span class="line">/sys/fs/cgroup</span><br><span class="line">/dev/mapper/centos-root   37G   16G   22G  43% /</span><br><span class="line">/dev/sda1               1014M 137M 878M  14% /boot</span><br><span class="line">tmpfs                     98M     0   98M   0% </span><br><span class="line">/run/user/0</span><br><span class="line">/dev/sdb1               1020M   33M 988M   4% /mnt</span><br></pre></td></tr></table></figure>
-
-<h3 id="4-4-永久挂载"><a href="#4-4-永久挂载" class="headerlink" title="4.4 永久挂载"></a>4.4 永久挂载</h3><p>上述挂载方式为临时挂载方式接下来介绍两种永久挂载方式：</p>
-<ul>
-<li>方法一：通用写法，把挂载命令写到开机执行，开机启动文件 /etc/rc.d/rc.loacl</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/rc.d/rc.local</span><br><span class="line">把挂载命令写到开机执行文件上</span><br><span class="line">mount /dev/sdb /mount</span><br><span class="line">chmod +x /etc/rc.d/rc.local</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>方法二：专业写法，开机开机自动挂载信息表    /etc/fstab</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">/etc/fstab文件内容格式说明</span><br><span class="line">/dev/mapper/centos-root /                       xfs     defaults        0 0</span><br><span class="line">UUID=0b6d9742-6dc9-434e-acb3-88d46bc5210c /boot                   xfs     defaults        0 0</span><br><span class="line">/dev/mapper/centos-home /home                   xfs     defaults        0 0</span><br><span class="line">/dev/mapper/centos-swap swap                    swap    defaults        0 0</span><br><span class="line"></span><br><span class="line">弟1列：备名称、uuid</span><br><span class="line">第2列：挂载点</span><br><span class="line">第3列：文件系统类型</span><br><span class="line">第4列：挂载选项</span><br><span class="line">第5列：是否备份</span><br><span class="line">第6列：是否开机检查</span><br></pre></td></tr></table></figure>
-
-<h2 id="5-SWAP"><a href="#5-SWAP" class="headerlink" title="5. SWAP"></a>5. SWAP</h2><ul>
-<li>swap 交换分区，内存不足时将物理内存充当临时内存。</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">通过创建文件增加swap</span><br><span class="line">1）创建文件 dd  if=/dev/zero  of=/tmp/swap  bs=1M count=500</span><br><span class="line">2)转换为swap 	 mkswap /tmp/swap</span><br><span class="line">3)激活 		 swapon /tmp/swap</span><br><span class="line"></span><br><span class="line">free -h 查看系统内存情况</span><br><span class="line">swapon -s 查看当前系统swap组成</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p>永久生效</p>
-<ul>
-<li>swapon /tmp/swap 命令写到 /etc/rc.local</li>
-<li>将swap分区属性写到 /etc/fstab</li>
-</ul>
-</li>
-<li><p>umount /mnt 卸载</p>
-</li>
-<li><p>umount -lf 强制卸载</p>
-</li>
-</ul>
-<script src='https://cdn.jsdelivr.net/gh/sviptzk/HexoStaticFile@latest/Hexo/js/mouse_snow.min.js'></script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://www.dennis.net.cn/Linux%E5%9F%BA%E7%A1%80/Linux%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/Boy-01.png">
-      <meta itemprop="name" content="dennis">
-      <meta itemprop="description" content="个人博客">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dennis的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/Linux%E5%9F%BA%E7%A1%80/Linux%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86/" class="post-title-link" itemprop="url">Linux用户管理</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-07-13 20:53:54" itemprop="dateCreated datePublished" datetime="2021-07-13T20:53:54+08:00">2021-07-13</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-14 12:12:47" itemprop="dateModified" datetime="2021-07-14T12:12:47+08:00">2021-07-14</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index"><span itemprop="name">Linux基础</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="用户管理"><a href="#用户管理" class="headerlink" title="用户管理"></a>用户管理</h1><p>[TOC]</p>
-<hr>
-<h2 id="1-用户和用户组的概念"><a href="#1-用户和用户组的概念" class="headerlink" title="1 用户和用户组的概念"></a>1 用户和用户组的概念</h2><ol>
-<li><strong>用户概念：</strong></li>
-</ol>
-<p>在linux中一切都是文件（文件夹和硬件设备是特殊的文件)，如果有可能尽量使用文本文件。文本文件是人和机器能理解的文件，也成为人和机器进行交流的最好途径。由于所有的配置文件都是文本，所以你只需要一个最简单的编辑器就可以修改。由于修改文本文件如此简单，所以Linux系统本身肯定要加以规范。这就引出了用户(组)和权限这2个概念。而这2个概念的引入，完美的保证了Linux的安全性，同时没有添加复杂性。由于一切皆为文件。所以Linux引入了3个文件来管理用户（组）， /etc/passwd存放用户信息，/etc/shadow存放用户密码信息，/etc/group存放组信息，然后在文件系统中的每个文件的文件头里面添加了用户和文件之间的关系信息。</p>
-<ol start="2">
-<li><p><strong>用户、组、文件有三种关系：</strong></p>
-<ul>
-<li><p>用户和文件的关系只有2种：拥有和不拥有。</p>
-</li>
-<li><p>组合文件的关系只有2种：拥有和不拥有。</p>
-</li>
-<li><p>组和用户的关系只有2种：属于和不属于。</p>
-</li>
-</ul>
-</li>
-<li><p><strong>将这三种关系叠加，用户和文件的最终关系可以归纳为3类：</strong></p>
-<ul>
-<li><p>用户拥有该文件。</p>
-</li>
-<li><p>用户属于哪个组，某个组拥有该文件（既用户通过属于某个组拥有该文件）。</p>
-</li>
-<li><p>用户不拥有该文件。</p>
-</li>
-</ul>
-</li>
-<li><p><strong>用户分类：</strong></p>
-</li>
-</ol>
-<table>
-<thead>
-<tr>
-<th>用户分类</th>
-<th>作用</th>
-<th>特定</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>超级用户root (uid == 0)</td>
-<td>管理维护整个系统</td>
-<td>最高管理权限</td>
-</tr>
-<tr>
-<td>普通用户(uid &gt;= 1000)</td>
-<td>只能查看和管理自己的一亩三分地</td>
-<td>管理特定服务,为了安全</td>
-</tr>
-<tr>
-<td>程序用户(uid&gt;200 &amp;&amp; uid&lt;1000)</td>
-<td>让Linux下面服务正常运行所需要</td>
-<td>为了服务正常运行所需要并不需要登录到系统设置密码切换密、切换用户</td>
-</tr>
-</tbody></table>
-<ol start="5">
-<li><strong>用户组概念</strong>：</li>
-</ol>
-<p>每个用户都有一个用户组，系统可以对一个用户组中的所有用户进行集中管理。不同Linux 系统对用户组的规定有所不同，如Linux下的用户属于与它同名的用户组，这个用户组在创建用户时同时创建。</p>
-<ol start="6">
-<li><strong>用户组的分类:</strong><ul>
-<li>默认组： 创建与用户组同名的组；</li>
-</ul>
-</li>
-</ol>
-<ul>
-<li>基本组：主要的组；    -g 指定；<ul>
-<li>附加组：额外指定的组；    -G 指定；</li>
-</ul>
-</li>
-</ul>
-<hr>
-<h2 id="2-用户和用户组信息的查看"><a href="#2-用户和用户组信息的查看" class="headerlink" title="2. 用户和用户组信息的查看"></a>2. 用户和用户组信息的查看</h2><table>
-<thead>
-<tr>
-<th>用户分类</th>
-<th>作用</th>
-<th>特定</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>超级用户root (uid == 0)</td>
-<td>管理维护整个系统</td>
-<td>最高管理权限</td>
-</tr>
-<tr>
-<td>普通用户(uid &gt;= 1000)</td>
-<td>只能查看和管理自己的一亩三分地</td>
-<td>管理特定服务,为了安全</td>
-</tr>
-<tr>
-<td>程序用户(uid&gt;200 &amp;&amp; uid&lt;1000)</td>
-<td>让Linux下面服务正常运行所需要</td>
-<td>为了服务正常运行所需要并不需要登录到系统设置密码切换密、切换用户</td>
-</tr>
-</tbody></table>
-<ol>
-<li><strong>查看用户信息命令：<em>cat /etc/passwd</em></strong></li>
-</ol>
-<ul>
-<li><p>/etc/passwd;  用户信息;</p>
-</li>
-<li><p>root:X:0:0:root:/root:/bin/bash  以冒号为分隔符;</p>
-</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">字段1：用户名  --&gt; root</span><br><span class="line">字段2：密码占位符  --&gt; x （这里都是用x代替）</span><br><span class="line">字段3：uid，用户id  --&gt; 0</span><br><span class="line">字段4：gid ，组id --&gt; 0</span><br><span class="line">字段5：用户描述信息  --&gt; root</span><br><span class="line">字段6：家目录  --&gt;  /root</span><br><span class="line">字段7：登录 shell（用户登陆shell ，当为/bin/bash表示可以登陆，/sbin/nologin表示不被授权登陆）</span><br></pre></td></tr></table></figure>
-
-<p><font color='red'>注：</font>一般来说，只有 root 用户的 uid 是为0的。如果黑客把一个普通用户的 uid 修改为0的话，那么他只要以普通用户的用户名和密码登录，系统就会自动切换到root用户。所以，系统加固的时候一定要过滤出有哪些用户的UID为0</p>
-<ol start="2">
-<li><strong>查看用户密码信息命令：<em>cat/etc/shadow</em></strong></li>
-</ol>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">/etc/shadow;  密码信息;</span><br><span class="line">bin:*:18353:0:99999:7:::</span><br><span class="line">字段1：用户名</span><br><span class="line">字段2：通过sha-512加密(二次加密，在经过第一次加密后，第二次加入随机数再次加密)的密码</span><br><span class="line">字段3：最后一次修改密码距离1970年1月1日的天数间隔</span><br><span class="line">字段4：密码最短有效期</span><br><span class="line">字段5：密码最长有效期</span><br><span class="line">字段6：密码过期前几天进行警告</span><br><span class="line">字段7：账户过期后，被锁定的天数</span><br><span class="line">字段8：账号失效时间距离1970年1月1日的天数间隔</span><br><span class="line">字段9：未分配功能</span><br><span class="line"></span><br><span class="line">ps: 字段2是用户的密码位，如果是 * 表示该用户禁用，!! 表示用户密码未初始化，如果为空，表示空密码的</span><br></pre></td></tr></table></figure>
-
-<ol start="3">
-<li><strong>查看用户组信息的命令：<em>cat/etc/group</em></strong></li>
-</ol>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">组信息的显示有四个字段:</span><br><span class="line">字段1：组名称 --&gt; root</span><br><span class="line">字段2：组密码占位符  --&gt; x</span><br><span class="line">字段3：gid --&gt; 0</span><br><span class="line">字段4：组成员</span><br></pre></td></tr></table></figure>
-
-<p><font color='red'>ps</font>:一个用户只能有一个主要组，最多可以有31个附加组。主要组是用户创建文件时默认的所有组，附加组主要用于权限管理。不论用户属于哪个组，用户都能拥有该组的权限。</p>
-<p><font color='blue'><strong>特殊组wheel</strong></font>：在Linux中有一个特殊组<font color='red'>wheel</font>，wheel组就类似于一个管理员的组。在linux中，即使我们有系统管理员root的权限，也不推荐用root用户登录。一般情况下用普通用户登录就可以了，在需要root权限执行一些操作时，再su登录成为root用户。但是，任何人只要知道了root用户的密码，就都可以通过su命令来登录为root用户–这无疑为系统带来了安全隐患。所以，将普通用户加入到wheel组中，被加入的这个普通用户就成了管理员组内的用户了，然后可以修改配置文件使得只有wheel组内的用户可以切换到root用户。</p>
-<hr>
-<h2 id="3-用户和用户组的管理"><a href="#3-用户和用户组的管理" class="headerlink" title="3. 用户和用户组的管理"></a>3. 用户和用户组的管理</h2><h3 id="3-1用户的创建、删除和修改"><a href="#3-1用户的创建、删除和修改" class="headerlink" title="3.1用户的创建、删除和修改"></a>3.1用户的创建、删除和修改</h3><p><strong><font color='blue'>新建用户系统会做这三件事:</font></strong></p>
-<ol>
-<li>新建用户时，系统会将 /etc/skel 中的目录及文件拷贝到新建用户的家目录中。</li>
-<li>在 /var/spool/mail 中，新建用户名的邮箱 。</li>
-<li>在 /etc下的 passwd 、shadow 、group文件中，增加用户信息</li>
-</ol>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">whoami #我是谁</span><br><span class="line">useradd #创建用户</span><br><span class="line">		-u:	指定UID;</span><br><span class="line">		-c: 指定注释;</span><br><span class="line">		-s: 指定登录shell类型; /bin/bash  /sbin/nologin;</span><br><span class="line">		-G: 指定附加组;</span><br><span class="line">		-a: 追加;</span><br><span class="line">		-g: 指定基本组;</span><br><span class="line">		-r: 指定为系统用户 (UID 201-999)</span><br><span class="line">		-M: 不创建用户的家目录;</span><br><span class="line">		-d：指定其家目录；</span><br><span class="line">usermod: #修改用户;选项参照useradd</span><br><span class="line">userdel: </span><br><span class="line">		 1.#删除用户</span><br><span class="line">			-r: 同时删除用户以及用户家目录;</span><br><span class="line">		 2.# 有进程正在使用该用户,所以无法删除; 只有进程退出后;用户没有被占用,才可以处理;</span><br><span class="line">			kill -9 [要干掉的进程ID]</span><br><span class="line">			userdel username</span><br><span class="line">		 3.# 不加 -r 参数，只删除 passwd、shadow 和 group 文件中的用户信息，/home 目录下的文件不删除，/var/spool/mail/ 下的文件不删除</span><br><span class="line">		   # 加 -r 参数，删除 passwd、shadow 和 group 文件中的用户信息，同时删除用户的家目录和邮箱		   	</span><br><span class="line">			userdel -r username</span><br></pre></td></tr></table></figure>
-
-<p>以下这条命令直接生成一个具有root权限的用户：venus，密码为：123qwe 。前提是这条命令的执行需要root权限。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">useradd -p `openssl passwd -1 -salt &#x27;user&#x27; 123qwe` -u 0 -o -g root  -G root -s /bin/bash -d /home/user venus</span><br></pre></td></tr></table></figure>
-
-<p><font color='red'>注</font>：用户创建时，默认的属性（比如UID，GID，是否创建家目录，创建邮箱等）都是通过/etc/login.defs文件控制的，修改此文件的属性，会影响以后创建的所有用户。也可以创建用户时指定参数修改，这样只对当前创建用户有效</p>
-<p><strong><font color='blue'>删除用户：</font></strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">userdel  -r  james  #删除用户一定记得加 -r 参数 ！！</span><br></pre></td></tr></table></figure>
-
-<ol>
-<li>不加 -r 参数，只删除 passwd、shadow 和 group 文件中的用户信息，/home 目录下的文件不删除，/var/spool/mail/ 下的文件不删除。</li>
-<li>加 -r 参数，删除 passwd、shadow 和 group 文件中的用户信息，同时删除用户的家目录和邮箱。</li>
-</ol>
-<p><strong><font color='blue'>修改用户属性：</font></strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">usermod   参数   james</span><br><span class="line"></span><br><span class="line">-s 修改用户的登陆shell   usermod -s /sbin/nologin james </span><br><span class="line">-L 账户锁定  (可以通过 passwd -S  账户名 查看账户的状态)</span><br><span class="line">-U 解锁账户</span><br><span class="line">-g  修改账户所在组   例：将bob所在组改成james：usermod  -g  james   bob   </span><br><span class="line">-G  给账户添加附加组  例：给bob添加一个附加组john：usermod  -G  john  bob；从附加组john中删除用户bob：gpasswd -d  bob  john</span><br><span class="line">-a  默认情况下，当用户已经存在附加组时，再添加附加组则会把之前的附加组给替换了，加 -a 参数，则不替换原来的附加组，意味着该用户可以有多个附加组。</span><br></pre></td></tr></table></figure>
-
-<p><strong><font color='blue'>锁定和解锁用户：</font></strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">锁定用户：usermod -L www    或   passwd -l www</span><br><span class="line">解锁用户：usermod -U www   或   passwd -u www</span><br><span class="line">查看用户状态：passwd -S www</span><br><span class="line"></span><br><span class="line">注：虽然 usermod 和 passwd 这两个命令都可以锁定和解锁用户，但是还是有区别的。区别之一就是passwd命令操作完后会有提示。还有一个区别就是 passwd 的权限比 usermod 大，使用 usermod 锁定的用户可以用 passwd 来解锁，但是使用 passwd 锁定的用户不能用 usermod 来解锁</span><br></pre></td></tr></table></figure>
-
-<h3 id="3-2-用户密码修改"><a href="#3-2-用户密码修改" class="headerlink" title="3.2 用户密码修改"></a>3.2 用户密码修改</h3><ul>
-<li><p>修改命令使用passwd来实现：</p>
-<p>1.超级管理员:</p>
-<pre><code>        1.1) 随意修改任何人的密码;
-        1.2) 密码强度可以随意;
-</code></pre>
-<p>2.普通用户执行:</p>
-<pre><code>        2.1) 仅修改自己的密码,不可以修改其他人;
-        2.2) 密码强度必须满足8个字符及以上;
-</code></pre>
-<p>3.passwd使用方法:</p>
-</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">1.交互式修改密码：</span><br><span class="line">	passwd username</span><br><span class="line">2.非交互式修改密码：</span><br><span class="line">	echo &quot;passwd&quot; | passwd --stdin username</span><br><span class="line">	Changing password for user jack.</span><br><span class="line">	passwd: all authentication tokens updated successfully.	</span><br><span class="line">如果想要设置强度较高的密码需要安装 </span><br><span class="line"><span class="meta">	#</span><span class="bash">yum install -y expect</span> </span><br><span class="line"><span class="meta">			#</span><span class="bash"> -l 长度</span></span><br><span class="line"><span class="meta">			#</span><span class="bash"> -d 数字</span></span><br><span class="line"><span class="meta">			#</span><span class="bash"> -c 小写</span></span><br><span class="line"><span class="meta">			#</span><span class="bash"> -C 大写</span></span><br><span class="line"><span class="meta">			#</span><span class="bash"> -s 特殊字符</span></span><br><span class="line">			mkpasswd -l 10 -d 3 -c 3 -C 3 -s 1</span><br><span class="line">			Y44ssjSG0,</span><br><span class="line">	echo &quot;$(mkpasswd -l 10 -d 3 -c 3 -C 3 -s 1)&quot; | tee ok.txt | passwd --stdin tom</span><br><span class="line">	Changing password for user jack.</span><br><span class="line">	passwd: all authentication tokens updated successfully.</span><br><span class="line">	[root@tom /]# cat ok.txt </span><br><span class="line">1hNOp*H63y</span><br><span class="line"><span class="meta">	#</span><span class="bash">tee -a //追加</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">生成密码的方法</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">方法1</span> </span><br><span class="line"> mkpasswd -l 16  #16位密码</span><br><span class="line"><span class="meta"> </span></span><br><span class="line"><span class="meta"> #</span><span class="bash">方法2</span></span><br><span class="line"> echo  $RANDOM|md5sum |head -c16</span><br><span class="line"> RANDOM 系统变量(环境变量) 生成随机数字 </span><br><span class="line"><span class="meta"> </span></span><br><span class="line"><span class="meta"> #</span><span class="bash">方法3 date</span> </span><br><span class="line"> date +%N |md5sum  |head -c16</span><br><span class="line"><span class="meta"> </span></span><br><span class="line"><span class="meta"> #</span><span class="bash">方法4  了解</span></span><br><span class="line"> [root@oldboyedu ~]# echo  123  |tr 123 abc</span><br><span class="line">abc</span><br><span class="line">[root@oldboyedu ~]# </span><br><span class="line">[root@oldboyedu ~]# echo  123123  |tr 123 abc</span><br><span class="line">abcabc</span><br><span class="line">[root@oldboyedu ~]# echo  112233  |tr 123 abc</span><br><span class="line">aabbcc</span><br><span class="line">[root@oldboyedu ~]# #1对1的替换 </span><br><span class="line">[root@oldboyedu ~]# #tr 替换  </span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">tr 生成随机字符 (删除)</span></span><br><span class="line">-d 删除</span><br><span class="line">-c 取反</span><br><span class="line">tr -cd  &#x27;0-9&#x27;  &lt;/dev/urandom |head -c16</span><br><span class="line">tr -cd  &#x27;a-zA-Z0-9&#x27;  &lt;/dev/urandom |head -c16</span><br></pre></td></tr></table></figure>
-
-<p>注：借助chage指令，可以修改用户的密码策略，也可通过编辑 /etc/shadow (不建议)</p>
-<p>​        比如：chage  -l  bob，查看用户bob的密码策略</p>
-<p>​       chage -M 90 bob，将用户bob的密码有效期修改为90天</p>
-<p>​        脚本实现修改用户的密码策略</p>
-<ul>
-<li><font color='red'><strong>练习：</strong></font></li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1.#批量创建10个用户oldboy01..oldboy10,并设置123456为密码(不能用循环等语句,如for,while等)</span><br><span class="line">echo oldboy&#123;01..10&#125;|xargs -n1|sed -r &#x27;s#(.*)#useradd \1; echo 123456|passwd --stdin \1#g&#x27;|bash</span><br><span class="line"></span><br><span class="line">2.#批量创建10个用户oldboy01..oldboy10,并设置随机8为密码(不能用循环等语句,如for,while等)</span><br><span class="line">echo oldboy&#123;11..20&#125; |xargs -n1|sed -r &#x27;s#(.*)#useradd \1;p=`mkpasswd -l 8`;echo $p|passwd --stdin \1;echo \1 $p&gt;&gt;/root/pass.txt#g&#x27; |bash</span><br></pre></td></tr></table></figure>
-
-<h3 id="3-3用户组管理"><a href="#3-3用户组管理" class="headerlink" title="3.3用户组管理"></a>3.3用户组管理</h3><p><strong><font color='blue'>添加组：</font></strong> groupadd www</p>
-<ol>
-<li> -g, –gid                      为新组使用 GID，例 groupadd -g 2000 xie  创建新组xie，并且gid设置为2000</li>
-<li> -K, –key                    不使用 /etc/login.defs 中的默认值</li>
-<li> -o, –non-unique      允许创建有重复 GID 的组</li>
-<li> -p, –password         为新组使用此加密过的密码</li>
-<li> -r, –system               创建一个系统账户</li>
-</ol>
-<p><strong><font color='blue'>删除组：</font></strong> groupdel www</p>
-<p> -r , –remove                    删除主目录和邮件池</p>
-<p><strong><font color='blue'>修改组的属性： </font></strong> groupmod www</p>
-<p> -g, –gid GID                    将组 ID 改为 GID<br>         -n, –new-name             改名为 NEW_GROUP<br>         -o, –non-unique           允许使用重复的 GID</p>
-<p><strong><font color='blue'>修改组中的用户：groupmems： </font></strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">groupmems   -a  john  -g  www    将用户john加到www组中</span><br><span class="line">groupmems   -d  john  -g  www    将用户john从xie组中移除 或 gpasswd -d  john  www</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-
-
-
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-
-  
-
-
-
-          </div>
-          
-
-<script>
-  window.addEventListener('tabs:register', () => {
-    let { activeClass } = CONFIG.comments;
-    if (CONFIG.comments.storage) {
-      activeClass = localStorage.getItem('comments_active') || activeClass;
-    }
-    if (activeClass) {
-      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
-      if (activeTab) {
-        activeTab.click();
-      }
-    }
-  });
-  if (CONFIG.comments.storage) {
-    window.addEventListener('tabs:click', event => {
-      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      let commentClass = event.target.classList[1];
-      localStorage.setItem('comments_active', commentClass);
-    });
-  }
-</script>
-
-        </div>
-          
-  
-  <div class="toggle sidebar-toggle">
-    <span class="toggle-line toggle-line-first"></span>
-    <span class="toggle-line toggle-line-middle"></span>
-    <span class="toggle-line toggle-line-last"></span>
-  </div>
-
-  <aside class="sidebar">
-    <div class="sidebar-inner">
-
-      <ul class="sidebar-nav motion-element">
-        <li class="sidebar-nav-toc">
-          文章目录
-        </li>
-        <li class="sidebar-nav-overview">
-          站点概览
-        </li>
-      </ul>
-
-      <!--noindex-->
-      <div class="post-toc-wrap sidebar-panel">
-      </div>
-      <!--/noindex-->
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="dennis"
-      src="/images/Boy-01.png">
-  <p class="site-author-name" itemprop="name">dennis</p>
-  <div class="site-description" itemprop="description">个人博客</div>
-</div>
-<div class="site-state-wrap motion-element">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/archives/">
-        
-          <span class="site-state-item-count">5</span>
-          <span class="site-state-item-name">日志</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-            <a href="/categories/">
-          
-        <span class="site-state-item-count">2</span>
-        <span class="site-state-item-name">分类</span></a>
-      </div>
-      <div class="site-state-item site-state-tags">
-            <a href="/tags/">
-          
-        <span class="site-state-item-count">5</span>
-        <span class="site-state-item-name">标签</span></a>
-      </div>
-  </nav>
 </div>
 
 
+<div class="post">
+    <a href="/Linux%E5%9F%BA%E7%A1%80/Linux%E7%A3%81%E7%9B%98%E7%AE%A1%E7%90%86/" title="Linux磁盘管理">
+        <img src="https://img1.baidu.com/it/u=2658773361,1037702401&fm=26&fmt=auto&gp=0.jpg" class="cover" width="680" height="440">
+    </a>
+    <div class="else">
+        <p>七月 14, 2021</p>
+        <h3><a href="/Linux%E5%9F%BA%E7%A1%80/Linux%E7%A3%81%E7%9B%98%E7%AE%A1%E7%90%86/" title="Linux磁盘管理" class="posttitle">Linux磁盘管理</a></h3>
+        <p>Linux磁盘管理1. 磁盘的分类及特点1.1 磁盘的分类
+机械硬盘hdd—容量大，价格便宜速度慢 ；
+固态硬盘sdd—容量小，价格较贵速度快；
 
-      </div>
-
+1.2...</p>
     </div>
-  </aside>
-  <div id="sidebar-dimmer"></div>
-
-
-      </div>
-    </main>
-
-    <footer class="footer">
-      <div class="footer-inner">
-        
-
-        
-  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">  </a>
-      <img src="https://subingwen.cn/images/gongan.png" style="display: inline-block;"><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=%E4%BA%ACICP%E5%A4%872021014273" rel="noopener" target="_blank">京ICP备2021014273 </a>
-  </div>
-
-<div class="copyright">
-  
-  &copy; 
-  <span itemprop="copyrightYear">2021</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">dennis</span>
 </div>
 
-        
+
+<div class="post">
+    <a href="/Linux%E5%9F%BA%E7%A1%80/Linux%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86/" title="Linux用户管理">
+        <img src="https://img2.baidu.com/it/u=59810897,767941638&fm=26&fmt=auto&gp=0.jpg" class="cover" width="680" height="440">
+    </a>
+    <div class="else">
+        <p>七月 13, 2021</p>
+        <h3><a href="/Linux%E5%9F%BA%E7%A1%80/Linux%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86/" title="Linux用户管理" class="posttitle">Linux用户管理</a></h3>
+        <p>用户管理[TOC]
+
+1 用户和用户组的概念
+用户概念：
+
+在linux中一切都是文件（文件夹和硬件设备是特殊的文件)，如果有可能尽量使用文本文件。文本文...</p>
+    </div>
+</div>
 
 
+    </div>
+    
+</div>
+<div id="preview"></div>
 
 
-
-
-
-
-      </div>
-    </footer>
-  </div>
-
-  
-  <script src="/lib/anime.min.js"></script>
-  <script src="/lib/velocity/velocity.min.js"></script>
-  <script src="/lib/velocity/velocity.ui.min.js"></script>
-
-<script src="/js/utils.js"></script>
-
-<script src="/js/motion.js"></script>
-
-
-<script src="/js/schemes/pisces.js"></script>
-
-
-<script src="/js/next-boot.js"></script>
-
-
-
-
-  
-
-
-
-
-  
-<script src="/js/local-search.js"></script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-  
 
 </body>
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/typed.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
 </html>
