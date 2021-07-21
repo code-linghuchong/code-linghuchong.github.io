@@ -230,20 +230,20 @@
 <hr>
 <h4 id="1-内核引导"><a href="#1-内核引导" class="headerlink" title="1. 内核引导"></a>1. 内核引导</h4><p> 当计算机打开电源后，首先是BIOS开机自检，按照BIOS中设置的启动设备（通常是硬盘）来启动。</p>
 <p>操作系统接管硬件以后，首先读入 /boot 目录下的内核文件。</p>
-<p><img src="https://www.runoob.com/wp-content/uploads/2014/06/bg2013081702.png" alt="img"></p>
+<p><img src= "/img/loading.gif" data-src="https://www.runoob.com/wp-content/uploads/2014/06/bg2013081702.png" alt="img"></p>
 <h4 id="2-运行init"><a href="#2-运行init" class="headerlink" title="2. 运行init"></a>2. 运行init</h4><p>init 进程是系统所有进程的起点，你可以把它比拟成系统所有进程的老祖宗，没有这个进程，系统中任何进程都不会启动。</p>
 <p>init 程序首先是需要读取配置文件 /etc/inittab。</p>
-<p><img src="https://www.runoob.com/wp-content/uploads/2014/06/bg2013081703.png" alt="img"></p>
+<p><img src= "/img/loading.gif" data-src="https://www.runoob.com/wp-content/uploads/2014/06/bg2013081703.png" alt="img"></p>
 <h4 id="3-运行级别"><a href="#3-运行级别" class="headerlink" title="3. 运行级别"></a>3. 运行级别</h4><p>许多程序需要开机启动。它们在Windows叫做”服务”（service），在Linux就叫做”守护进程”（daemon）。</p>
 <p>init进程的一大任务，就是去运行这些开机启动的程序。</p>
 <p>但是，不同的场合需要启动不同的程序，比如用作服务器时，需要启动Apache，用作桌面就不需要。</p>
 <p>Linux允许为不同的场合，分配不同的开机启动程序，这就叫做”运行级别”（runlevel）。也就是说，启动时根据”运行级别”，确定要运行哪些程序。</p>
-<p><img src="https://www.runoob.com/wp-content/uploads/2014/06/bg2013081704.png" alt="img"></p>
+<p><img src= "/img/loading.gif" data-src="https://www.runoob.com/wp-content/uploads/2014/06/bg2013081704.png" alt="img"></p>
 <h4 id="4-系统初始化"><a href="#4-系统初始化" class="headerlink" title="4. 系统初始化"></a>4. 系统初始化</h4><p>在init的配置文件中有这么一行： si::sysinit:/etc/rc.d/rc.sysinit　它调用执行了/etc/rc.d/rc.sysinit，而rc.sysinit是一个bash shell的脚本，它主要是完成一些系统初始化的工作，rc.sysinit是每一个运行级别都要首先运行的重要脚本。</p>
 <p>它主要完成的工作有：激活交换分区，检查磁盘，加载硬件模块以及其它一些需要优先执行任务。</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">l5:5:wait:/etc/rc.d/rc 5</span><br><span class="line">这一行表示以5为参数运行/etc/rc.d/rc，/etc/rc.d/rc是一个Shell脚本，它接受5作为参数，去执行/etc/rc.d/rc5.d/目录下的所有的rc启动脚本，/etc/rc.d/rc5.d/目录中的这些启动脚本实际上都是一些连接文件，而不是真正的rc启动脚本，真正的rc启动脚本实际上都是放在/etc/rc.d/init.d/目录下。</span><br><span class="line">而这些rc启动脚本有着类似的用法，它们一般能接受start、stop、restart、status等参数。</span><br><span class="line">/etc/rc.d/rc5.d/中的rc启动脚本通常是K或S开头的连接文件，对于以 S 开头的启动脚本，将以start参数来运行。</span><br><span class="line">而如果发现存在相应的脚本也存在K打头的连接，而且已经处于运行态了(以/var/lock/subsys/下的文件作为标志)，则将首先以stop为参数停止这些已经启动了的守护进程，然后再重新运行。</span><br><span class="line">这样做是为了保证是当init改变运行级别时，所有相关的守护进程都将重启。</span><br><span class="line">至于在每个运行级中将运行哪些守护进程，用户可以通过chkconfig或setup中的&quot;System Services&quot;来自行设定。</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://www.runoob.com/wp-content/uploads/2014/06/bg2013081705.png" alt="img"></p>
+<p><img src= "/img/loading.gif" data-src="https://www.runoob.com/wp-content/uploads/2014/06/bg2013081705.png" alt="img"></p>
 <h4 id="5-建立终端"><a href="#5-建立终端" class="headerlink" title="5. 建立终端"></a>5. 建立终端</h4><p>rc执行完毕后，返回init。这时基本系统环境已经设置好了，各种守护进程也已经启动了。</p>
 <p>init接下来会打开6个终端，以便用户登录系统。在inittab中的以下6行就是定义了6个终端：</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">1:2345:respawn:/sbin/mingetty tty1</span><br><span class="line">2:2345:respawn:/sbin/mingetty tty2</span><br><span class="line">3:2345:respawn:/sbin/mingetty tty3</span><br><span class="line">4:2345:respawn:/sbin/mingetty tty4</span><br><span class="line">5:2345:respawn:/sbin/mingetty tty5</span><br><span class="line">6:2345:respawn:/sbin/mingetty tty6</span><br></pre></td></tr></table></figure>
@@ -256,7 +256,7 @@
 <li>（2）ssh登录</li>
 <li>（3）图形界面登录</li>
 </ul>
-<p><img src="https://www.runoob.com/wp-content/uploads/2014/06/bg2013081706.png" alt="img"></p>
+<p><img src= "/img/loading.gif" data-src="https://www.runoob.com/wp-content/uploads/2014/06/bg2013081706.png" alt="img"></p>
 <hr>
 <h3 id="1-2-centos7开机启动流程"><a href="#1-2-centos7开机启动流程" class="headerlink" title="1.2 centos7开机启动流程"></a>1.2 centos7开机启动流程</h3><h4 id="1-开机自检"><a href="#1-开机自检" class="headerlink" title="1. 开机自检"></a>1. 开机自检</h4><h4 id="2-MBR-GPT引导系统启动"><a href="#2-MBR-GPT引导系统启动" class="headerlink" title="2. MBR/GPT引导系统启动"></a>2. MBR/GPT引导系统启动</h4><h4 id="3-加载GRUB2菜单"><a href="#3-加载GRUB2菜单" class="headerlink" title="3. 加载GRUB2菜单"></a>3. 加载GRUB2菜单</h4><p>（选择内核版本）</p>
 <h4 id="4-加载内核选项"><a href="#4-加载内核选项" class="headerlink" title="4. 加载内核选项"></a>4. 加载内核选项</h4><h4 id="5-内核初始化使用systemd进程"><a href="#5-内核初始化使用systemd进程" class="headerlink" title="5. 内核初始化使用systemd进程"></a>5. 内核初始化使用<em>systemd</em>进程</h4><p>（启动的linux系统的第一个进程systemd）</p>
@@ -316,7 +316,7 @@
 <p><em>Centos5</em> 是启动速度最慢的，串行启动过程，无论进程相互之间有无依赖关系。</p>
 <p><em>Centos6</em> 相对启动速度有所改进。有依赖的进程之间依次启动而其他与之没有依赖关系的则并行同步启动。</p>
 <p><em>Centos7</em> 所有进程无论有无依赖关系则都是并行启动（当然很多时候进程没有真正启动而是只有一个信号或者说是标记而已，在真正利用的时候才会真正启 动）</p>
-<img src="../AppData/Roaming/Typora/typora-user-images/image-20210406205736481.png" alt="image-20210406205736481" style="zoom: 80%;" />
+<img src= "/img/loading.gif" data-src="../AppData/Roaming/Typora/typora-user-images/image-20210406205736481.png" alt="image-20210406205736481" style="zoom: 80%;" />
 
 
 
@@ -511,7 +511,7 @@
 <li><strong>参照完整性:</strong> 参照的完整性要求关系中不允许引用不存在的实体。与实体完整性是关系模型必须满足的完整性约束条件，目的是保证数据的一致性。</li>
 </ul>
 <p>MySQL 为关系型数据库(Relational Database Management System), 这种所谓的”关系型”可以理解为”表格”的概念, 一个关系型数据库由一个或数个表格组成, 如图所示的一个表格:</p>
-<p><img src="https://www.runoob.com/wp-content/uploads/2014/03/0921_1.jpg" alt="img"></p>
+<p><img src= "/img/loading.gif" data-src="https://www.runoob.com/wp-content/uploads/2014/03/0921_1.jpg" alt="img"></p>
 <ul>
 <li>表头(header): 每一列的名称;</li>
 <li>列(col): 具有相同数据类型的数据的集合;</li>
@@ -560,7 +560,7 @@
 <li><p><strong>系统级别的定时任务</strong></p>
 <p>比如写缓存数据到硬盘、临时文件清理、系统信息采集、日志文件切割。</p>
 <p>在/etc目录下有一个crontab文件，这个就是系统任务调度的配置文件。打开/etc目录，我们可以看到有很多cron相关的目录，如下：    </p>
-<img src="AppData/Roaming/Typora/typora-user-images/image-20210413155628596.png" alt="image-20210413155628596" style="zoom:150%;" />
+<img src= "/img/loading.gif" data-src="AppData/Roaming/Typora/typora-user-images/image-20210413155628596.png" alt="image-20210413155628596" style="zoom:150%;" />
 
 <p>cron.deny表示该文件中所列的用户不允许使用crontab命令;</p>
 <p>cron.daily表示每天都要按照计划完成的任务；</p>
@@ -611,7 +611,7 @@
 <li><p>项目背景: 网站因为安全配置导致病毒入侵,如何快速排查出哪些是病毒(被感染的文件或命令)</p>
 </li>
 <li><p>项目步骤: </p>
-<p><img src="AppData/Roaming/Typora/typora-user-images/image-20210414211016694.png" alt="image-20210414211016694"></p>
+<p><img src= "/img/loading.gif" data-src="AppData/Roaming/Typora/typora-user-images/image-20210414211016694.png" alt="image-20210414211016694"></p>
 </li>
 </ul>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">将系统中/etc/目录下的文件做指纹，指纹结果定向到file.md5中</span></span><br><span class="line">find /etc/ -type f | xargs md5sum &gt;&gt; /file.md5</span><br><span class="line"><span class="meta">#</span><span class="bash">进行校验</span></span><br><span class="line"><span class="meta">#</span><span class="bash">若无文件被修改 则输出ok ，若有则输出filed</span></span><br><span class="line">md5sum -c  file.md5</span><br><span class="line"><span class="meta">#</span><span class="bash">使被篡改的文件输出</span></span><br><span class="line">md5sum -c --quiet file.md5</span><br></pre></td></tr></table></figure>
@@ -647,35 +647,35 @@
 </ul>
 <h3 id="1-2-磁盘接口"><a href="#1-2-磁盘接口" class="headerlink" title="1.2 磁盘接口"></a>1.2 磁盘接口</h3><ul>
 <li><p>IDE（Integrated Drive Electronics）</p>
-<p><img src="https://exp-picture.cdn.bcebos.com/e9a4f2eeadbcbe2fb5bfecad54dae43b3a867865.jpg?x-bce-process=image/resize,m_lfit,w_500,limit_1/format,f_jpg/quality,q_80" alt="硬盘的接口种类"></p>
+<p><img src= "/img/loading.gif" data-src="https://exp-picture.cdn.bcebos.com/e9a4f2eeadbcbe2fb5bfecad54dae43b3a867865.jpg?x-bce-process=image/resize,m_lfit,w_500,limit_1/format,f_jpg/quality,q_80" alt="硬盘的接口种类"></p>
 <ul>
 <li>本意是指把“硬盘控制器”与“盘体”集成在一起的硬盘驱动器；</li>
 <li>优点：价格低廉兼容性好；</li>
 </ul>
 </li>
 <li><p>SCSI（Small Computer System Interface ）</p>
-<p><img src="https://exp-picture.cdn.bcebos.com/edafb3bcbe2f4770b5d7756f6f3b3b8603217965.jpg?x-bce-process=image/resize,m_lfit,w_500,limit_1/format,f_jpg/quality,q_80" alt="硬盘的接口种类"></p>
+<p><img src= "/img/loading.gif" data-src="https://exp-picture.cdn.bcebos.com/edafb3bcbe2f4770b5d7756f6f3b3b8603217965.jpg?x-bce-process=image/resize,m_lfit,w_500,limit_1/format,f_jpg/quality,q_80" alt="硬盘的接口种类"></p>
 <ul>
 <li>不是专门为硬盘设计的，而是一种总线型的系统接口；</li>
 <li>优点：适应面广高性能同时具备内、外置；</li>
 </ul>
 </li>
 <li><p>FC（Fibre Channel ）</p>
-<p><img src="https://exp-picture.cdn.bcebos.com/51cd85cec7f88a772f0d22f96e4a2f27e6eff865.jpg?x-bce-process=image/resize,m_lfit,w_500,limit_1/format,f_jpg/quality,q_80" alt="硬盘的接口种类"></p>
+<p><img src= "/img/loading.gif" data-src="https://exp-picture.cdn.bcebos.com/51cd85cec7f88a772f0d22f96e4a2f27e6eff865.jpg?x-bce-process=image/resize,m_lfit,w_500,limit_1/format,f_jpg/quality,q_80" alt="硬盘的接口种类"></p>
 <ul>
 <li>FC最初是专门为网络系统设计的随着存储系统对速度的需求，逐渐应用到硬盘系统中；</li>
 <li>优点：带宽高、连接距离长、连接设备数量大；</li>
 </ul>
 </li>
 <li><p>SATA（Serial ATA ）</p>
-<p><img src="http://www.dnpz.net/uploads/allimg/180122/983-1P1221054295Z.jpg" alt="电脑硬件知识：带你了解硬盘的各种接口类型"></p>
+<p><img src= "/img/loading.gif" data-src="http://www.dnpz.net/uploads/allimg/180122/983-1P1221054295Z.jpg" alt="电脑硬件知识：带你了解硬盘的各种接口类型"></p>
 <ul>
 <li>是一种完全不同于并行ATA的新型硬盘接口类型，由于采用串行方式传输数据而得名；</li>
 <li>优点：一对一连接，独享带宽、支持热插拔、低电压信号、带宽升级潜力大；</li>
 </ul>
 </li>
 <li><p>SAS（Serial Attached SCSI ） </p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/4101dfdf9cf599b1de7b5314b0861421.png" alt="image"></p>
+<p><img src= "/img/loading.gif" data-src="https://img-blog.csdnimg.cn/img_convert/4101dfdf9cf599b1de7b5314b0861421.png" alt="image"></p>
 <ul>
 <li><p>即串行连接SCSI，是新一代的SCSI技术，和SATA相同，都是采用串行技术以获得更高的传输速度，并通过缩短连接线改善内部空间 </p>
 </li>
@@ -732,7 +732,7 @@
 <li><p>block（4KB）是系统层面上面读写数据的单位 </p>
 </li>
 </ul>
-<p><img src="../AppData/Roaming/Typora/typora-user-images/image-20210330201437498.png" alt="image-20210330201437498"></p>
+<p><img src= "/img/loading.gif" data-src="../AppData/Roaming/Typora/typora-user-images/image-20210330201437498.png" alt="image-20210330201437498"></p>
 <h2 id="2-RAID独立冗余磁盘阵列"><a href="#2-RAID独立冗余磁盘阵列" class="headerlink" title="2. RAID独立冗余磁盘阵列"></a>2. RAID独立冗余磁盘阵列</h2><h3 id="2-1-概念"><a href="#2-1-概念" class="headerlink" title="2.1 概念"></a>2.1 概念</h3><p>简单的说，RAID是一种把多块独立的硬盘（物理硬盘）按不同的方式组 合起来形成一个硬盘组（逻辑硬盘），从而提高存储性能和容错功能。</p>
 <h3 id="2-2-raid级别"><a href="#2-2-raid级别" class="headerlink" title="2.2 raid级别"></a>2.2 raid级别</h3><ul>
 <li><p><em>raid0</em></p>
