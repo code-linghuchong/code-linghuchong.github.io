@@ -638,7 +638,9 @@
     <url>/Linux%E5%9F%BA%E7%A1%80/Linux%E7%A3%81%E7%9B%98%E7%AE%A1%E7%90%86/</url>
     <content><![CDATA[<h1 id="Linux磁盘管理"><a href="#Linux磁盘管理" class="headerlink" title="Linux磁盘管理"></a>Linux磁盘管理</h1><span id="more"></span>
 
-<h2 id="1-磁盘的分类及特点"><a href="#1-磁盘的分类及特点" class="headerlink" title="1. 磁盘的分类及特点"></a>1. 磁盘的分类及特点</h2><h3 id="1-1-磁盘的分类"><a href="#1-1-磁盘的分类" class="headerlink" title="1.1 磁盘的分类"></a>1.1 磁盘的分类</h3><ul>
+<h2 id="1-磁盘的分类及特点"><a href="#1-磁盘的分类及特点" class="headerlink" title="1. 磁盘的分类及特点"></a>1. 磁盘的分类及特点</h2><!--more-->
+
+<h3 id="1-1-磁盘的分类"><a href="#1-1-磁盘的分类" class="headerlink" title="1.1 磁盘的分类"></a>1.1 磁盘的分类</h3><ul>
 <li>机械硬盘hdd—容量大，价格便宜速度慢 ；</li>
 <li>固态硬盘sdd—容量小，价格较贵速度快；</li>
 </ul>
