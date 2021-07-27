@@ -6,6 +6,8 @@
     <content><![CDATA[<h1 id="LVS负载均衡"><a href="#LVS负载均衡" class="headerlink" title="LVS负载均衡"></a>LVS负载均衡</h1><h2 id="集群架构的概念"><a href="#集群架构的概念" class="headerlink" title="集群架构的概念"></a>集群架构的概念</h2><blockquote>
 <p>集群就是一组相互独立的服务器，通过高速的网络组成一个服务器系统，每个集群节点都是运行其自己进程的一个独立服务器。对网络用户来讲，网站后端就是一个单一的系统，协同起来向用户提供系统资源，系统服务。</p>
 </blockquote>
+<span id="more"></span>
+
 <h2 id="为什么使用集群架构"><a href="#为什么使用集群架构" class="headerlink" title="为什么使用集群架构"></a>为什么使用集群架构</h2><p><strong><font color='blue'> 1）集群的特点</font></strong></p>
 <ul>
 <li><p>高性能：</p>
