@@ -349,6 +349,9 @@
     <content><![CDATA[<h2 id="Linux系统终端"><a href="#Linux系统终端" class="headerlink" title="Linux系统终端"></a>Linux系统终端</h2><p>服务器终端切换：Ctrl + Alt +F1 … F6</p>
 <p>虚拟机终端切换： Ctrl + Shift + Alt + F1 … F6</p>
 <p>虚拟终端由<em>mingetty</em>程序生成</p>
+<span id="more"></span>
+
+
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">//物理机执行为本地终端</span><br><span class="line">[root@dennis.com ~]$ tty</span><br><span class="line">/dev/tty1</span><br><span class="line"></span><br><span class="line">//通过网路使用模拟终端远程连接Linux, 日常运维中就是这种方式</span><br><span class="line">[root@dennis.com ~]$ tty</span><br><span class="line">/dev/pts/0</span><br></pre></td></tr></table></figure>
 
 <h2 id="Linux系统Bash系统管理"><a href="#Linux系统Bash系统管理" class="headerlink" title="Linux系统Bash系统管理"></a>Linux系统Bash系统管理</h2><p>​                                              <img src="https://img1.baidu.com/it/u=404627178,1930063483&fm=15&fmt=auto&gp=0.jpg" alt="img" style="zoom: 50%;" /></p>
