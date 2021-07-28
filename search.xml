@@ -519,6 +519,95 @@
       </tags>
   </entry>
   <entry>
+    <title>定时任务</title>
+    <url>/Linux%E5%9F%BA%E7%A1%80/%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/</url>
+    <content><![CDATA[<h1 id="Linux定时任务"><a href="#Linux定时任务" class="headerlink" title="Linux定时任务"></a>Linux定时任务</h1><h2 id="定时任务基本概述"><a href="#定时任务基本概述" class="headerlink" title="定时任务基本概述"></a>定时任务基本概述</h2><ul>
+<li><p>crond简介</p>
+<p>Linux系统上面有很多计划性的工作，比如在某个时间点需要执行某个动作，在Linux中，一般使用crontab命令来实现控制计划任务，通过crontab 命令，我们可以在固定的间隔时间执行指定的系统指令或 shell script脚本。时间间隔的单位可以是分钟、小时、日、月、周及以上的任意组合。这个命令非常设合周期性的日志分析或数据备份等工作。crontab命令是基于crond这个系统服务的，crond服务是安装Linux系统时自动安装的，它会检查当前系统中是否有要执行的任务。</p>
+<p>Crond服务会定期（默认每分钟检查一次）检查系统中是否有要执行的任务工作，如果有，便会根据其预先设定的定时任务规则自动执行该定时任务工作，这个crond定时任务服务就相当于我们平时早起使用的闹钟一样。</p>
+</li>
+<li><p>Linux下的任务调度分为系统层面的任务调度和用户自定义的任务调度。</p>
+</li>
+</ul>
+<ol>
+<li><p><strong>系统级别的定时任务</strong></p>
+<p>比如写缓存数据到硬盘、临时文件清理、系统信息采集、日志文件切割。</p>
+<p>在/etc目录下有一个crontab文件，这个就是系统任务调度的配置文件。打开/etc目录，我们可以看到有很多cron相关的目录，如下：    </p>
+<img src="AppData/Roaming/Typora/typora-user-images/image-20210413155628596.png" alt="image-20210413155628596" style="zoom:150%;" />
+
+<p>cron.deny表示该文件中所列的用户不允许使用crontab命令;</p>
+<p>cron.daily表示每天都要按照计划完成的任务；</p>
+<p>cron.hourly表示每个小时都要按照计划完成的任务；</p>
+<p>cron.weekly表示每个小时都要按照计划完成的任务；</p>
+</li>
+<li><p><strong>用户级别的定时任务</strong></p>
+<p>定时向互联网同步时间、定时备份系统配置文件、定时备份数据库的数据。</p>
+<p>*/var/spool/cron/*目录是所有crontab文件存放的目录，以用户名命名</p>
+<p>如centos7.9下：/var/spool/cron/root </p>
+</li>
+</ol>
+<hr>
+<h2 id="crontab配置文件"><a href="#crontab配置文件" class="headerlink" title="crontab配置文件"></a>crontab配置文件</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vim /etc/crontab</span><br><span class="line">SHELL=/bin/bash</span><br><span class="line">PATH=/sbin:/bin:/usr/sbin:/usr/bin</span><br><span class="line">MAILTO=root</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> For details see man 4 crontabs</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Example of job definition:</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> .---------------- minute (0 - 59)</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> |  .------------- hour (0 - 23)</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> |  |  .---------- day of month (1 - 31)</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> |  |  |  .------- month (1 - 12) OR jan,feb,mar,apr ...</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> |  |  |  |  .---- day of week (0 - 6) (Sunday=0 or 7) OR sun,mon,tue,wed,thu,fri,sat</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> |  |  |  |  |</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> *  *  *  *  * user-name  <span class="built_in">command</span> to be executed</span></span><br><span class="line"></span><br><span class="line">备注：</span><br><span class="line">1） *  表示任意的(分、时、日、月、周)时间都执行</span><br><span class="line">2） -  表示一个时间范围段, 如5-7点</span><br><span class="line">3） ,  表示分隔时段, 如6,0,4表示周六、日、四</span><br><span class="line">4） /  表示每隔n单位时间, 如*/10 每10分钟</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="设置定时任务"><a href="#设置定时任务" class="headerlink" title="设置定时任务"></a>设置定时任务</h2><h3 id="crontab-命令选项："><a href="#crontab-命令选项：" class="headerlink" title="crontab 命令选项："></a>crontab 命令选项：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">-e                    #编辑定时任务</span><br><span class="line">-l                     #查看定时任务</span><br><span class="line">-r                     #删除定时任务</span><br><span class="line">-u                    #指定其他用户</span><br><span class="line">-i                     #在删除用户的crontab文件时给确认提示。</span><br></pre></td></tr></table></figure>
+
+<p><strong>服务操作说明</strong>：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">需提前安装软件包</span></span><br><span class="line">yum install -y ntpdate</span><br><span class="line">服务操作说明：</span><br><span class="line"></span><br><span class="line">/sbin/service crond start //启动服务</span><br><span class="line"></span><br><span class="line">/sbin/service crond stop //关闭服务</span><br><span class="line"></span><br><span class="line">/sbin/service crond restart //重启服务</span><br><span class="line"></span><br><span class="line">/sbin/service crond reload //重新载入配置</span><br><span class="line"></span><br><span class="line">/sbin/service crond status //启动服务</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-2-任务实例："><a href="#3-2-任务实例：" class="headerlink" title="3.2 任务实例："></a>3.2 任务实例：</h3><p><strong>示例一：</strong></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">示例1：使用root用户每2分钟执行一次时间同步</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">先在Linux系统上查看命令是否正确</span></span><br><span class="line">[root@tom ~]# ntpdate ntp1.aliyun.com</span><br><span class="line">12 Apr 12:59:18 ntpdate[69500]: adjust time server 120.25.115.20 offset 0.024905 sec</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">配置定时任务</span></span><br><span class="line"><span class="meta">#</span><span class="bash">编辑定时任务</span></span><br><span class="line">[root@tom  ~]# crontab -e -u root</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">每2分钟执行一次时间同步 by wxg At 2021.04.12</span></span><br><span class="line">*/2 * * * * /usr/sbin/ntpdate ntp1.aliyun.com &amp;&gt;/dev/null</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">查看定时任务</span></span><br><span class="line">[root@tom  ~]# crontab -l -u root</span><br><span class="line"><span class="meta">#</span><span class="bash">每2分钟执行一次时间同步 by wxg At 2021.04.12</span></span><br><span class="line">*/2 * * * * /usr/sbin/ntpdate ntp1.aliyun.com &amp;&gt;/dev/null</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例二</strong>：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">示例2：每天凌晨6点做一次备份 打包备份/etc/ 备份到/tmp中并命名当天日期</span><br><span class="line">crontab -e -u root</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">每天凌晨3点做一次备份？ 打包备份/etc/</span></span><br><span class="line"><span class="meta">#</span><span class="bash">  % 在crontab中比较特殊应用 \ 转义</span></span><br><span class="line">00 06 * * * tar zcf /tmp/`date +\%F_\%w`_etc.tar.gz /etc    </span><br><span class="line"></span><br><span class="line">pr 12 13:09:01 tom CRON[69714]: (tom) CMD (sudo tar ar zcf /tmp/`date +%F`_etc.tar.gz /etc   )</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-3-crond拒绝某个用户使用"><a href="#3-3-crond拒绝某个用户使用" class="headerlink" title="3.3 crond拒绝某个用户使用"></a>3.3 crond拒绝某个用户使用</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">1.使用root将需要拒绝的用户加入/etc/cron.deny</span></span><br><span class="line">[root@tom  ~]# echo &quot;Jerry&quot; &gt;&gt; /etc/cron.deny</span><br><span class="line"><span class="meta">#</span><span class="bash">2.登陆该普通用户，测试是否能编写定时任务</span></span><br><span class="line">[oldboy@tom  ~]$ crontab -e</span><br><span class="line">You (Jerry) are not allowed to use this program </span><br><span class="line">(crontab)</span><br><span class="line">See crontab(1) for more information</span><br></pre></td></tr></table></figure>
+
+<h3 id="crond注意的事项"><a href="#crond注意的事项" class="headerlink" title="crond注意的事项"></a>crond注意的事项</h3><ol>
+<li><p>给定时任务注释</p>
+</li>
+<li><p>将需要定期执行的任务写入<em>Shell</em>脚本中，避免直接使用命令无法执行的情况<em>tar date</em></p>
+</li>
+<li><p>定时任务的结尾一定要有*&amp;&gt;/dev/null*或者将结果追加重定向&gt;&gt;/tmp/date.log文件</p>
+<p>每条任务调度执行完毕，系统都会将任务输出信息通过电子邮件的形式发送给当前系统用户，这样日积月累，日志信息会非常大，可能会影响系统的正常运行，因此，将每条任务进行重定向处理非常重要。</p>
+</li>
+<li><p>注意有些命令是无法成功执行的 <em>echo “123” &gt;&gt;/tmp/test.log &amp;&gt;/dev/null</em></p>
+</li>
+<li><p>如果一定要是用命令，命令必须使用绝对路径</p>
+</li>
+</ol>
+<h3 id="crontab备份"><a href="#crontab备份" class="headerlink" title="crontab备份"></a>crontab备份</h3><p>通过查找*/var/log/cron*中执行的记录，去推算任务执行的时间</p>
+<p>定时的备份*/var/spool/cron/{username}*</p>
+<h2 id="定时任务安全项目实战练习"><a href="#定时任务安全项目实战练习" class="headerlink" title="定时任务安全项目实战练习"></a>定时任务安全项目实战练习</h2><ul>
+<li><p>项目名称: XXXXX网站安全检查项目</p>
+</li>
+<li><p>项目背景: 网站因为安全配置导致病毒入侵,如何快速排查出哪些是病毒(被感染的文件或命令)</p>
+</li>
+<li><p>项目步骤: </p>
+<p><img src="AppData/Roaming/Typora/typora-user-images/image-20210414211016694.png" alt="image-20210414211016694"></p>
+</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">将系统中/etc/目录下的文件做指纹，指纹结果定向到file.md5中</span></span><br><span class="line">find /etc/ -type f | xargs md5sum &gt;&gt; /file.md5</span><br><span class="line"><span class="meta">#</span><span class="bash">进行校验</span></span><br><span class="line"><span class="meta">#</span><span class="bash">若无文件被修改 则输出ok ，若有则输出filed</span></span><br><span class="line">md5sum -c  file.md5</span><br><span class="line"><span class="meta">#</span><span class="bash">使被篡改的文件输出</span></span><br><span class="line">md5sum -c --quiet file.md5</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="错误排查"><a href="#错误排查" class="headerlink" title="错误排查"></a>错误排查</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">crontab -e</span><br><span class="line">no crontab <span class="keyword">for</span> root - using an empty one</span><br><span class="line">/bin/sh: /usr/bin/vi: No such file or directory</span><br><span class="line">crontab: <span class="string">&quot;/usr/bin/vi&quot;</span> exited with status 127</span><br><span class="line"></span><br><span class="line">发生这种情况是因为没有正确定义编辑器。为此，您必须指定二进制文件的完整路径：</span><br><span class="line"><span class="built_in">export</span> EDITOR=/usr/bin/vim</span><br><span class="line">或者</span><br><span class="line"><span class="built_in">export</span> EDITOR=/usr/bin/vi</span><br></pre></td></tr></table></figure>
+
+<script src='https://cdn.jsdelivr.net/gh/sviptzk/HexoStaticFile@latest/Hexo/js/mouse_snow.min.js'></script>
+
+
+
+
+
+]]></content>
+      <categories>
+        <category>Linux基础</category>
+      </categories>
+      <tags>
+        <tag>cron</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Linux系统管理</title>
     <url>/Linux%E5%9F%BA%E7%A1%80/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86/</url>
     <content><![CDATA[<h1 id="系统调试"><a href="#系统调试" class="headerlink" title="系统调试"></a>系统调试</h1><span id="more"></span>
@@ -786,95 +875,6 @@
       </categories>
       <tags>
         <tag>system</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>定时任务</title>
-    <url>/Linux%E5%9F%BA%E7%A1%80/%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/</url>
-    <content><![CDATA[<h1 id="Linux定时任务"><a href="#Linux定时任务" class="headerlink" title="Linux定时任务"></a>Linux定时任务</h1><h2 id="定时任务基本概述"><a href="#定时任务基本概述" class="headerlink" title="定时任务基本概述"></a>定时任务基本概述</h2><ul>
-<li><p>crond简介</p>
-<p>Linux系统上面有很多计划性的工作，比如在某个时间点需要执行某个动作，在Linux中，一般使用crontab命令来实现控制计划任务，通过crontab 命令，我们可以在固定的间隔时间执行指定的系统指令或 shell script脚本。时间间隔的单位可以是分钟、小时、日、月、周及以上的任意组合。这个命令非常设合周期性的日志分析或数据备份等工作。crontab命令是基于crond这个系统服务的，crond服务是安装Linux系统时自动安装的，它会检查当前系统中是否有要执行的任务。</p>
-<p>Crond服务会定期（默认每分钟检查一次）检查系统中是否有要执行的任务工作，如果有，便会根据其预先设定的定时任务规则自动执行该定时任务工作，这个crond定时任务服务就相当于我们平时早起使用的闹钟一样。</p>
-</li>
-<li><p>Linux下的任务调度分为系统层面的任务调度和用户自定义的任务调度。</p>
-</li>
-</ul>
-<ol>
-<li><p><strong>系统级别的定时任务</strong></p>
-<p>比如写缓存数据到硬盘、临时文件清理、系统信息采集、日志文件切割。</p>
-<p>在/etc目录下有一个crontab文件，这个就是系统任务调度的配置文件。打开/etc目录，我们可以看到有很多cron相关的目录，如下：    </p>
-<img src="AppData/Roaming/Typora/typora-user-images/image-20210413155628596.png" alt="image-20210413155628596" style="zoom:150%;" />
-
-<p>cron.deny表示该文件中所列的用户不允许使用crontab命令;</p>
-<p>cron.daily表示每天都要按照计划完成的任务；</p>
-<p>cron.hourly表示每个小时都要按照计划完成的任务；</p>
-<p>cron.weekly表示每个小时都要按照计划完成的任务；</p>
-</li>
-<li><p><strong>用户级别的定时任务</strong></p>
-<p>定时向互联网同步时间、定时备份系统配置文件、定时备份数据库的数据。</p>
-<p>*/var/spool/cron/*目录是所有crontab文件存放的目录，以用户名命名</p>
-<p>如centos7.9下：/var/spool/cron/root </p>
-</li>
-</ol>
-<hr>
-<h2 id="crontab配置文件"><a href="#crontab配置文件" class="headerlink" title="crontab配置文件"></a>crontab配置文件</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vim /etc/crontab</span><br><span class="line">SHELL=/bin/bash</span><br><span class="line">PATH=/sbin:/bin:/usr/sbin:/usr/bin</span><br><span class="line">MAILTO=root</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> For details see man 4 crontabs</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Example of job definition:</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> .---------------- minute (0 - 59)</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> |  .------------- hour (0 - 23)</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> |  |  .---------- day of month (1 - 31)</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> |  |  |  .------- month (1 - 12) OR jan,feb,mar,apr ...</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> |  |  |  |  .---- day of week (0 - 6) (Sunday=0 or 7) OR sun,mon,tue,wed,thu,fri,sat</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> |  |  |  |  |</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> *  *  *  *  * user-name  <span class="built_in">command</span> to be executed</span></span><br><span class="line"></span><br><span class="line">备注：</span><br><span class="line">1） *  表示任意的(分、时、日、月、周)时间都执行</span><br><span class="line">2） -  表示一个时间范围段, 如5-7点</span><br><span class="line">3） ,  表示分隔时段, 如6,0,4表示周六、日、四</span><br><span class="line">4） /  表示每隔n单位时间, 如*/10 每10分钟</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="设置定时任务"><a href="#设置定时任务" class="headerlink" title="设置定时任务"></a>设置定时任务</h2><h3 id="crontab-命令选项："><a href="#crontab-命令选项：" class="headerlink" title="crontab 命令选项："></a>crontab 命令选项：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">-e                    #编辑定时任务</span><br><span class="line">-l                     #查看定时任务</span><br><span class="line">-r                     #删除定时任务</span><br><span class="line">-u                    #指定其他用户</span><br><span class="line">-i                     #在删除用户的crontab文件时给确认提示。</span><br></pre></td></tr></table></figure>
-
-<p><strong>服务操作说明</strong>：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">需提前安装软件包</span></span><br><span class="line">yum install -y ntpdate</span><br><span class="line">服务操作说明：</span><br><span class="line"></span><br><span class="line">/sbin/service crond start //启动服务</span><br><span class="line"></span><br><span class="line">/sbin/service crond stop //关闭服务</span><br><span class="line"></span><br><span class="line">/sbin/service crond restart //重启服务</span><br><span class="line"></span><br><span class="line">/sbin/service crond reload //重新载入配置</span><br><span class="line"></span><br><span class="line">/sbin/service crond status //启动服务</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="3-2-任务实例："><a href="#3-2-任务实例：" class="headerlink" title="3.2 任务实例："></a>3.2 任务实例：</h3><p><strong>示例一：</strong></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">示例1：使用root用户每2分钟执行一次时间同步</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">先在Linux系统上查看命令是否正确</span></span><br><span class="line">[root@tom ~]# ntpdate ntp1.aliyun.com</span><br><span class="line">12 Apr 12:59:18 ntpdate[69500]: adjust time server 120.25.115.20 offset 0.024905 sec</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">配置定时任务</span></span><br><span class="line"><span class="meta">#</span><span class="bash">编辑定时任务</span></span><br><span class="line">[root@tom  ~]# crontab -e -u root</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">每2分钟执行一次时间同步 by wxg At 2021.04.12</span></span><br><span class="line">*/2 * * * * /usr/sbin/ntpdate ntp1.aliyun.com &amp;&gt;/dev/null</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">查看定时任务</span></span><br><span class="line">[root@tom  ~]# crontab -l -u root</span><br><span class="line"><span class="meta">#</span><span class="bash">每2分钟执行一次时间同步 by wxg At 2021.04.12</span></span><br><span class="line">*/2 * * * * /usr/sbin/ntpdate ntp1.aliyun.com &amp;&gt;/dev/null</span><br></pre></td></tr></table></figure>
-
-<p><strong>示例二</strong>：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">示例2：每天凌晨6点做一次备份 打包备份/etc/ 备份到/tmp中并命名当天日期</span><br><span class="line">crontab -e -u root</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">每天凌晨3点做一次备份？ 打包备份/etc/</span></span><br><span class="line"><span class="meta">#</span><span class="bash">  % 在crontab中比较特殊应用 \ 转义</span></span><br><span class="line">00 06 * * * tar zcf /tmp/`date +\%F_\%w`_etc.tar.gz /etc    </span><br><span class="line"></span><br><span class="line">pr 12 13:09:01 tom CRON[69714]: (tom) CMD (sudo tar ar zcf /tmp/`date +%F`_etc.tar.gz /etc   )</span><br></pre></td></tr></table></figure>
-
-<h3 id="3-3-crond拒绝某个用户使用"><a href="#3-3-crond拒绝某个用户使用" class="headerlink" title="3.3 crond拒绝某个用户使用"></a>3.3 crond拒绝某个用户使用</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">1.使用root将需要拒绝的用户加入/etc/cron.deny</span></span><br><span class="line">[root@tom  ~]# echo &quot;Jerry&quot; &gt;&gt; /etc/cron.deny</span><br><span class="line"><span class="meta">#</span><span class="bash">2.登陆该普通用户，测试是否能编写定时任务</span></span><br><span class="line">[oldboy@tom  ~]$ crontab -e</span><br><span class="line">You (Jerry) are not allowed to use this program </span><br><span class="line">(crontab)</span><br><span class="line">See crontab(1) for more information</span><br></pre></td></tr></table></figure>
-
-<h3 id="crond注意的事项"><a href="#crond注意的事项" class="headerlink" title="crond注意的事项"></a>crond注意的事项</h3><ol>
-<li><p>给定时任务注释</p>
-</li>
-<li><p>将需要定期执行的任务写入<em>Shell</em>脚本中，避免直接使用命令无法执行的情况<em>tar date</em></p>
-</li>
-<li><p>定时任务的结尾一定要有*&amp;&gt;/dev/null*或者将结果追加重定向&gt;&gt;/tmp/date.log文件</p>
-<p>每条任务调度执行完毕，系统都会将任务输出信息通过电子邮件的形式发送给当前系统用户，这样日积月累，日志信息会非常大，可能会影响系统的正常运行，因此，将每条任务进行重定向处理非常重要。</p>
-</li>
-<li><p>注意有些命令是无法成功执行的 <em>echo “123” &gt;&gt;/tmp/test.log &amp;&gt;/dev/null</em></p>
-</li>
-<li><p>如果一定要是用命令，命令必须使用绝对路径</p>
-</li>
-</ol>
-<h3 id="crontab备份"><a href="#crontab备份" class="headerlink" title="crontab备份"></a>crontab备份</h3><p>通过查找*/var/log/cron*中执行的记录，去推算任务执行的时间</p>
-<p>定时的备份*/var/spool/cron/{username}*</p>
-<h2 id="定时任务安全项目实战练习"><a href="#定时任务安全项目实战练习" class="headerlink" title="定时任务安全项目实战练习"></a>定时任务安全项目实战练习</h2><ul>
-<li><p>项目名称: XXXXX网站安全检查项目</p>
-</li>
-<li><p>项目背景: 网站因为安全配置导致病毒入侵,如何快速排查出哪些是病毒(被感染的文件或命令)</p>
-</li>
-<li><p>项目步骤: </p>
-<p><img src="AppData/Roaming/Typora/typora-user-images/image-20210414211016694.png" alt="image-20210414211016694"></p>
-</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">将系统中/etc/目录下的文件做指纹，指纹结果定向到file.md5中</span></span><br><span class="line">find /etc/ -type f | xargs md5sum &gt;&gt; /file.md5</span><br><span class="line"><span class="meta">#</span><span class="bash">进行校验</span></span><br><span class="line"><span class="meta">#</span><span class="bash">若无文件被修改 则输出ok ，若有则输出filed</span></span><br><span class="line">md5sum -c  file.md5</span><br><span class="line"><span class="meta">#</span><span class="bash">使被篡改的文件输出</span></span><br><span class="line">md5sum -c --quiet file.md5</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="错误排查"><a href="#错误排查" class="headerlink" title="错误排查"></a>错误排查</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">crontab -e</span><br><span class="line">no crontab <span class="keyword">for</span> root - using an empty one</span><br><span class="line">/bin/sh: /usr/bin/vi: No such file or directory</span><br><span class="line">crontab: <span class="string">&quot;/usr/bin/vi&quot;</span> exited with status 127</span><br><span class="line"></span><br><span class="line">发生这种情况是因为没有正确定义编辑器。为此，您必须指定二进制文件的完整路径：</span><br><span class="line"><span class="built_in">export</span> EDITOR=/usr/bin/vim</span><br><span class="line">或者</span><br><span class="line"><span class="built_in">export</span> EDITOR=/usr/bin/vi</span><br></pre></td></tr></table></figure>
-
-<script src='https://cdn.jsdelivr.net/gh/sviptzk/HexoStaticFile@latest/Hexo/js/mouse_snow.min.js'></script>
-
-
-
-
-
-]]></content>
-      <categories>
-        <category>Linux基础</category>
-      </categories>
-      <tags>
-        <tag>cron</tag>
       </tags>
   </entry>
   <entry>
