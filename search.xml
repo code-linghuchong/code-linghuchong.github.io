@@ -1,6 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>LVS负载均衡</title>
+    <url>/Linux%E9%9B%86%E7%BE%A4%E6%9E%B6%E6%9E%84/LVS%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/</url>
+    <content><![CDATA[<h1 id="LVS负载均衡"><a href="#LVS负载均衡" class="headerlink" title="LVS负载均衡"></a>LVS负载均衡</h1><h2 id="集群架构的概念"><a href="#集群架构的概念" class="headerlink" title="集群架构的概念"></a>集群架构的概念</h2><blockquote>
+<p>集群就是一组相互独立的服务器，通过高速的网络组成一个服务器系统，每个集群节点都是运行其自己进程的一个独立服务器。对网络用户来讲，网站后端就是一个单一的系统，协同起来向用户提供系统资源，系统服务。</p>
+</blockquote>
+<span id="more"></span>
+
+<h2 id="为什么使用集群架构"><a href="#为什么使用集群架构" class="headerlink" title="为什么使用集群架构"></a>为什么使用集群架构</h2><p><strong><font color='blue'> 1）集群的特点</font></strong></p>
+<ul>
+<li><p>高性能：</p>
+<p>需要很强的运算处理能力比如天气预报，核试验等。这就不是几台服务器能够搞定的。这需要上千台一起来完成这个工作的。</p>
+</li>
+<li><p>经济有效性：</p>
+<p>通常一套系统集群架构，只需要几台或数十台服务器主机即可，与动则上百万的专用超级服务器具有更高的性价比。</p>
+</li>
+<li><p>可伸缩性：</p>
+<p>当服务器负载压力增长的时候，系统能够扩展来满足需求，且不降低服务质量。</p>
+</li>
+<li><p>高可用性：</p>
+<p> 尽管部分硬件和软件发生故障，整个系统的服务必须是7*24小时运行的。</p>
+</li>
+</ul>
+<p><strong><font color='blue'>2） 集群的优势</font></strong></p>
+<ul>
+<li><p>透明性：</p>
+<p>如果一部分服务器宕机了业务不受影响，一般耦合度没有那么高，依赖关系没有那么高。比如NFS服务器宕机了其他就挂载不了了，这样依赖性太强。</p>
+</li>
+<li><p>高性能：</p>
+<p>访问量增加，能够轻松扩展。</p>
+</li>
+<li><p>可管理型</p>
+<p>整个系统可能在物理上很大，但很容易管理。</p>
+</li>
+<li><p>可编程性</p>
+<p>在集群系统上，容易开发应用程序，门户网站会要求这个。</p>
+</li>
+</ul>
+<p><strong><font color='blue'>2） 集群分类及不同的特点</font></strong></p>
+<p>计算机集群架构按照功能和结构一般分成以下几类：</p>
+<ol>
+<li>负载均衡集群（Loadbalancingclusters）简称LBC</li>
+<li> 高可用性集群（High-availabilityclusters）简称HAC</li>
+<li> 高性能计算集群（High-perfomanceclusters）简称HPC</li>
+<li> 网格计算（Gridcomputing）</li>
+</ol>
+<h2 id="负载均衡集群介绍"><a href="#负载均衡集群介绍" class="headerlink" title="负载均衡集群介绍"></a>负载均衡集群介绍</h2><p>负载均衡集群, 是一种将网络上的访问流量分布于各个节点，以降低服务器压力，更好的向客户端提供服务的一种方式。</p>
+<p><strong><font color='blue'>负载均衡集群的作用：</font></strong></p>
+<table><tr><td bgcolor=Beige>提供一种廉价、有效、透明的方法，来扩展网络设备和服务器的负载带宽、增加吞吐量，加强网络数据处理能力、提高网络的灵活性和可用性。</td></tr></table>
+
+<p>简单来说,也就是:</p>
+<blockquote>
+<p>把单台计算机无法承受的大规模的并发访问或数据流量分担到多台节点设备上分别处理，减少用户等待响应的时间，提升用户体验。</p>
+<p>单个重负载的运算分担到多台节点设备上做并行处理，每个节点设备处理结束后，将结果汇总，返回给用户，系统处理能力得到大幅度提高。</p>
+<p>7*24小时的服务保证，任意一个或多个设备节点设备宕机，不能影响到业务。在负载均衡集群中，所有计算机节点都应该提供相同的服务，集群负载均衡获取所有对该服务的如站请求。</p>
+</blockquote>
+<p><strong><font color='blue'>常用的负载分为：</font></strong></p>
+<ul>
+<li>开源软件负载均衡：<strong>Nginx, LVS, Haproxy</strong> (<strong>Nginx</strong>和<strong>Haproxy</strong>通常做七层负载均衡, <strong>LVS</strong>做四层负载均衡. 但是<strong>Nginx</strong>也可以通过<strong>stream</strong>模块做四层负载均衡, <strong>Haproxy</strong>也可以做四层负载均衡 ) ;</li>
+<li> 商业的硬件负载均衡: 设备F5、Netscale 。</li>
+</ul>
+<p><strong><font color='blue'>简单理解一下软件负载均衡:</font></strong></p>
+<p>1） 所谓分层的负载均衡，都是以网络的模型来说的。四层就是基于IP和端口的负载均衡，七层就是基于URL等应用信息的负载均衡。所以简单的说四层负载均衡就是通过IP和端口接收请求再分发至真实的服务器，七层是通过URL或主机名接收请求，然后分发至真实的服务器。</p>
+<p>2） 而七层的实现也是在四层的基础上是实现的，没有四层就不可能有七层。在第七层上可以做许多事情，比如可以根据七层的浏览器类别区分是手机还是PC，将WEB服务器分为2组，手机登陆专门的移动端网站。</p>
+<p>3）对客户端来说，客户端好像是访问的同一台主机。其实为了有更好的用户体验，从智能DNS入手，根据客户端IP来源将域名解析到距离客户端最近的一台服务器或者访问最快速的一台服务器，但这些内容客户端都是感觉不到的，客户端感觉到的只能是访问网站很快。</p>
+<p>​                      <img src= "/img/loading.gif" data-src="https://note.youdao.com/yws/api/personal/file/WEB4c1173b965fcc891e53e399791803f06?method=download&shareKey=8e16d58edd3de26fa824958e8cbf1b2d" alt="avatar">   </p>
+<p>负载均衡的原理很简单，就是当客户端发起请求时，请求直接发给Director  Server（调度器），这时会根据设定的调度算法，将请求按照算法的规定智能的分发到真正的后台服务器。以达到将压力均摊。但是我们知道，http的连接时无状态的，假设这样一个场景，我登录某宝买东西，当我看上某款商品时，我将它加入购物车，但是我刷新了一下页面，这时由于负载均衡的原因，调度器又选了新的一台服务器为我提供服务，我刚才的购物车内容全都不见了，这样就会有十分差的用户体验。所以就还需要一个存储共享，这样就保证了用户请求的数据是一样的。所以LVS负载均衡分为三层架构(也就是LVS负载均衡主要组成部分)：</p>
+<p><font color='purple'><strong>第一层</strong>：</font>&lt;负载调度器（load balancer/ Director），它是整个集群的总代理，它在有两个网卡，一个网卡面对访问网站的客户端，一个网卡面对整个集群的内部。负责将客户端的请求发送到一组服务器上执行，而客户也认为服务是来自这台主的。举个生动的例子，集群是个公司，负载调度器就是在外接揽生意，将接揽到的生意分发给后台的真正干活的真正的主机们。当然需要将活按照一定的算法分发下去，让大家都公平的干活。<br>      <font color='purple'> <strong>第二层</strong>：</font>服务器池（server pool/ Realserver），是一组真正执行客户请求的服务器，可以当做WEB服务器。就是上面例子中的小员工。<br>        <font color='purple'><strong>第三层</strong></font>：共享存储（shared storage），它为服务器池提供一个共享的存储区，这样很容易使得服务器池拥有相同的内容，提供相同的服务。一个公司得有一个后台账目吧，这才能协调。不然客户把钱付给了A，而换B接待客户，因为没有相同的账目。B说客户没付钱，那这样就不是客户体验度的问题了。</p>
+<h2 id="LVS负载均衡-1"><a href="#LVS负载均衡-1" class="headerlink" title="LVS负载均衡"></a>LVS负载均衡</h2><h3 id="IPVS（LVS）发展史"><a href="#IPVS（LVS）发展史" class="headerlink" title="IPVS（LVS）发展史"></a>IPVS（LVS）发展史</h3><p>在linux2.2内核时，IPVS就已经以内核补丁的形式出现</p>
+<p>从2.4。24版本以后IPVS已经成为linux内核官方标准内核的一部分</p>
+<h3 id="LVS工作原理"><a href="#LVS工作原理" class="headerlink" title="LVS工作原理"></a>LVS工作原理</h3><p>LVS负载均衡调度技术是在linux内核中实现的，我们使用配置LVS时，不是直接配置内核中的IPVS，而是通过IPVS的管理工具IPVSADM来管理配置</p>
+<p>LVS集群负载均衡器接受所有入站客户端的请求，并根据算法来决定由哪个集群的节点来处理请求</p>
+<h3 id="LVS相关术语介绍"><a href="#LVS相关术语介绍" class="headerlink" title="LVS相关术语介绍"></a>LVS相关术语介绍</h3><ul>
+<li>虚拟IP地址（VIP）  </li>
+</ul>
+<p>​       用于向客户端提供服务的IP地址（配置于负载均衡器上）</p>
+<ul>
+<li><p>真实的IP地址（RIP） </p>
+<p>集群中节点服务器的IP地址</p>
+</li>
+<li><p>负载均衡器IP地址（DIP）</p>
+<p>负载均衡器的IP地址，物理网卡上的IP，用与同外网连接的地址</p>
+</li>
+<li><p>客户端主机IP地址（CIP）</p>
+<p> 终端请求用户的主机IP地址</p>
+</li>
+</ul>
+<h2 id="LVS几种工作模式的介绍"><a href="#LVS几种工作模式的介绍" class="headerlink" title="LVS几种工作模式的介绍"></a>LVS几种工作模式的介绍</h2><h3 id="NAT网络地址转换模式（VS-NAT）"><a href="#NAT网络地址转换模式（VS-NAT）" class="headerlink" title="NAT网络地址转换模式（VS/NAT）"></a>NAT网络地址转换模式（VS/NAT）</h3><p> 通过网络地址转换，调度器LB重写请求报文的目标地址，根据算法将请求分配给后端的真实主机服务器，真实服务器响应处理报文后返回给调度器LB，经过LB的报文源地址被重写，再返回给请求的客户端用户。</p>
+<p><img src= "/img/loading.gif" data-src="https://note.youdao.com/yws/api/personal/file/WEB03f9c89dbb5637c2350f56cc00857e51?method=download&shareKey=bff8b56b7053b600ad043bd381fba50a" alt="avatar"></p>
+<p><em><strong><font color='red'>过程详解：</font></strong></em></p>
+<blockquote>
+<p>1：客户端请求CIP（192.168.16.15:80)目标的地址是VIP(10.0.0.3:80);</p>
+<p>2：数据经过LB，目的地址将被LB改写成后端服务器其中一个主机地址（RIP 172.168.1.7:80）</p>
+<p>3：服务器接收到数据请求后返回应答信息（源地址：172.168.1.7:80，目的地址：10.0.0.3:80，因此处的网关地址需指向LB）给LB</p>
+<p>4：LB需将源数据地址改写成VIP地址（10.0.0.3:80，但实际的源地址是RIP1的地址）</p>
+<p>5：LB将数据返回给请求的客户端用户，完成整个流程的访问,因此WEB访问量很大的时候，LB就会有很大的负载压力，一般支持10-20台节点，但是这种模式支持IP和端口的转换功能，即192.168.16.15:80—-&gt;10.0.0.3:80—-&gt;172.168.1.7:80</p>
+</blockquote>
+<h3 id="DR模式（Direct-Routing）直接路由模式"><a href="#DR模式（Direct-Routing）直接路由模式" class="headerlink" title="DR模式（Direct Routing）直接路由模式"></a>DR模式（Direct Routing）直接路由模式</h3><p>DR模式也就是用直接路由技术实现虚拟服务器。它的连接调度和管理与VS/NAT和VS/TUN中的一样，但它的报文转发方法又有不同，VS/DR通过改写请求报文的MAC地址，将请求发送到Real Server，而Real  Server将响应直接返回给客户，免去了VS/TUN中的IP隧道开销。这种方式是三种负载调度机制中性能最高最好的，但是必须要求Director  Server与Real Server都有一块网卡连在同一物理网段上。</p>
+<p>Director和RealServer必需在物理上有一个网卡通过不间断的局域网相连。  RealServer上绑定的VIP配置在各自Non-ARP的网络设备上(如lo或tunl),Director的VIP地址对外可见，而RealServer的VIP对外是不可见的。RealServer的地址即可以是内部地址，也可以是真实地址。</p>
+<p>DR模式是通过改写请求报文的目标MAC地址，将请求发给真实服务器的，而真实服务器响应后的处理结果直接返回给客户端用户。同TUN模式一样，DR模式可以极大的提高集群系统的伸缩性。而且DR模式没有IP隧道的开销，对集群中的真实服务器也没有必要必须支持IP隧道协议的要求。但是要求调度器LB与真实服务器RS都有一块网卡连接到同一物理网段上，必须在同一个局域网环境。</p>
+<p><strong>DR模式是互联网使用比较多的一种模式</strong>，DR模式原理图如下：</p>
+<p>​                        <img src= "/img/loading.gif" data-src="https://note.youdao.com/yws/api/personal/file/WEB9d1c7fcee56cc40f9758bad3319261ab?method=download&shareKey=9643baccbc0de23b0f1459d5e96d3e28" alt="avatar"></p>
+<p><strong>DR模式以上原理过程简述：</strong><br>VS/DR模式的工作流程图如上图所示，它的连接调度和管理与NAT和TUN中的一样，它的报文转发方法和前两种不同。DR模式将报文直接路由给目标真实服务器。在DR模式中，调度器根据各个真实服务器的负载情况，连接数多少等，动态地选择一台服务器，不修改目标IP地址和目标端口，也不封装IP报文，而是将请求报文的数据帧的目标MAC地址改为真实服务器的MAC地址。然后再将修改的数据帧在服务器组的局域网上发送。因为数据帧的MAC地址是真实服务器的MAC地址，并且又在同一个局域网。那么根据局域网的通讯原理，真实复位是一定能够收到由LB发出的数据包。真实服务器接收到请求数据包的时候，解开IP包头查看到的目标IP是VIP。（此时只有自己的IP符合目标IP才会接收进来，所以我们需要在本地的回环借口上面配置VIP。</p>
+<p>另外:  由于网络接口都会进行ARP广播响应，但集群的其他机器都有这个VIP的lo接口，都响应就会冲突。所以我们需要把真实服务器的lo接口的ARP响应关闭掉。）然后真实服务器做成请求响应，之后根据自己的路由信息将这个响应数据包发送回给客户，并且源IP地址还是VIP。</p>
+<p>其实整个DR模式都是停留在第二层的数据链路层, 直接修改MAC。实现报文的转发。再看下面的DR模式图:</p>
+<p><img src= "/img/loading.gif" data-src="https://note.youdao.com/yws/api/personal/file/WEBb0dd5b7ea5d8acddec5896a570c900ad?method=download&shareKey=3ae24eb26c6d5ce0657f77cf841ab314" alt="img"></p>
+<blockquote>
+<p>1） 当用户请求到达Director Server，此时请求的数据报文会先到内核空间的PREROUTING链。 此时报文的源IP为CIP，目标IP为VIP;</p>
+<p>2）PREROUTING检查发现数据包的目标IP是本机，将数据包送至INPUT链;</p>
+<p>3）   IPVS比对数据包请求的服务是否为集群服务，若是，将请求报文中的源MAC地址修改为DIP的MAC地址，将目标MAC地址修改RIP的MAC地址，然后将数据包发至POSTROUTING链。 此时的源IP和目的IP均未修改，仅修改了源MAC地址为DIP的MAC地址，目标MAC地址为RIP的MAC地址;</p>
+<p>4）由于DS和RS在同一个网络中，所以是通过二层来传输。POSTROUTING链检查目标MAC地址为RIP的MAC地址，那么此时数据包将会发至Real Server;</p>
+<p>5）响应报文最终送达至客户端;</p>
+</blockquote>
+<p><strong>注：LB只能改写目的MAC地址，因此它不能改变请求报文的目的端口端口，LVS只支持unix和linux，但集群节点服务器可以是win系统，此种模式配置相当麻烦</strong></p>
+<blockquote>
+<p>1 在前端路由器做静态地址路由绑定，将对于VIP的地址仅路由 到Director Server<br>\2arptables：在arp的层次上实现在ARP解析时做防火墙规则，过滤RS响应ARP请求。修改RS上内核参数（arp_ignore和arp_announce）将RS上的VIP配置在网卡接口的别名上，并限制其不能响应对VIP地址解析请求。<br>3)RS可以使用私有地址；但也可以使用公网地址，此时可以直接通过互联网连入RS以实现配置、监控等；<br>4)RS的网关一定不能指向DIP；<br>5)RS跟Dirctory要在同一物理网络内（不能由路由器分隔）；<br>6)请求报文经过Directory，但响应报文一定不经过Director</p>
+</blockquote>
+<p>LVS的调度算法决定了如何在集群节点之间分配负载压力（访问请求）</p>
+<p><strong>调度算法：</strong></p>
+<p><strong>rr</strong>轮循调度：将请求依次分配给集群的节点，这种算法适用于各个节点处理能力基本相同的情况下</p>
+<p><strong>wrr</strong>加权轮循调度：根据节点的权重来分配，权重较高的优先分配</p>
+<p><strong>wlc</strong>加权最小连接数调度：按权重和连接数的数量来分配</p>
+<p><strong>lc</strong>最小连接数调度：按连接数的数量来分配</p>
+<p><strong>实际生产环境LVS调度算法选型</strong></p>
+<p>一般网络服务，如HTTP、MAIL、MYSQL常用的调度算法有：rr、wlc、wrr</p>
+<script src='https://cdn.jsdelivr.net/gh/sviptzk/HexoStaticFile@latest/Hexo/js/mouse_snow.min.js'></script>
+
+]]></content>
+      <categories>
+        <category>Linux集群架构</category>
+      </categories>
+      <tags>
+        <tag>LVS</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Linux用户管理</title>
     <url>/Linux%E5%9F%BA%E7%A1%80/Linux%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86/</url>
     <content><![CDATA[<h1 id="用户管理"><a href="#用户管理" class="headerlink" title="用户管理"></a>用户管理</h1><span id="more"></span>
@@ -209,141 +344,6 @@
       </tags>
   </entry>
   <entry>
-    <title>LVS负载均衡</title>
-    <url>/Linux%E9%9B%86%E7%BE%A4%E6%9E%B6%E6%9E%84/LVS%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/</url>
-    <content><![CDATA[<h1 id="LVS负载均衡"><a href="#LVS负载均衡" class="headerlink" title="LVS负载均衡"></a>LVS负载均衡</h1><h2 id="集群架构的概念"><a href="#集群架构的概念" class="headerlink" title="集群架构的概念"></a>集群架构的概念</h2><blockquote>
-<p>集群就是一组相互独立的服务器，通过高速的网络组成一个服务器系统，每个集群节点都是运行其自己进程的一个独立服务器。对网络用户来讲，网站后端就是一个单一的系统，协同起来向用户提供系统资源，系统服务。</p>
-</blockquote>
-<span id="more"></span>
-
-<h2 id="为什么使用集群架构"><a href="#为什么使用集群架构" class="headerlink" title="为什么使用集群架构"></a>为什么使用集群架构</h2><p><strong><font color='blue'> 1）集群的特点</font></strong></p>
-<ul>
-<li><p>高性能：</p>
-<p>需要很强的运算处理能力比如天气预报，核试验等。这就不是几台服务器能够搞定的。这需要上千台一起来完成这个工作的。</p>
-</li>
-<li><p>经济有效性：</p>
-<p>通常一套系统集群架构，只需要几台或数十台服务器主机即可，与动则上百万的专用超级服务器具有更高的性价比。</p>
-</li>
-<li><p>可伸缩性：</p>
-<p>当服务器负载压力增长的时候，系统能够扩展来满足需求，且不降低服务质量。</p>
-</li>
-<li><p>高可用性：</p>
-<p> 尽管部分硬件和软件发生故障，整个系统的服务必须是7*24小时运行的。</p>
-</li>
-</ul>
-<p><strong><font color='blue'>2） 集群的优势</font></strong></p>
-<ul>
-<li><p>透明性：</p>
-<p>如果一部分服务器宕机了业务不受影响，一般耦合度没有那么高，依赖关系没有那么高。比如NFS服务器宕机了其他就挂载不了了，这样依赖性太强。</p>
-</li>
-<li><p>高性能：</p>
-<p>访问量增加，能够轻松扩展。</p>
-</li>
-<li><p>可管理型</p>
-<p>整个系统可能在物理上很大，但很容易管理。</p>
-</li>
-<li><p>可编程性</p>
-<p>在集群系统上，容易开发应用程序，门户网站会要求这个。</p>
-</li>
-</ul>
-<p><strong><font color='blue'>2） 集群分类及不同的特点</font></strong></p>
-<p>计算机集群架构按照功能和结构一般分成以下几类：</p>
-<ol>
-<li>负载均衡集群（Loadbalancingclusters）简称LBC</li>
-<li> 高可用性集群（High-availabilityclusters）简称HAC</li>
-<li> 高性能计算集群（High-perfomanceclusters）简称HPC</li>
-<li> 网格计算（Gridcomputing）</li>
-</ol>
-<h2 id="负载均衡集群介绍"><a href="#负载均衡集群介绍" class="headerlink" title="负载均衡集群介绍"></a>负载均衡集群介绍</h2><p>负载均衡集群, 是一种将网络上的访问流量分布于各个节点，以降低服务器压力，更好的向客户端提供服务的一种方式。</p>
-<p><strong><font color='blue'>负载均衡集群的作用：</font></strong></p>
-<table><tr><td bgcolor=Beige>提供一种廉价、有效、透明的方法，来扩展网络设备和服务器的负载带宽、增加吞吐量，加强网络数据处理能力、提高网络的灵活性和可用性。</td></tr></table>
-
-<p>简单来说,也就是:</p>
-<blockquote>
-<p>把单台计算机无法承受的大规模的并发访问或数据流量分担到多台节点设备上分别处理，减少用户等待响应的时间，提升用户体验。</p>
-<p>单个重负载的运算分担到多台节点设备上做并行处理，每个节点设备处理结束后，将结果汇总，返回给用户，系统处理能力得到大幅度提高。</p>
-<p>7*24小时的服务保证，任意一个或多个设备节点设备宕机，不能影响到业务。在负载均衡集群中，所有计算机节点都应该提供相同的服务，集群负载均衡获取所有对该服务的如站请求。</p>
-</blockquote>
-<p><strong><font color='blue'>常用的负载分为：</font></strong></p>
-<ul>
-<li>开源软件负载均衡：<strong>Nginx, LVS, Haproxy</strong> (<strong>Nginx</strong>和<strong>Haproxy</strong>通常做七层负载均衡, <strong>LVS</strong>做四层负载均衡. 但是<strong>Nginx</strong>也可以通过<strong>stream</strong>模块做四层负载均衡, <strong>Haproxy</strong>也可以做四层负载均衡 ) ;</li>
-<li> 商业的硬件负载均衡: 设备F5、Netscale 。</li>
-</ul>
-<p><strong><font color='blue'>简单理解一下软件负载均衡:</font></strong></p>
-<p>1） 所谓分层的负载均衡，都是以网络的模型来说的。四层就是基于IP和端口的负载均衡，七层就是基于URL等应用信息的负载均衡。所以简单的说四层负载均衡就是通过IP和端口接收请求再分发至真实的服务器，七层是通过URL或主机名接收请求，然后分发至真实的服务器。</p>
-<p>2） 而七层的实现也是在四层的基础上是实现的，没有四层就不可能有七层。在第七层上可以做许多事情，比如可以根据七层的浏览器类别区分是手机还是PC，将WEB服务器分为2组，手机登陆专门的移动端网站。</p>
-<p>3）对客户端来说，客户端好像是访问的同一台主机。其实为了有更好的用户体验，从智能DNS入手，根据客户端IP来源将域名解析到距离客户端最近的一台服务器或者访问最快速的一台服务器，但这些内容客户端都是感觉不到的，客户端感觉到的只能是访问网站很快。</p>
-<p>​                      <img src="https://note.youdao.com/yws/api/personal/file/WEB4c1173b965fcc891e53e399791803f06?method=download&shareKey=8e16d58edd3de26fa824958e8cbf1b2d" alt="avatar">   </p>
-<p>负载均衡的原理很简单，就是当客户端发起请求时，请求直接发给Director  Server（调度器），这时会根据设定的调度算法，将请求按照算法的规定智能的分发到真正的后台服务器。以达到将压力均摊。但是我们知道，http的连接时无状态的，假设这样一个场景，我登录某宝买东西，当我看上某款商品时，我将它加入购物车，但是我刷新了一下页面，这时由于负载均衡的原因，调度器又选了新的一台服务器为我提供服务，我刚才的购物车内容全都不见了，这样就会有十分差的用户体验。所以就还需要一个存储共享，这样就保证了用户请求的数据是一样的。所以LVS负载均衡分为三层架构(也就是LVS负载均衡主要组成部分)：</p>
-<p><font color='purple'><strong>第一层</strong>：</font>&lt;负载调度器（load balancer/ Director），它是整个集群的总代理，它在有两个网卡，一个网卡面对访问网站的客户端，一个网卡面对整个集群的内部。负责将客户端的请求发送到一组服务器上执行，而客户也认为服务是来自这台主的。举个生动的例子，集群是个公司，负载调度器就是在外接揽生意，将接揽到的生意分发给后台的真正干活的真正的主机们。当然需要将活按照一定的算法分发下去，让大家都公平的干活。<br>      <font color='purple'> <strong>第二层</strong>：</font>服务器池（server pool/ Realserver），是一组真正执行客户请求的服务器，可以当做WEB服务器。就是上面例子中的小员工。<br>        <font color='purple'><strong>第三层</strong></font>：共享存储（shared storage），它为服务器池提供一个共享的存储区，这样很容易使得服务器池拥有相同的内容，提供相同的服务。一个公司得有一个后台账目吧，这才能协调。不然客户把钱付给了A，而换B接待客户，因为没有相同的账目。B说客户没付钱，那这样就不是客户体验度的问题了。</p>
-<h2 id="LVS负载均衡-1"><a href="#LVS负载均衡-1" class="headerlink" title="LVS负载均衡"></a>LVS负载均衡</h2><h3 id="IPVS（LVS）发展史"><a href="#IPVS（LVS）发展史" class="headerlink" title="IPVS（LVS）发展史"></a>IPVS（LVS）发展史</h3><p>在linux2.2内核时，IPVS就已经以内核补丁的形式出现</p>
-<p>从2.4。24版本以后IPVS已经成为linux内核官方标准内核的一部分</p>
-<h3 id="LVS工作原理"><a href="#LVS工作原理" class="headerlink" title="LVS工作原理"></a>LVS工作原理</h3><p>LVS负载均衡调度技术是在linux内核中实现的，我们使用配置LVS时，不是直接配置内核中的IPVS，而是通过IPVS的管理工具IPVSADM来管理配置</p>
-<p>LVS集群负载均衡器接受所有入站客户端的请求，并根据算法来决定由哪个集群的节点来处理请求</p>
-<h3 id="LVS相关术语介绍"><a href="#LVS相关术语介绍" class="headerlink" title="LVS相关术语介绍"></a>LVS相关术语介绍</h3><ul>
-<li>虚拟IP地址（VIP）  </li>
-</ul>
-<p>​       用于向客户端提供服务的IP地址（配置于负载均衡器上）</p>
-<ul>
-<li><p>真实的IP地址（RIP） </p>
-<p>集群中节点服务器的IP地址</p>
-</li>
-<li><p>负载均衡器IP地址（DIP）</p>
-<p>负载均衡器的IP地址，物理网卡上的IP，用与同外网连接的地址</p>
-</li>
-<li><p>客户端主机IP地址（CIP）</p>
-<p> 终端请求用户的主机IP地址</p>
-</li>
-</ul>
-<h2 id="LVS几种工作模式的介绍"><a href="#LVS几种工作模式的介绍" class="headerlink" title="LVS几种工作模式的介绍"></a>LVS几种工作模式的介绍</h2><h3 id="NAT网络地址转换模式（VS-NAT）"><a href="#NAT网络地址转换模式（VS-NAT）" class="headerlink" title="NAT网络地址转换模式（VS/NAT）"></a>NAT网络地址转换模式（VS/NAT）</h3><p> 通过网络地址转换，调度器LB重写请求报文的目标地址，根据算法将请求分配给后端的真实主机服务器，真实服务器响应处理报文后返回给调度器LB，经过LB的报文源地址被重写，再返回给请求的客户端用户。</p>
-<p><img src="https://note.youdao.com/yws/api/personal/file/WEB03f9c89dbb5637c2350f56cc00857e51?method=download&shareKey=bff8b56b7053b600ad043bd381fba50a" alt="avatar"></p>
-<p><em><strong><font color='red'>过程详解：</font></strong></em></p>
-<blockquote>
-<p>1：客户端请求CIP（192.168.16.15:80)目标的地址是VIP(10.0.0.3:80);</p>
-<p>2：数据经过LB，目的地址将被LB改写成后端服务器其中一个主机地址（RIP 172.168.1.7:80）</p>
-<p>3：服务器接收到数据请求后返回应答信息（源地址：172.168.1.7:80，目的地址：10.0.0.3:80，因此处的网关地址需指向LB）给LB</p>
-<p>4：LB需将源数据地址改写成VIP地址（10.0.0.3:80，但实际的源地址是RIP1的地址）</p>
-<p>5：LB将数据返回给请求的客户端用户，完成整个流程的访问,因此WEB访问量很大的时候，LB就会有很大的负载压力，一般支持10-20台节点，但是这种模式支持IP和端口的转换功能，即192.168.16.15:80—-&gt;10.0.0.3:80—-&gt;172.168.1.7:80</p>
-</blockquote>
-<h3 id="DR模式（Direct-Routing）直接路由模式"><a href="#DR模式（Direct-Routing）直接路由模式" class="headerlink" title="DR模式（Direct Routing）直接路由模式"></a>DR模式（Direct Routing）直接路由模式</h3><p>DR模式也就是用直接路由技术实现虚拟服务器。它的连接调度和管理与VS/NAT和VS/TUN中的一样，但它的报文转发方法又有不同，VS/DR通过改写请求报文的MAC地址，将请求发送到Real Server，而Real  Server将响应直接返回给客户，免去了VS/TUN中的IP隧道开销。这种方式是三种负载调度机制中性能最高最好的，但是必须要求Director  Server与Real Server都有一块网卡连在同一物理网段上。</p>
-<p>Director和RealServer必需在物理上有一个网卡通过不间断的局域网相连。  RealServer上绑定的VIP配置在各自Non-ARP的网络设备上(如lo或tunl),Director的VIP地址对外可见，而RealServer的VIP对外是不可见的。RealServer的地址即可以是内部地址，也可以是真实地址。</p>
-<p>DR模式是通过改写请求报文的目标MAC地址，将请求发给真实服务器的，而真实服务器响应后的处理结果直接返回给客户端用户。同TUN模式一样，DR模式可以极大的提高集群系统的伸缩性。而且DR模式没有IP隧道的开销，对集群中的真实服务器也没有必要必须支持IP隧道协议的要求。但是要求调度器LB与真实服务器RS都有一块网卡连接到同一物理网段上，必须在同一个局域网环境。</p>
-<p><strong>DR模式是互联网使用比较多的一种模式</strong>，DR模式原理图如下：</p>
-<p>​                        <img src="https://note.youdao.com/yws/api/personal/file/WEB9d1c7fcee56cc40f9758bad3319261ab?method=download&shareKey=9643baccbc0de23b0f1459d5e96d3e28" alt="avatar"></p>
-<p><strong>DR模式以上原理过程简述：</strong><br>VS/DR模式的工作流程图如上图所示，它的连接调度和管理与NAT和TUN中的一样，它的报文转发方法和前两种不同。DR模式将报文直接路由给目标真实服务器。在DR模式中，调度器根据各个真实服务器的负载情况，连接数多少等，动态地选择一台服务器，不修改目标IP地址和目标端口，也不封装IP报文，而是将请求报文的数据帧的目标MAC地址改为真实服务器的MAC地址。然后再将修改的数据帧在服务器组的局域网上发送。因为数据帧的MAC地址是真实服务器的MAC地址，并且又在同一个局域网。那么根据局域网的通讯原理，真实复位是一定能够收到由LB发出的数据包。真实服务器接收到请求数据包的时候，解开IP包头查看到的目标IP是VIP。（此时只有自己的IP符合目标IP才会接收进来，所以我们需要在本地的回环借口上面配置VIP。</p>
-<p>另外:  由于网络接口都会进行ARP广播响应，但集群的其他机器都有这个VIP的lo接口，都响应就会冲突。所以我们需要把真实服务器的lo接口的ARP响应关闭掉。）然后真实服务器做成请求响应，之后根据自己的路由信息将这个响应数据包发送回给客户，并且源IP地址还是VIP。</p>
-<p>其实整个DR模式都是停留在第二层的数据链路层, 直接修改MAC。实现报文的转发。再看下面的DR模式图:</p>
-<p><img src="https://note.youdao.com/yws/api/personal/file/WEBb0dd5b7ea5d8acddec5896a570c900ad?method=download&shareKey=3ae24eb26c6d5ce0657f77cf841ab314" alt="img"></p>
-<blockquote>
-<p>1） 当用户请求到达Director Server，此时请求的数据报文会先到内核空间的PREROUTING链。 此时报文的源IP为CIP，目标IP为VIP;</p>
-<p>2）PREROUTING检查发现数据包的目标IP是本机，将数据包送至INPUT链;</p>
-<p>3）   IPVS比对数据包请求的服务是否为集群服务，若是，将请求报文中的源MAC地址修改为DIP的MAC地址，将目标MAC地址修改RIP的MAC地址，然后将数据包发至POSTROUTING链。 此时的源IP和目的IP均未修改，仅修改了源MAC地址为DIP的MAC地址，目标MAC地址为RIP的MAC地址;</p>
-<p>4）由于DS和RS在同一个网络中，所以是通过二层来传输。POSTROUTING链检查目标MAC地址为RIP的MAC地址，那么此时数据包将会发至Real Server;</p>
-<p>5）响应报文最终送达至客户端;</p>
-</blockquote>
-<p><strong>注：LB只能改写目的MAC地址，因此它不能改变请求报文的目的端口端口，LVS只支持unix和linux，但集群节点服务器可以是win系统，此种模式配置相当麻烦</strong></p>
-<blockquote>
-<p>1 在前端路由器做静态地址路由绑定，将对于VIP的地址仅路由 到Director Server<br>\2arptables：在arp的层次上实现在ARP解析时做防火墙规则，过滤RS响应ARP请求。修改RS上内核参数（arp_ignore和arp_announce）将RS上的VIP配置在网卡接口的别名上，并限制其不能响应对VIP地址解析请求。<br>3)RS可以使用私有地址；但也可以使用公网地址，此时可以直接通过互联网连入RS以实现配置、监控等；<br>4)RS的网关一定不能指向DIP；<br>5)RS跟Dirctory要在同一物理网络内（不能由路由器分隔）；<br>6)请求报文经过Directory，但响应报文一定不经过Director</p>
-</blockquote>
-<p>LVS的调度算法决定了如何在集群节点之间分配负载压力（访问请求）</p>
-<p><strong>调度算法：</strong></p>
-<p><strong>rr</strong>轮循调度：将请求依次分配给集群的节点，这种算法适用于各个节点处理能力基本相同的情况下</p>
-<p><strong>wrr</strong>加权轮循调度：根据节点的权重来分配，权重较高的优先分配</p>
-<p><strong>wlc</strong>加权最小连接数调度：按权重和连接数的数量来分配</p>
-<p><strong>lc</strong>最小连接数调度：按连接数的数量来分配</p>
-<p><strong>实际生产环境LVS调度算法选型</strong></p>
-<p>一般网络服务，如HTTP、MAIL、MYSQL常用的调度算法有：rr、wlc、wrr</p>
-<script src='https://cdn.jsdelivr.net/gh/sviptzk/HexoStaticFile@latest/Hexo/js/mouse_snow.min.js'></script>
-
-]]></content>
-      <categories>
-        <category>Linux集群架构</category>
-      </categories>
-      <tags>
-        <tag>LVS</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Linux系统Bash初识</title>
     <url>/Linux%E5%9F%BA%E7%A1%80/Linux%E7%B3%BB%E7%BB%9FBash%E5%88%9D%E8%AF%86%E5%88%AB/</url>
     <content><![CDATA[<h2 id="Linux系统终端"><a href="#Linux系统终端" class="headerlink" title="Linux系统终端"></a>Linux系统终端</h2><p>服务器终端切换：Ctrl + Alt +F1 … F6</p>
@@ -354,10 +354,10 @@
 
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">//物理机执行为本地终端</span><br><span class="line">[root@dennis.com ~]$ tty</span><br><span class="line">/dev/tty1</span><br><span class="line"></span><br><span class="line">//通过网路使用模拟终端远程连接Linux, 日常运维中就是这种方式</span><br><span class="line">[root@dennis.com ~]$ tty</span><br><span class="line">/dev/pts/0</span><br></pre></td></tr></table></figure>
 
-<h2 id="Linux系统Bash系统管理"><a href="#Linux系统Bash系统管理" class="headerlink" title="Linux系统Bash系统管理"></a>Linux系统Bash系统管理</h2><p>​                                              <img src="https://img1.baidu.com/it/u=404627178,1930063483&fm=15&fmt=auto&gp=0.jpg" alt="img" style="zoom: 50%;" /></p>
+<h2 id="Linux系统Bash系统管理"><a href="#Linux系统Bash系统管理" class="headerlink" title="Linux系统Bash系统管理"></a>Linux系统Bash系统管理</h2><p>​                                              <img src= "/img/loading.gif" data-src="https://img1.baidu.com/it/u=404627178,1930063483&fm=15&fmt=auto&gp=0.jpg" alt="img" style="zoom: 50%;" /></p>
 <p>简单的说, Shell是系统的⽤户界⾯，提供了⽤户与内核进⾏交互操作的⼀种接⼝。它接收⽤户输</p>
 <p>⼊的命令并把它送⼊内核去执⾏。</p>
-<p>​                                                <img src="https://images2017.cnblogs.com/blog/1222491/201801/1222491-20180128195658115-361387611.png" alt="img" style="zoom:50%;" /></p>
+<p>​                                                <img src= "/img/loading.gif" data-src="https://images2017.cnblogs.com/blog/1222491/201801/1222491-20180128195658115-361387611.png" alt="img" style="zoom:50%;" /></p>
 <p>实际上Shell是⼀个命令解释器，它解释由⽤户输⼊的命令并且把它们送到内核。</p>
 <blockquote>
 <p>BASH Shell: 是⼀个为GNU计划编写的Unix shell, 是许多Linux发⾏版的默认Shell</p>
@@ -540,20 +540,20 @@
 <hr>
 <h4 id="1-内核引导"><a href="#1-内核引导" class="headerlink" title="1. 内核引导"></a>1. 内核引导</h4><p> 当计算机打开电源后，首先是BIOS开机自检，按照BIOS中设置的启动设备（通常是硬盘）来启动。</p>
 <p>操作系统接管硬件以后，首先读入 /boot 目录下的内核文件。</p>
-<p><img src="https://www.runoob.com/wp-content/uploads/2014/06/bg2013081702.png" alt="img"></p>
+<p><img src= "/img/loading.gif" data-src="https://www.runoob.com/wp-content/uploads/2014/06/bg2013081702.png" alt="img"></p>
 <h4 id="2-运行init"><a href="#2-运行init" class="headerlink" title="2. 运行init"></a>2. 运行init</h4><p>init 进程是系统所有进程的起点，你可以把它比拟成系统所有进程的老祖宗，没有这个进程，系统中任何进程都不会启动。</p>
 <p>init 程序首先是需要读取配置文件 /etc/inittab。</p>
-<p><img src="https://www.runoob.com/wp-content/uploads/2014/06/bg2013081703.png" alt="img"></p>
+<p><img src= "/img/loading.gif" data-src="https://www.runoob.com/wp-content/uploads/2014/06/bg2013081703.png" alt="img"></p>
 <h4 id="3-运行级别"><a href="#3-运行级别" class="headerlink" title="3. 运行级别"></a>3. 运行级别</h4><p>许多程序需要开机启动。它们在Windows叫做”服务”（service），在Linux就叫做”守护进程”（daemon）。</p>
 <p>init进程的一大任务，就是去运行这些开机启动的程序。</p>
 <p>但是，不同的场合需要启动不同的程序，比如用作服务器时，需要启动Apache，用作桌面就不需要。</p>
 <p>Linux允许为不同的场合，分配不同的开机启动程序，这就叫做”运行级别”（runlevel）。也就是说，启动时根据”运行级别”，确定要运行哪些程序。</p>
-<p><img src="https://www.runoob.com/wp-content/uploads/2014/06/bg2013081704.png" alt="img"></p>
+<p><img src= "/img/loading.gif" data-src="https://www.runoob.com/wp-content/uploads/2014/06/bg2013081704.png" alt="img"></p>
 <h4 id="4-系统初始化"><a href="#4-系统初始化" class="headerlink" title="4. 系统初始化"></a>4. 系统初始化</h4><p>在init的配置文件中有这么一行： si::sysinit:/etc/rc.d/rc.sysinit　它调用执行了/etc/rc.d/rc.sysinit，而rc.sysinit是一个bash shell的脚本，它主要是完成一些系统初始化的工作，rc.sysinit是每一个运行级别都要首先运行的重要脚本。</p>
 <p>它主要完成的工作有：激活交换分区，检查磁盘，加载硬件模块以及其它一些需要优先执行任务。</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">l5:5:wait:/etc/rc.d/rc 5</span><br><span class="line">这一行表示以5为参数运行/etc/rc.d/rc，/etc/rc.d/rc是一个Shell脚本，它接受5作为参数，去执行/etc/rc.d/rc5.d/目录下的所有的rc启动脚本，/etc/rc.d/rc5.d/目录中的这些启动脚本实际上都是一些连接文件，而不是真正的rc启动脚本，真正的rc启动脚本实际上都是放在/etc/rc.d/init.d/目录下。</span><br><span class="line">而这些rc启动脚本有着类似的用法，它们一般能接受start、stop、restart、status等参数。</span><br><span class="line">/etc/rc.d/rc5.d/中的rc启动脚本通常是K或S开头的连接文件，对于以 S 开头的启动脚本，将以start参数来运行。</span><br><span class="line">而如果发现存在相应的脚本也存在K打头的连接，而且已经处于运行态了(以/var/lock/subsys/下的文件作为标志)，则将首先以stop为参数停止这些已经启动了的守护进程，然后再重新运行。</span><br><span class="line">这样做是为了保证是当init改变运行级别时，所有相关的守护进程都将重启。</span><br><span class="line">至于在每个运行级中将运行哪些守护进程，用户可以通过chkconfig或setup中的&quot;System Services&quot;来自行设定。</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://www.runoob.com/wp-content/uploads/2014/06/bg2013081705.png" alt="img"></p>
+<p><img src= "/img/loading.gif" data-src="https://www.runoob.com/wp-content/uploads/2014/06/bg2013081705.png" alt="img"></p>
 <h4 id="5-建立终端"><a href="#5-建立终端" class="headerlink" title="5. 建立终端"></a>5. 建立终端</h4><p>rc执行完毕后，返回init。这时基本系统环境已经设置好了，各种守护进程也已经启动了。</p>
 <p>init接下来会打开6个终端，以便用户登录系统。在inittab中的以下6行就是定义了6个终端：</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">1:2345:respawn:/sbin/mingetty tty1</span><br><span class="line">2:2345:respawn:/sbin/mingetty tty2</span><br><span class="line">3:2345:respawn:/sbin/mingetty tty3</span><br><span class="line">4:2345:respawn:/sbin/mingetty tty4</span><br><span class="line">5:2345:respawn:/sbin/mingetty tty5</span><br><span class="line">6:2345:respawn:/sbin/mingetty tty6</span><br></pre></td></tr></table></figure>
@@ -566,7 +566,7 @@
 <li>（2）ssh登录</li>
 <li>（3）图形界面登录</li>
 </ul>
-<p><img src="https://www.runoob.com/wp-content/uploads/2014/06/bg2013081706.png" alt="img"></p>
+<p><img src= "/img/loading.gif" data-src="https://www.runoob.com/wp-content/uploads/2014/06/bg2013081706.png" alt="img"></p>
 <hr>
 <h3 id="1-2-centos7开机启动流程"><a href="#1-2-centos7开机启动流程" class="headerlink" title="1.2 centos7开机启动流程"></a>1.2 centos7开机启动流程</h3><h4 id="1-开机自检"><a href="#1-开机自检" class="headerlink" title="1. 开机自检"></a>1. 开机自检</h4><h4 id="2-MBR-GPT引导系统启动"><a href="#2-MBR-GPT引导系统启动" class="headerlink" title="2. MBR/GPT引导系统启动"></a>2. MBR/GPT引导系统启动</h4><h4 id="3-加载GRUB2菜单"><a href="#3-加载GRUB2菜单" class="headerlink" title="3. 加载GRUB2菜单"></a>3. 加载GRUB2菜单</h4><p>（选择内核版本）</p>
 <h4 id="4-加载内核选项"><a href="#4-加载内核选项" class="headerlink" title="4. 加载内核选项"></a>4. 加载内核选项</h4><h4 id="5-内核初始化使用systemd进程"><a href="#5-内核初始化使用systemd进程" class="headerlink" title="5. 内核初始化使用systemd进程"></a>5. 内核初始化使用<em>systemd</em>进程</h4><p>（启动的linux系统的第一个进程systemd）</p>
@@ -626,7 +626,7 @@
 <p><em>Centos5</em> 是启动速度最慢的，串行启动过程，无论进程相互之间有无依赖关系。</p>
 <p><em>Centos6</em> 相对启动速度有所改进。有依赖的进程之间依次启动而其他与之没有依赖关系的则并行同步启动。</p>
 <p><em>Centos7</em> 所有进程无论有无依赖关系则都是并行启动（当然很多时候进程没有真正启动而是只有一个信号或者说是标记而已，在真正利用的时候才会真正启 动）</p>
-<img src="../AppData/Roaming/Typora/typora-user-images/image-20210406205736481.png" alt="image-20210406205736481" style="zoom: 80%;" />
+<img src= "/img/loading.gif" data-src="../AppData/Roaming/Typora/typora-user-images/image-20210406205736481.png" alt="image-20210406205736481" style="zoom: 80%;" />
 
 
 
@@ -803,7 +803,7 @@
 <li><p><strong>系统级别的定时任务</strong></p>
 <p>比如写缓存数据到硬盘、临时文件清理、系统信息采集、日志文件切割。</p>
 <p>在/etc目录下有一个crontab文件，这个就是系统任务调度的配置文件。打开/etc目录，我们可以看到有很多cron相关的目录，如下：    </p>
-<img src="AppData/Roaming/Typora/typora-user-images/image-20210413155628596.png" alt="image-20210413155628596" style="zoom:150%;" />
+<img src= "/img/loading.gif" data-src="AppData/Roaming/Typora/typora-user-images/image-20210413155628596.png" alt="image-20210413155628596" style="zoom:150%;" />
 
 <p>cron.deny表示该文件中所列的用户不允许使用crontab命令;</p>
 <p>cron.daily表示每天都要按照计划完成的任务；</p>
@@ -854,7 +854,7 @@
 <li><p>项目背景: 网站因为安全配置导致病毒入侵,如何快速排查出哪些是病毒(被感染的文件或命令)</p>
 </li>
 <li><p>项目步骤: </p>
-<p><img src="AppData/Roaming/Typora/typora-user-images/image-20210414211016694.png" alt="image-20210414211016694"></p>
+<p><img src= "/img/loading.gif" data-src="AppData/Roaming/Typora/typora-user-images/image-20210414211016694.png" alt="image-20210414211016694"></p>
 </li>
 </ul>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">将系统中/etc/目录下的文件做指纹，指纹结果定向到file.md5中</span></span><br><span class="line">find /etc/ -type f | xargs md5sum &gt;&gt; /file.md5</span><br><span class="line"><span class="meta">#</span><span class="bash">进行校验</span></span><br><span class="line"><span class="meta">#</span><span class="bash">若无文件被修改 则输出ok ，若有则输出filed</span></span><br><span class="line">md5sum -c  file.md5</span><br><span class="line"><span class="meta">#</span><span class="bash">使被篡改的文件输出</span></span><br><span class="line">md5sum -c --quiet file.md5</span><br></pre></td></tr></table></figure>
@@ -886,35 +886,35 @@
 </ul>
 <h3 id="磁盘接口"><a href="#磁盘接口" class="headerlink" title="磁盘接口"></a>磁盘接口</h3><ul>
 <li><p>IDE（Integrated Drive Electronics）</p>
-<p><img src="https://exp-picture.cdn.bcebos.com/e9a4f2eeadbcbe2fb5bfecad54dae43b3a867865.jpg?x-bce-process=image/resize,m_lfit,w_500,limit_1/format,f_jpg/quality,q_80" alt="硬盘的接口种类"></p>
+<p><img src= "/img/loading.gif" data-src="https://exp-picture.cdn.bcebos.com/e9a4f2eeadbcbe2fb5bfecad54dae43b3a867865.jpg?x-bce-process=image/resize,m_lfit,w_500,limit_1/format,f_jpg/quality,q_80" alt="硬盘的接口种类"></p>
 <ul>
 <li>本意是指把“硬盘控制器”与“盘体”集成在一起的硬盘驱动器；</li>
 <li>优点：价格低廉兼容性好；</li>
 </ul>
 </li>
 <li><p>SCSI（Small Computer System Interface ）</p>
-<p><img src="https://exp-picture.cdn.bcebos.com/edafb3bcbe2f4770b5d7756f6f3b3b8603217965.jpg?x-bce-process=image/resize,m_lfit,w_500,limit_1/format,f_jpg/quality,q_80" alt="硬盘的接口种类"></p>
+<p><img src= "/img/loading.gif" data-src="https://exp-picture.cdn.bcebos.com/edafb3bcbe2f4770b5d7756f6f3b3b8603217965.jpg?x-bce-process=image/resize,m_lfit,w_500,limit_1/format,f_jpg/quality,q_80" alt="硬盘的接口种类"></p>
 <ul>
 <li>不是专门为硬盘设计的，而是一种总线型的系统接口；</li>
 <li>优点：适应面广高性能同时具备内、外置；</li>
 </ul>
 </li>
 <li><p>FC（Fibre Channel ）</p>
-<p><img src="https://exp-picture.cdn.bcebos.com/51cd85cec7f88a772f0d22f96e4a2f27e6eff865.jpg?x-bce-process=image/resize,m_lfit,w_500,limit_1/format,f_jpg/quality,q_80" alt="硬盘的接口种类"></p>
+<p><img src= "/img/loading.gif" data-src="https://exp-picture.cdn.bcebos.com/51cd85cec7f88a772f0d22f96e4a2f27e6eff865.jpg?x-bce-process=image/resize,m_lfit,w_500,limit_1/format,f_jpg/quality,q_80" alt="硬盘的接口种类"></p>
 <ul>
 <li>FC最初是专门为网络系统设计的随着存储系统对速度的需求，逐渐应用到硬盘系统中；</li>
 <li>优点：带宽高、连接距离长、连接设备数量大；</li>
 </ul>
 </li>
 <li><p>SATA（Serial ATA ）</p>
-<p><img src="http://www.dnpz.net/uploads/allimg/180122/983-1P1221054295Z.jpg" alt="电脑硬件知识：带你了解硬盘的各种接口类型"></p>
+<p><img src= "/img/loading.gif" data-src="http://www.dnpz.net/uploads/allimg/180122/983-1P1221054295Z.jpg" alt="电脑硬件知识：带你了解硬盘的各种接口类型"></p>
 <ul>
 <li>是一种完全不同于并行ATA的新型硬盘接口类型，由于采用串行方式传输数据而得名；</li>
 <li>优点：一对一连接，独享带宽、支持热插拔、低电压信号、带宽升级潜力大；</li>
 </ul>
 </li>
 <li><p>SAS（Serial Attached SCSI ） </p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/4101dfdf9cf599b1de7b5314b0861421.png" alt="image"></p>
+<p><img src= "/img/loading.gif" data-src="https://img-blog.csdnimg.cn/img_convert/4101dfdf9cf599b1de7b5314b0861421.png" alt="image"></p>
 <ul>
 <li><p>即串行连接SCSI，是新一代的SCSI技术，和SATA相同，都是采用串行技术以获得更高的传输速度，并通过缩短连接线改善内部空间 </p>
 </li>
@@ -971,7 +971,7 @@
 <li><p>block（4KB）是系统层面上面读写数据的单位 </p>
 </li>
 </ul>
-<p><img src="../AppData/Roaming/Typora/typora-user-images/image-20210330201437498.png" alt="image-20210330201437498"></p>
+<p><img src= "/img/loading.gif" data-src="../AppData/Roaming/Typora/typora-user-images/image-20210330201437498.png" alt="image-20210330201437498"></p>
 <h2 id="RAID独立冗余磁盘阵列"><a href="#RAID独立冗余磁盘阵列" class="headerlink" title="RAID独立冗余磁盘阵列"></a>RAID独立冗余磁盘阵列</h2><h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><p>简单的说，RAID是一种把多块独立的硬盘（物理硬盘）按不同的方式组 合起来形成一个硬盘组（逻辑硬盘），从而提高存储性能和容错功能。</p>
 <h3 id="raid级别"><a href="#raid级别" class="headerlink" title="raid级别"></a>raid级别</h3><ul>
 <li><p><em>raid0</em></p>
