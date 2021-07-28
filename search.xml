@@ -1123,9 +1123,7 @@
   <entry>
     <title>定时任务</title>
     <url>/Linux%E5%9F%BA%E7%A1%80/%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/</url>
-    <content><![CDATA[<h1 id="Linux定时任务"><a href="#Linux定时任务" class="headerlink" title="Linux定时任务"></a>Linux定时任务</h1><hr>
-<span id="more"></span>
-<h2 id="1-定时任务基本概述"><a href="#1-定时任务基本概述" class="headerlink" title="1. 定时任务基本概述"></a>1. 定时任务基本概述</h2><ul>
+    <content><![CDATA[<h1 id="Linux定时任务"><a href="#Linux定时任务" class="headerlink" title="Linux定时任务"></a>Linux定时任务</h1><h2 id="定时任务基本概述"><a href="#定时任务基本概述" class="headerlink" title="定时任务基本概述"></a>定时任务基本概述</h2><ul>
 <li><p>crond简介</p>
 <p>Linux系统上面有很多计划性的工作，比如在某个时间点需要执行某个动作，在Linux中，一般使用crontab命令来实现控制计划任务，通过crontab 命令，我们可以在固定的间隔时间执行指定的系统指令或 shell script脚本。时间间隔的单位可以是分钟、小时、日、月、周及以上的任意组合。这个命令非常设合周期性的日志分析或数据备份等工作。crontab命令是基于crond这个系统服务的，crond服务是安装Linux系统时自动安装的，它会检查当前系统中是否有要执行的任务。</p>
 <p>Crond服务会定期（默认每分钟检查一次）检查系统中是否有要执行的任务工作，如果有，便会根据其预先设定的定时任务规则自动执行该定时任务工作，这个crond定时任务服务就相当于我们平时早起使用的闹钟一样。</p>
@@ -1151,10 +1149,10 @@
 </li>
 </ol>
 <hr>
-<h2 id="2-crontab配置文件"><a href="#2-crontab配置文件" class="headerlink" title="2. crontab配置文件"></a>2. crontab配置文件</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vim /etc/crontab</span><br><span class="line">SHELL=/bin/bash</span><br><span class="line">PATH=/sbin:/bin:/usr/sbin:/usr/bin</span><br><span class="line">MAILTO=root</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> For details see man 4 crontabs</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Example of job definition:</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> .---------------- minute (0 - 59)</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> |  .------------- hour (0 - 23)</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> |  |  .---------- day of month (1 - 31)</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> |  |  |  .------- month (1 - 12) OR jan,feb,mar,apr ...</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> |  |  |  |  .---- day of week (0 - 6) (Sunday=0 or 7) OR sun,mon,tue,wed,thu,fri,sat</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> |  |  |  |  |</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> *  *  *  *  * user-name  <span class="built_in">command</span> to be executed</span></span><br><span class="line"></span><br><span class="line">备注：</span><br><span class="line">1） *  表示任意的(分、时、日、月、周)时间都执行</span><br><span class="line">2） -  表示一个时间范围段, 如5-7点</span><br><span class="line">3） ,  表示分隔时段, 如6,0,4表示周六、日、四</span><br><span class="line">4） /  表示每隔n单位时间, 如*/10 每10分钟</span><br></pre></td></tr></table></figure>
+<h2 id="crontab配置文件"><a href="#crontab配置文件" class="headerlink" title="crontab配置文件"></a>crontab配置文件</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vim /etc/crontab</span><br><span class="line">SHELL=/bin/bash</span><br><span class="line">PATH=/sbin:/bin:/usr/sbin:/usr/bin</span><br><span class="line">MAILTO=root</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> For details see man 4 crontabs</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Example of job definition:</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> .---------------- minute (0 - 59)</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> |  .------------- hour (0 - 23)</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> |  |  .---------- day of month (1 - 31)</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> |  |  |  .------- month (1 - 12) OR jan,feb,mar,apr ...</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> |  |  |  |  .---- day of week (0 - 6) (Sunday=0 or 7) OR sun,mon,tue,wed,thu,fri,sat</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> |  |  |  |  |</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> *  *  *  *  * user-name  <span class="built_in">command</span> to be executed</span></span><br><span class="line"></span><br><span class="line">备注：</span><br><span class="line">1） *  表示任意的(分、时、日、月、周)时间都执行</span><br><span class="line">2） -  表示一个时间范围段, 如5-7点</span><br><span class="line">3） ,  表示分隔时段, 如6,0,4表示周六、日、四</span><br><span class="line">4） /  表示每隔n单位时间, 如*/10 每10分钟</span><br></pre></td></tr></table></figure>
 
 <hr>
-<h2 id="3-设置定时任务"><a href="#3-设置定时任务" class="headerlink" title="3. 设置定时任务"></a>3. 设置定时任务</h2><h3 id="3-1-crontab-命令选项："><a href="#3-1-crontab-命令选项：" class="headerlink" title="3.1 crontab 命令选项："></a>3.1 crontab 命令选项：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">-e                    #编辑定时任务</span><br><span class="line">-l                     #查看定时任务</span><br><span class="line">-r                     #删除定时任务</span><br><span class="line">-u                    #指定其他用户</span><br><span class="line">-i                     #在删除用户的crontab文件时给确认提示。</span><br></pre></td></tr></table></figure>
+<h2 id="设置定时任务"><a href="#设置定时任务" class="headerlink" title="设置定时任务"></a>设置定时任务</h2><h3 id="crontab-命令选项："><a href="#crontab-命令选项：" class="headerlink" title="crontab 命令选项："></a>crontab 命令选项：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">-e                    #编辑定时任务</span><br><span class="line">-l                     #查看定时任务</span><br><span class="line">-r                     #删除定时任务</span><br><span class="line">-u                    #指定其他用户</span><br><span class="line">-i                     #在删除用户的crontab文件时给确认提示。</span><br></pre></td></tr></table></figure>
 
 <p><strong>服务操作说明</strong>：</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">需提前安装软件包</span></span><br><span class="line">yum install -y ntpdate</span><br><span class="line">服务操作说明：</span><br><span class="line"></span><br><span class="line">/sbin/service crond start //启动服务</span><br><span class="line"></span><br><span class="line">/sbin/service crond stop //关闭服务</span><br><span class="line"></span><br><span class="line">/sbin/service crond restart //重启服务</span><br><span class="line"></span><br><span class="line">/sbin/service crond reload //重新载入配置</span><br><span class="line"></span><br><span class="line">/sbin/service crond status //启动服务</span><br><span class="line"></span><br></pre></td></tr></table></figure>
@@ -1167,7 +1165,7 @@
 
 <h3 id="3-3-crond拒绝某个用户使用"><a href="#3-3-crond拒绝某个用户使用" class="headerlink" title="3.3 crond拒绝某个用户使用"></a>3.3 crond拒绝某个用户使用</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">1.使用root将需要拒绝的用户加入/etc/cron.deny</span></span><br><span class="line">[root@tom  ~]# echo &quot;Jerry&quot; &gt;&gt; /etc/cron.deny</span><br><span class="line"><span class="meta">#</span><span class="bash">2.登陆该普通用户，测试是否能编写定时任务</span></span><br><span class="line">[oldboy@tom  ~]$ crontab -e</span><br><span class="line">You (Jerry) are not allowed to use this program </span><br><span class="line">(crontab)</span><br><span class="line">See crontab(1) for more information</span><br></pre></td></tr></table></figure>
 
-<h3 id="3-4-crond注意的事项"><a href="#3-4-crond注意的事项" class="headerlink" title="3.4 crond注意的事项"></a><em>3.4 crond</em>注意的事项</h3><ol>
+<h3 id="crond注意的事项"><a href="#crond注意的事项" class="headerlink" title="crond注意的事项"></a>crond注意的事项</h3><ol>
 <li><p>给定时任务注释</p>
 </li>
 <li><p>将需要定期执行的任务写入<em>Shell</em>脚本中，避免直接使用命令无法执行的情况<em>tar date</em></p>
@@ -1180,9 +1178,9 @@
 <li><p>如果一定要是用命令，命令必须使用绝对路径</p>
 </li>
 </ol>
-<h3 id="3-5-crontab备份"><a href="#3-5-crontab备份" class="headerlink" title="3.5 crontab备份"></a>3.5 crontab备份</h3><p>通过查找*/var/log/cron*中执行的记录，去推算任务执行的时间</p>
+<h3 id="crontab备份"><a href="#crontab备份" class="headerlink" title="crontab备份"></a>crontab备份</h3><p>通过查找*/var/log/cron*中执行的记录，去推算任务执行的时间</p>
 <p>定时的备份*/var/spool/cron/{username}*</p>
-<h2 id="4-定时任务安全项目实战练习"><a href="#4-定时任务安全项目实战练习" class="headerlink" title="4. 定时任务安全项目实战练习"></a>4. 定时任务安全项目实战练习</h2><ul>
+<h2 id="定时任务安全项目实战练习"><a href="#定时任务安全项目实战练习" class="headerlink" title="定时任务安全项目实战练习"></a>定时任务安全项目实战练习</h2><ul>
 <li><p>项目名称: XXXXX网站安全检查项目</p>
 </li>
 <li><p>项目背景: 网站因为安全配置导致病毒入侵,如何快速排查出哪些是病毒(被感染的文件或命令)</p>
@@ -1195,7 +1193,7 @@
 
 
 
-<h2 id="5-错误排查"><a href="#5-错误排查" class="headerlink" title="5. 错误排查"></a>5. 错误排查</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">crontab -e</span><br><span class="line">no crontab <span class="keyword">for</span> root - using an empty one</span><br><span class="line">/bin/sh: /usr/bin/vi: No such file or directory</span><br><span class="line">crontab: <span class="string">&quot;/usr/bin/vi&quot;</span> exited with status 127</span><br><span class="line"></span><br><span class="line">发生这种情况是因为没有正确定义编辑器。为此，您必须指定二进制文件的完整路径：</span><br><span class="line"><span class="built_in">export</span> EDITOR=/usr/bin/vim</span><br><span class="line">或者</span><br><span class="line"><span class="built_in">export</span> EDITOR=/usr/bin/vi</span><br></pre></td></tr></table></figure>
+<h2 id="错误排查"><a href="#错误排查" class="headerlink" title="错误排查"></a>错误排查</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">crontab -e</span><br><span class="line">no crontab <span class="keyword">for</span> root - using an empty one</span><br><span class="line">/bin/sh: /usr/bin/vi: No such file or directory</span><br><span class="line">crontab: <span class="string">&quot;/usr/bin/vi&quot;</span> exited with status 127</span><br><span class="line"></span><br><span class="line">发生这种情况是因为没有正确定义编辑器。为此，您必须指定二进制文件的完整路径：</span><br><span class="line"><span class="built_in">export</span> EDITOR=/usr/bin/vim</span><br><span class="line">或者</span><br><span class="line"><span class="built_in">export</span> EDITOR=/usr/bin/vi</span><br></pre></td></tr></table></figure>
 
 <script src='https://cdn.jsdelivr.net/gh/sviptzk/HexoStaticFile@latest/Hexo/js/mouse_snow.min.js'></script>
 
