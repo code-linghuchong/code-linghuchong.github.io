@@ -332,4 +332,883 @@
         <tag>磁盘</tag>
       </tags>
   </entry>
+  <entry>
+    <title>LVS负载均衡</title>
+    <url>/Linux%E9%9B%86%E7%BE%A4%E6%9E%B6%E6%9E%84/LVS%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/</url>
+    <content><![CDATA[<h1 id="LVS负载均衡"><a href="#LVS负载均衡" class="headerlink" title="LVS负载均衡"></a>LVS负载均衡</h1><h2 id="集群架构的概念"><a href="#集群架构的概念" class="headerlink" title="集群架构的概念"></a>集群架构的概念</h2><blockquote>
+<p>集群就是一组相互独立的服务器，通过高速的网络组成一个服务器系统，每个集群节点都是运行其自己进程的一个独立服务器。对网络用户来讲，网站后端就是一个单一的系统，协同起来向用户提供系统资源，系统服务。</p>
+</blockquote>
+<span id="more"></span>
+
+<h2 id="为什么使用集群架构"><a href="#为什么使用集群架构" class="headerlink" title="为什么使用集群架构"></a>为什么使用集群架构</h2><p><strong><font color='blue'> 1）集群的特点</font></strong></p>
+<ul>
+<li><p>高性能：</p>
+<p>需要很强的运算处理能力比如天气预报，核试验等。这就不是几台服务器能够搞定的。这需要上千台一起来完成这个工作的。</p>
+</li>
+<li><p>经济有效性：</p>
+<p>通常一套系统集群架构，只需要几台或数十台服务器主机即可，与动则上百万的专用超级服务器具有更高的性价比。</p>
+</li>
+<li><p>可伸缩性：</p>
+<p>当服务器负载压力增长的时候，系统能够扩展来满足需求，且不降低服务质量。</p>
+</li>
+<li><p>高可用性：</p>
+<p> 尽管部分硬件和软件发生故障，整个系统的服务必须是7*24小时运行的。</p>
+</li>
+</ul>
+<p><strong><font color='blue'>2） 集群的优势</font></strong></p>
+<ul>
+<li><p>透明性：</p>
+<p>如果一部分服务器宕机了业务不受影响，一般耦合度没有那么高，依赖关系没有那么高。比如NFS服务器宕机了其他就挂载不了了，这样依赖性太强。</p>
+</li>
+<li><p>高性能：</p>
+<p>访问量增加，能够轻松扩展。</p>
+</li>
+<li><p>可管理型</p>
+<p>整个系统可能在物理上很大，但很容易管理。</p>
+</li>
+<li><p>可编程性</p>
+<p>在集群系统上，容易开发应用程序，门户网站会要求这个。</p>
+</li>
+</ul>
+<p><strong><font color='blue'>2） 集群分类及不同的特点</font></strong></p>
+<p>计算机集群架构按照功能和结构一般分成以下几类：</p>
+<ol>
+<li>负载均衡集群（Loadbalancingclusters）简称LBC</li>
+<li> 高可用性集群（High-availabilityclusters）简称HAC</li>
+<li> 高性能计算集群（High-perfomanceclusters）简称HPC</li>
+<li> 网格计算（Gridcomputing）</li>
+</ol>
+<h2 id="负载均衡集群介绍"><a href="#负载均衡集群介绍" class="headerlink" title="负载均衡集群介绍"></a>负载均衡集群介绍</h2><p>负载均衡集群, 是一种将网络上的访问流量分布于各个节点，以降低服务器压力，更好的向客户端提供服务的一种方式。</p>
+<p><strong><font color='blue'>负载均衡集群的作用：</font></strong></p>
+<table><tr><td bgcolor=Beige>提供一种廉价、有效、透明的方法，来扩展网络设备和服务器的负载带宽、增加吞吐量，加强网络数据处理能力、提高网络的灵活性和可用性。</td></tr></table>
+
+<p>简单来说,也就是:</p>
+<blockquote>
+<p>把单台计算机无法承受的大规模的并发访问或数据流量分担到多台节点设备上分别处理，减少用户等待响应的时间，提升用户体验。</p>
+<p>单个重负载的运算分担到多台节点设备上做并行处理，每个节点设备处理结束后，将结果汇总，返回给用户，系统处理能力得到大幅度提高。</p>
+<p>7*24小时的服务保证，任意一个或多个设备节点设备宕机，不能影响到业务。在负载均衡集群中，所有计算机节点都应该提供相同的服务，集群负载均衡获取所有对该服务的如站请求。</p>
+</blockquote>
+<p><strong><font color='blue'>常用的负载分为：</font></strong></p>
+<ul>
+<li>开源软件负载均衡：<strong>Nginx, LVS, Haproxy</strong> (<strong>Nginx</strong>和<strong>Haproxy</strong>通常做七层负载均衡, <strong>LVS</strong>做四层负载均衡. 但是<strong>Nginx</strong>也可以通过<strong>stream</strong>模块做四层负载均衡, <strong>Haproxy</strong>也可以做四层负载均衡 ) ;</li>
+<li> 商业的硬件负载均衡: 设备F5、Netscale 。</li>
+</ul>
+<p><strong><font color='blue'>简单理解一下软件负载均衡:</font></strong></p>
+<p>1） 所谓分层的负载均衡，都是以网络的模型来说的。四层就是基于IP和端口的负载均衡，七层就是基于URL等应用信息的负载均衡。所以简单的说四层负载均衡就是通过IP和端口接收请求再分发至真实的服务器，七层是通过URL或主机名接收请求，然后分发至真实的服务器。</p>
+<p>2） 而七层的实现也是在四层的基础上是实现的，没有四层就不可能有七层。在第七层上可以做许多事情，比如可以根据七层的浏览器类别区分是手机还是PC，将WEB服务器分为2组，手机登陆专门的移动端网站。</p>
+<p>3）对客户端来说，客户端好像是访问的同一台主机。其实为了有更好的用户体验，从智能DNS入手，根据客户端IP来源将域名解析到距离客户端最近的一台服务器或者访问最快速的一台服务器，但这些内容客户端都是感觉不到的，客户端感觉到的只能是访问网站很快。</p>
+<p>​                      <img src= "/img/loading.gif" data-src="https://note.youdao.com/yws/api/personal/file/WEB4c1173b965fcc891e53e399791803f06?method=download&shareKey=8e16d58edd3de26fa824958e8cbf1b2d" alt="avatar">   </p>
+<p>负载均衡的原理很简单，就是当客户端发起请求时，请求直接发给Director  Server（调度器），这时会根据设定的调度算法，将请求按照算法的规定智能的分发到真正的后台服务器。以达到将压力均摊。但是我们知道，http的连接时无状态的，假设这样一个场景，我登录某宝买东西，当我看上某款商品时，我将它加入购物车，但是我刷新了一下页面，这时由于负载均衡的原因，调度器又选了新的一台服务器为我提供服务，我刚才的购物车内容全都不见了，这样就会有十分差的用户体验。所以就还需要一个存储共享，这样就保证了用户请求的数据是一样的。所以LVS负载均衡分为三层架构(也就是LVS负载均衡主要组成部分)：</p>
+<p><font color='purple'><strong>第一层</strong>：</font>&lt;负载调度器（load balancer/ Director），它是整个集群的总代理，它在有两个网卡，一个网卡面对访问网站的客户端，一个网卡面对整个集群的内部。负责将客户端的请求发送到一组服务器上执行，而客户也认为服务是来自这台主的。举个生动的例子，集群是个公司，负载调度器就是在外接揽生意，将接揽到的生意分发给后台的真正干活的真正的主机们。当然需要将活按照一定的算法分发下去，让大家都公平的干活。<br>      <font color='purple'> <strong>第二层</strong>：</font>服务器池（server pool/ Realserver），是一组真正执行客户请求的服务器，可以当做WEB服务器。就是上面例子中的小员工。<br>        <font color='purple'><strong>第三层</strong></font>：共享存储（shared storage），它为服务器池提供一个共享的存储区，这样很容易使得服务器池拥有相同的内容，提供相同的服务。一个公司得有一个后台账目吧，这才能协调。不然客户把钱付给了A，而换B接待客户，因为没有相同的账目。B说客户没付钱，那这样就不是客户体验度的问题了。</p>
+<h2 id="LVS负载均衡-1"><a href="#LVS负载均衡-1" class="headerlink" title="LVS负载均衡"></a>LVS负载均衡</h2><h3 id="IPVS（LVS）发展史"><a href="#IPVS（LVS）发展史" class="headerlink" title="IPVS（LVS）发展史"></a>IPVS（LVS）发展史</h3><p>在linux2.2内核时，IPVS就已经以内核补丁的形式出现</p>
+<p>从2.4。24版本以后IPVS已经成为linux内核官方标准内核的一部分</p>
+<h3 id="LVS工作原理"><a href="#LVS工作原理" class="headerlink" title="LVS工作原理"></a>LVS工作原理</h3><p>LVS负载均衡调度技术是在linux内核中实现的，我们使用配置LVS时，不是直接配置内核中的IPVS，而是通过IPVS的管理工具IPVSADM来管理配置</p>
+<p>LVS集群负载均衡器接受所有入站客户端的请求，并根据算法来决定由哪个集群的节点来处理请求</p>
+<h3 id="LVS相关术语介绍"><a href="#LVS相关术语介绍" class="headerlink" title="LVS相关术语介绍"></a>LVS相关术语介绍</h3><ul>
+<li>虚拟IP地址（VIP）  </li>
+</ul>
+<p>​       用于向客户端提供服务的IP地址（配置于负载均衡器上）</p>
+<ul>
+<li><p>真实的IP地址（RIP） </p>
+<p>集群中节点服务器的IP地址</p>
+</li>
+<li><p>负载均衡器IP地址（DIP）</p>
+<p>负载均衡器的IP地址，物理网卡上的IP，用与同外网连接的地址</p>
+</li>
+<li><p>客户端主机IP地址（CIP）</p>
+<p> 终端请求用户的主机IP地址</p>
+</li>
+</ul>
+<h2 id="LVS几种工作模式的介绍"><a href="#LVS几种工作模式的介绍" class="headerlink" title="LVS几种工作模式的介绍"></a>LVS几种工作模式的介绍</h2><h3 id="NAT网络地址转换模式（VS-NAT）"><a href="#NAT网络地址转换模式（VS-NAT）" class="headerlink" title="NAT网络地址转换模式（VS/NAT）"></a>NAT网络地址转换模式（VS/NAT）</h3><p> 通过网络地址转换，调度器LB重写请求报文的目标地址，根据算法将请求分配给后端的真实主机服务器，真实服务器响应处理报文后返回给调度器LB，经过LB的报文源地址被重写，再返回给请求的客户端用户。</p>
+<p><img src= "/img/loading.gif" data-src="https://note.youdao.com/yws/api/personal/file/WEB03f9c89dbb5637c2350f56cc00857e51?method=download&shareKey=bff8b56b7053b600ad043bd381fba50a" alt="avatar"></p>
+<p><em><strong><font color='red'>过程详解：</font></strong></em></p>
+<blockquote>
+<p>1：客户端请求CIP（192.168.16.15:80)目标的地址是VIP(10.0.0.3:80);</p>
+<p>2：数据经过LB，目的地址将被LB改写成后端服务器其中一个主机地址（RIP 172.168.1.7:80）</p>
+<p>3：服务器接收到数据请求后返回应答信息（源地址：172.168.1.7:80，目的地址：10.0.0.3:80，因此处的网关地址需指向LB）给LB</p>
+<p>4：LB需将源数据地址改写成VIP地址（10.0.0.3:80，但实际的源地址是RIP1的地址）</p>
+<p>5：LB将数据返回给请求的客户端用户，完成整个流程的访问,因此WEB访问量很大的时候，LB就会有很大的负载压力，一般支持10-20台节点，但是这种模式支持IP和端口的转换功能，即192.168.16.15:80—-&gt;10.0.0.3:80—-&gt;172.168.1.7:80</p>
+</blockquote>
+<h3 id="DR模式（Direct-Routing）直接路由模式"><a href="#DR模式（Direct-Routing）直接路由模式" class="headerlink" title="DR模式（Direct Routing）直接路由模式"></a>DR模式（Direct Routing）直接路由模式</h3><p>DR模式也就是用直接路由技术实现虚拟服务器。它的连接调度和管理与VS/NAT和VS/TUN中的一样，但它的报文转发方法又有不同，VS/DR通过改写请求报文的MAC地址，将请求发送到Real Server，而Real  Server将响应直接返回给客户，免去了VS/TUN中的IP隧道开销。这种方式是三种负载调度机制中性能最高最好的，但是必须要求Director  Server与Real Server都有一块网卡连在同一物理网段上。</p>
+<p>Director和RealServer必需在物理上有一个网卡通过不间断的局域网相连。  RealServer上绑定的VIP配置在各自Non-ARP的网络设备上(如lo或tunl),Director的VIP地址对外可见，而RealServer的VIP对外是不可见的。RealServer的地址即可以是内部地址，也可以是真实地址。</p>
+<p>DR模式是通过改写请求报文的目标MAC地址，将请求发给真实服务器的，而真实服务器响应后的处理结果直接返回给客户端用户。同TUN模式一样，DR模式可以极大的提高集群系统的伸缩性。而且DR模式没有IP隧道的开销，对集群中的真实服务器也没有必要必须支持IP隧道协议的要求。但是要求调度器LB与真实服务器RS都有一块网卡连接到同一物理网段上，必须在同一个局域网环境。</p>
+<p><strong>DR模式是互联网使用比较多的一种模式</strong>，DR模式原理图如下：</p>
+<p>​                        <img src= "/img/loading.gif" data-src="https://note.youdao.com/yws/api/personal/file/WEB9d1c7fcee56cc40f9758bad3319261ab?method=download&shareKey=9643baccbc0de23b0f1459d5e96d3e28" alt="avatar"></p>
+<p><strong>DR模式以上原理过程简述：</strong><br>VS/DR模式的工作流程图如上图所示，它的连接调度和管理与NAT和TUN中的一样，它的报文转发方法和前两种不同。DR模式将报文直接路由给目标真实服务器。在DR模式中，调度器根据各个真实服务器的负载情况，连接数多少等，动态地选择一台服务器，不修改目标IP地址和目标端口，也不封装IP报文，而是将请求报文的数据帧的目标MAC地址改为真实服务器的MAC地址。然后再将修改的数据帧在服务器组的局域网上发送。因为数据帧的MAC地址是真实服务器的MAC地址，并且又在同一个局域网。那么根据局域网的通讯原理，真实复位是一定能够收到由LB发出的数据包。真实服务器接收到请求数据包的时候，解开IP包头查看到的目标IP是VIP。（此时只有自己的IP符合目标IP才会接收进来，所以我们需要在本地的回环借口上面配置VIP。</p>
+<p>另外:  由于网络接口都会进行ARP广播响应，但集群的其他机器都有这个VIP的lo接口，都响应就会冲突。所以我们需要把真实服务器的lo接口的ARP响应关闭掉。）然后真实服务器做成请求响应，之后根据自己的路由信息将这个响应数据包发送回给客户，并且源IP地址还是VIP。</p>
+<p>其实整个DR模式都是停留在第二层的数据链路层, 直接修改MAC。实现报文的转发。再看下面的DR模式图:</p>
+<p><img src= "/img/loading.gif" data-src="https://note.youdao.com/yws/api/personal/file/WEBb0dd5b7ea5d8acddec5896a570c900ad?method=download&shareKey=3ae24eb26c6d5ce0657f77cf841ab314" alt="img"></p>
+<blockquote>
+<p>1） 当用户请求到达Director Server，此时请求的数据报文会先到内核空间的PREROUTING链。 此时报文的源IP为CIP，目标IP为VIP;</p>
+<p>2）PREROUTING检查发现数据包的目标IP是本机，将数据包送至INPUT链;</p>
+<p>3）   IPVS比对数据包请求的服务是否为集群服务，若是，将请求报文中的源MAC地址修改为DIP的MAC地址，将目标MAC地址修改RIP的MAC地址，然后将数据包发至POSTROUTING链。 此时的源IP和目的IP均未修改，仅修改了源MAC地址为DIP的MAC地址，目标MAC地址为RIP的MAC地址;</p>
+<p>4）由于DS和RS在同一个网络中，所以是通过二层来传输。POSTROUTING链检查目标MAC地址为RIP的MAC地址，那么此时数据包将会发至Real Server;</p>
+<p>5）响应报文最终送达至客户端;</p>
+</blockquote>
+<p><strong>注：LB只能改写目的MAC地址，因此它不能改变请求报文的目的端口端口，LVS只支持unix和linux，但集群节点服务器可以是win系统，此种模式配置相当麻烦</strong></p>
+<blockquote>
+<p>1 在前端路由器做静态地址路由绑定，将对于VIP的地址仅路由 到Director Server<br>\2arptables：在arp的层次上实现在ARP解析时做防火墙规则，过滤RS响应ARP请求。修改RS上内核参数（arp_ignore和arp_announce）将RS上的VIP配置在网卡接口的别名上，并限制其不能响应对VIP地址解析请求。<br>3)RS可以使用私有地址；但也可以使用公网地址，此时可以直接通过互联网连入RS以实现配置、监控等；<br>4)RS的网关一定不能指向DIP；<br>5)RS跟Dirctory要在同一物理网络内（不能由路由器分隔）；<br>6)请求报文经过Directory，但响应报文一定不经过Director</p>
+</blockquote>
+<p>LVS的调度算法决定了如何在集群节点之间分配负载压力（访问请求）</p>
+<p><strong>调度算法：</strong></p>
+<p><strong>rr</strong>轮循调度：将请求依次分配给集群的节点，这种算法适用于各个节点处理能力基本相同的情况下</p>
+<p><strong>wrr</strong>加权轮循调度：根据节点的权重来分配，权重较高的优先分配</p>
+<p><strong>wlc</strong>加权最小连接数调度：按权重和连接数的数量来分配</p>
+<p><strong>lc</strong>最小连接数调度：按连接数的数量来分配</p>
+<p><strong>实际生产环境LVS调度算法选型</strong></p>
+<p>一般网络服务，如HTTP、MAIL、MYSQL常用的调度算法有：rr、wlc、wrr</p>
+<script src='https://cdn.jsdelivr.net/gh/sviptzk/HexoStaticFile@latest/Hexo/js/mouse_snow.min.js'></script>
+
+]]></content>
+      <categories>
+        <category>Linux集群架构</category>
+      </categories>
+      <tags>
+        <tag>LVS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux用户管理</title>
+    <url>/Linux%E5%9F%BA%E7%A1%80/Linux%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86/</url>
+    <content><![CDATA[<h1 id="用户管理"><a href="#用户管理" class="headerlink" title="用户管理"></a>用户管理</h1><span id="more"></span>
+
+<hr>
+<h2 id="1-用户和用户组的概念"><a href="#1-用户和用户组的概念" class="headerlink" title="1 用户和用户组的概念"></a>1 用户和用户组的概念</h2><ol>
+<li><strong>用户概念：</strong></li>
+</ol>
+<p>在linux中一切都是文件（文件夹和硬件设备是特殊的文件)，如果有可能尽量使用文本文件。文本文件是人和机器能理解的文件，也成为人和机器进行交流的最好途径。由于所有的配置文件都是文本，所以你只需要一个最简单的编辑器就可以修改。由于修改文本文件如此简单，所以Linux系统本身肯定要加以规范。这就引出了用户(组)和权限这2个概念。而这2个概念的引入，完美的保证了Linux的安全性，同时没有添加复杂性。由于一切皆为文件。所以Linux引入了3个文件来管理用户（组）， /etc/passwd存放用户信息，/etc/shadow存放用户密码信息，/etc/group存放组信息，然后在文件系统中的每个文件的文件头里面添加了用户和文件之间的关系信息。</p>
+<ol start="2">
+<li><p><strong>用户、组、文件有三种关系：</strong></p>
+<ul>
+<li><p>用户和文件的关系只有2种：拥有和不拥有。</p>
+</li>
+<li><p>组合文件的关系只有2种：拥有和不拥有。</p>
+</li>
+<li><p>组和用户的关系只有2种：属于和不属于。</p>
+</li>
+</ul>
+</li>
+<li><p><strong>将这三种关系叠加，用户和文件的最终关系可以归纳为3类：</strong></p>
+<ul>
+<li><p>用户拥有该文件。</p>
+</li>
+<li><p>用户属于哪个组，某个组拥有该文件（既用户通过属于某个组拥有该文件）。</p>
+</li>
+<li><p>用户不拥有该文件。</p>
+</li>
+</ul>
+</li>
+<li><p><strong>用户分类：</strong></p>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>用户分类</th>
+<th>作用</th>
+<th>特定</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>超级用户root (uid == 0)</td>
+<td>管理维护整个系统</td>
+<td>最高管理权限</td>
+</tr>
+<tr>
+<td>普通用户(uid &gt;= 1000)</td>
+<td>只能查看和管理自己的一亩三分地</td>
+<td>管理特定服务,为了安全</td>
+</tr>
+<tr>
+<td>程序用户(uid&gt;200 &amp;&amp; uid&lt;1000)</td>
+<td>让Linux下面服务正常运行所需要</td>
+<td>为了服务正常运行所需要并不需要登录到系统设置密码切换密、切换用户</td>
+</tr>
+</tbody></table>
+<ol start="5">
+<li><strong>用户组概念</strong>：</li>
+</ol>
+<p>每个用户都有一个用户组，系统可以对一个用户组中的所有用户进行集中管理。不同Linux 系统对用户组的规定有所不同，如Linux下的用户属于与它同名的用户组，这个用户组在创建用户时同时创建。</p>
+<ol start="6">
+<li><strong>用户组的分类:</strong><ul>
+<li>默认组： 创建与用户组同名的组；</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li>基本组：主要的组；    -g 指定；<ul>
+<li>附加组：额外指定的组；    -G 指定；</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="2-用户和用户组信息的查看"><a href="#2-用户和用户组信息的查看" class="headerlink" title="2. 用户和用户组信息的查看"></a>2. 用户和用户组信息的查看</h2><table>
+<thead>
+<tr>
+<th>用户分类</th>
+<th>作用</th>
+<th>特定</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>超级用户root (uid == 0)</td>
+<td>管理维护整个系统</td>
+<td>最高管理权限</td>
+</tr>
+<tr>
+<td>普通用户(uid &gt;= 1000)</td>
+<td>只能查看和管理自己的一亩三分地</td>
+<td>管理特定服务,为了安全</td>
+</tr>
+<tr>
+<td>程序用户(uid&gt;200 &amp;&amp; uid&lt;1000)</td>
+<td>让Linux下面服务正常运行所需要</td>
+<td>为了服务正常运行所需要并不需要登录到系统设置密码切换密、切换用户</td>
+</tr>
+</tbody></table>
+<ol>
+<li><strong>查看用户信息命令：<em>cat /etc/passwd</em></strong></li>
+</ol>
+<ul>
+<li><p>/etc/passwd;  用户信息;</p>
+</li>
+<li><p>root:X:0:0:root:/root:/bin/bash  以冒号为分隔符;</p>
+</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">字段1：用户名  --&gt; root</span><br><span class="line">字段2：密码占位符  --&gt; x （这里都是用x代替）</span><br><span class="line">字段3：uid，用户id  --&gt; 0</span><br><span class="line">字段4：gid ，组id --&gt; 0</span><br><span class="line">字段5：用户描述信息  --&gt; root</span><br><span class="line">字段6：家目录  --&gt;  /root</span><br><span class="line">字段7：登录 shell（用户登陆shell ，当为/bin/bash表示可以登陆，/sbin/nologin表示不被授权登陆）</span><br></pre></td></tr></table></figure>
+
+<p><font color='red'>注：</font>一般来说，只有 root 用户的 uid 是为0的。如果黑客把一个普通用户的 uid 修改为0的话，那么他只要以普通用户的用户名和密码登录，系统就会自动切换到root用户。所以，系统加固的时候一定要过滤出有哪些用户的UID为0</p>
+<ol start="2">
+<li><strong>查看用户密码信息命令：<em>cat/etc/shadow</em></strong></li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">/etc/shadow;  密码信息;</span><br><span class="line">bin:*:18353:0:99999:7:::</span><br><span class="line">字段1：用户名</span><br><span class="line">字段2：通过sha-512加密(二次加密，在经过第一次加密后，第二次加入随机数再次加密)的密码</span><br><span class="line">字段3：最后一次修改密码距离1970年1月1日的天数间隔</span><br><span class="line">字段4：密码最短有效期</span><br><span class="line">字段5：密码最长有效期</span><br><span class="line">字段6：密码过期前几天进行警告</span><br><span class="line">字段7：账户过期后，被锁定的天数</span><br><span class="line">字段8：账号失效时间距离1970年1月1日的天数间隔</span><br><span class="line">字段9：未分配功能</span><br><span class="line"></span><br><span class="line">ps: 字段2是用户的密码位，如果是 * 表示该用户禁用，!! 表示用户密码未初始化，如果为空，表示空密码的</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li><strong>查看用户组信息的命令：<em>cat/etc/group</em></strong></li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">组信息的显示有四个字段:</span><br><span class="line">字段1：组名称 --&gt; root</span><br><span class="line">字段2：组密码占位符  --&gt; x</span><br><span class="line">字段3：gid --&gt; 0</span><br><span class="line">字段4：组成员</span><br></pre></td></tr></table></figure>
+
+<p><font color='red'>ps</font>:一个用户只能有一个主要组，最多可以有31个附加组。主要组是用户创建文件时默认的所有组，附加组主要用于权限管理。不论用户属于哪个组，用户都能拥有该组的权限。</p>
+<p><font color='blue'><strong>特殊组wheel</strong></font>：在Linux中有一个特殊组<font color='red'>wheel</font>，wheel组就类似于一个管理员的组。在linux中，即使我们有系统管理员root的权限，也不推荐用root用户登录。一般情况下用普通用户登录就可以了，在需要root权限执行一些操作时，再su登录成为root用户。但是，任何人只要知道了root用户的密码，就都可以通过su命令来登录为root用户–这无疑为系统带来了安全隐患。所以，将普通用户加入到wheel组中，被加入的这个普通用户就成了管理员组内的用户了，然后可以修改配置文件使得只有wheel组内的用户可以切换到root用户。</p>
+<hr>
+<h2 id="3-用户和用户组的管理"><a href="#3-用户和用户组的管理" class="headerlink" title="3. 用户和用户组的管理"></a>3. 用户和用户组的管理</h2><h3 id="3-1用户的创建、删除和修改"><a href="#3-1用户的创建、删除和修改" class="headerlink" title="3.1用户的创建、删除和修改"></a>3.1用户的创建、删除和修改</h3><p><strong><font color='blue'>新建用户系统会做这三件事:</font></strong></p>
+<ol>
+<li>新建用户时，系统会将 /etc/skel 中的目录及文件拷贝到新建用户的家目录中。</li>
+<li>在 /var/spool/mail 中，新建用户名的邮箱 。</li>
+<li>在 /etc下的 passwd 、shadow 、group文件中，增加用户信息</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">whoami #我是谁</span><br><span class="line">useradd #创建用户</span><br><span class="line">		-u:	指定UID;</span><br><span class="line">		-c: 指定注释;</span><br><span class="line">		-s: 指定登录shell类型; /bin/bash  /sbin/nologin;</span><br><span class="line">		-G: 指定附加组;</span><br><span class="line">		-a: 追加;</span><br><span class="line">		-g: 指定基本组;</span><br><span class="line">		-r: 指定为系统用户 (UID 201-999)</span><br><span class="line">		-M: 不创建用户的家目录;</span><br><span class="line">		-d：指定其家目录；</span><br><span class="line">usermod: #修改用户;选项参照useradd</span><br><span class="line">userdel: </span><br><span class="line">		 1.#删除用户</span><br><span class="line">			-r: 同时删除用户以及用户家目录;</span><br><span class="line">		 2.# 有进程正在使用该用户,所以无法删除; 只有进程退出后;用户没有被占用,才可以处理;</span><br><span class="line">			kill -9 [要干掉的进程ID]</span><br><span class="line">			userdel username</span><br><span class="line">		 3.# 不加 -r 参数，只删除 passwd、shadow 和 group 文件中的用户信息，/home 目录下的文件不删除，/var/spool/mail/ 下的文件不删除</span><br><span class="line">		   # 加 -r 参数，删除 passwd、shadow 和 group 文件中的用户信息，同时删除用户的家目录和邮箱		   	</span><br><span class="line">			userdel -r username</span><br></pre></td></tr></table></figure>
+
+<p>以下这条命令直接生成一个具有root权限的用户：venus，密码为：123qwe 。前提是这条命令的执行需要root权限。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">useradd -p `openssl passwd -1 -salt &#x27;user&#x27; 123qwe` -u 0 -o -g root  -G root -s /bin/bash -d /home/user venus</span><br></pre></td></tr></table></figure>
+
+<p><font color='red'>注</font>：用户创建时，默认的属性（比如UID，GID，是否创建家目录，创建邮箱等）都是通过/etc/login.defs文件控制的，修改此文件的属性，会影响以后创建的所有用户。也可以创建用户时指定参数修改，这样只对当前创建用户有效</p>
+<p><strong><font color='blue'>删除用户：</font></strong></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">userdel  -r  james  #删除用户一定记得加 -r 参数 ！！</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>不加 -r 参数，只删除 passwd、shadow 和 group 文件中的用户信息，/home 目录下的文件不删除，/var/spool/mail/ 下的文件不删除。</li>
+<li>加 -r 参数，删除 passwd、shadow 和 group 文件中的用户信息，同时删除用户的家目录和邮箱。</li>
+</ol>
+<p><strong><font color='blue'>修改用户属性：</font></strong></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">usermod   参数   james</span><br><span class="line"></span><br><span class="line">-s 修改用户的登陆shell   usermod -s /sbin/nologin james </span><br><span class="line">-L 账户锁定  (可以通过 passwd -S  账户名 查看账户的状态)</span><br><span class="line">-U 解锁账户</span><br><span class="line">-g  修改账户所在组   例：将bob所在组改成james：usermod  -g  james   bob   </span><br><span class="line">-G  给账户添加附加组  例：给bob添加一个附加组john：usermod  -G  john  bob；从附加组john中删除用户bob：gpasswd -d  bob  john</span><br><span class="line">-a  默认情况下，当用户已经存在附加组时，再添加附加组则会把之前的附加组给替换了，加 -a 参数，则不替换原来的附加组，意味着该用户可以有多个附加组。</span><br></pre></td></tr></table></figure>
+
+<p><strong><font color='blue'>锁定和解锁用户：</font></strong></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">锁定用户：usermod -L www    或   passwd -l www</span><br><span class="line">解锁用户：usermod -U www   或   passwd -u www</span><br><span class="line">查看用户状态：passwd -S www</span><br><span class="line"></span><br><span class="line">注：虽然 usermod 和 passwd 这两个命令都可以锁定和解锁用户，但是还是有区别的。区别之一就是passwd命令操作完后会有提示。还有一个区别就是 passwd 的权限比 usermod 大，使用 usermod 锁定的用户可以用 passwd 来解锁，但是使用 passwd 锁定的用户不能用 usermod 来解锁</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-2-用户密码修改"><a href="#3-2-用户密码修改" class="headerlink" title="3.2 用户密码修改"></a>3.2 用户密码修改</h3><ul>
+<li><p>修改命令使用passwd来实现：</p>
+<p>1.超级管理员:</p>
+<pre><code>        1.1) 随意修改任何人的密码;
+        1.2) 密码强度可以随意;
+</code></pre>
+<p>2.普通用户执行:</p>
+<pre><code>        2.1) 仅修改自己的密码,不可以修改其他人;
+        2.2) 密码强度必须满足8个字符及以上;
+</code></pre>
+<p>3.passwd使用方法:</p>
+</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">1.交互式修改密码：</span><br><span class="line">	passwd username</span><br><span class="line">2.非交互式修改密码：</span><br><span class="line">	echo &quot;passwd&quot; | passwd --stdin username</span><br><span class="line">	Changing password for user jack.</span><br><span class="line">	passwd: all authentication tokens updated successfully.	</span><br><span class="line">如果想要设置强度较高的密码需要安装 </span><br><span class="line"><span class="meta">	#</span><span class="bash">yum install -y expect</span> </span><br><span class="line"><span class="meta">			#</span><span class="bash"> -l 长度</span></span><br><span class="line"><span class="meta">			#</span><span class="bash"> -d 数字</span></span><br><span class="line"><span class="meta">			#</span><span class="bash"> -c 小写</span></span><br><span class="line"><span class="meta">			#</span><span class="bash"> -C 大写</span></span><br><span class="line"><span class="meta">			#</span><span class="bash"> -s 特殊字符</span></span><br><span class="line">			mkpasswd -l 10 -d 3 -c 3 -C 3 -s 1</span><br><span class="line">			Y44ssjSG0,</span><br><span class="line">	echo &quot;$(mkpasswd -l 10 -d 3 -c 3 -C 3 -s 1)&quot; | tee ok.txt | passwd --stdin tom</span><br><span class="line">	Changing password for user jack.</span><br><span class="line">	passwd: all authentication tokens updated successfully.</span><br><span class="line">	[root@tom /]# cat ok.txt </span><br><span class="line">1hNOp*H63y</span><br><span class="line"><span class="meta">	#</span><span class="bash">tee -a //追加</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">生成密码的方法</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">方法1</span> </span><br><span class="line"> mkpasswd -l 16  #16位密码</span><br><span class="line"><span class="meta"> </span></span><br><span class="line"><span class="meta"> #</span><span class="bash">方法2</span></span><br><span class="line"> echo  $RANDOM|md5sum |head -c16</span><br><span class="line"> RANDOM 系统变量(环境变量) 生成随机数字 </span><br><span class="line"><span class="meta"> </span></span><br><span class="line"><span class="meta"> #</span><span class="bash">方法3 date</span> </span><br><span class="line"> date +%N |md5sum  |head -c16</span><br><span class="line"><span class="meta"> </span></span><br><span class="line"><span class="meta"> #</span><span class="bash">方法4  了解</span></span><br><span class="line"> [root@oldboyedu ~]# echo  123  |tr 123 abc</span><br><span class="line">abc</span><br><span class="line">[root@oldboyedu ~]# </span><br><span class="line">[root@oldboyedu ~]# echo  123123  |tr 123 abc</span><br><span class="line">abcabc</span><br><span class="line">[root@oldboyedu ~]# echo  112233  |tr 123 abc</span><br><span class="line">aabbcc</span><br><span class="line">[root@oldboyedu ~]# #1对1的替换 </span><br><span class="line">[root@oldboyedu ~]# #tr 替换  </span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">tr 生成随机字符 (删除)</span></span><br><span class="line">-d 删除</span><br><span class="line">-c 取反</span><br><span class="line">tr -cd  &#x27;0-9&#x27;  &lt;/dev/urandom |head -c16</span><br><span class="line">tr -cd  &#x27;a-zA-Z0-9&#x27;  &lt;/dev/urandom |head -c16</span><br></pre></td></tr></table></figure>
+
+<p>注：借助chage指令，可以修改用户的密码策略，也可通过编辑 /etc/shadow (不建议)</p>
+<p>​        比如：chage  -l  bob，查看用户bob的密码策略</p>
+<p>​       chage -M 90 bob，将用户bob的密码有效期修改为90天</p>
+<p>​        脚本实现修改用户的密码策略</p>
+<ul>
+<li><font color='red'><strong>练习：</strong></font></li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">1.#批量创建10个用户oldboy01..oldboy10,并设置123456为密码(不能用循环等语句,如for,while等)</span><br><span class="line">echo oldboy&#123;01..10&#125;|xargs -n1|sed -r &#x27;s#(.*)#useradd \1; echo 123456|passwd --stdin \1#g&#x27;|bash</span><br><span class="line"></span><br><span class="line">2.#批量创建10个用户oldboy01..oldboy10,并设置随机8为密码(不能用循环等语句,如for,while等)</span><br><span class="line">echo oldboy&#123;11..20&#125; |xargs -n1|sed -r &#x27;s#(.*)#useradd \1;p=`mkpasswd -l 8`;echo $p|passwd --stdin \1;echo \1 $p&gt;&gt;/root/pass.txt#g&#x27; |bash</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-3用户组管理"><a href="#3-3用户组管理" class="headerlink" title="3.3用户组管理"></a>3.3用户组管理</h3><p><strong><font color='blue'>添加组：</font></strong> groupadd www</p>
+<ol>
+<li> -g, –gid                      为新组使用 GID，例 groupadd -g 2000 xie  创建新组xie，并且gid设置为2000</li>
+<li> -K, –key                    不使用 /etc/login.defs 中的默认值</li>
+<li> -o, –non-unique      允许创建有重复 GID 的组</li>
+<li> -p, –password         为新组使用此加密过的密码</li>
+<li> -r, –system               创建一个系统账户</li>
+</ol>
+<p><strong><font color='blue'>删除组：</font></strong> groupdel www</p>
+<p> -r , –remove                    删除主目录和邮件池</p>
+<p><strong><font color='blue'>修改组的属性： </font></strong> groupmod www</p>
+<p> -g, –gid GID                    将组 ID 改为 GID<br>         -n, –new-name             改名为 NEW_GROUP<br>         -o, –non-unique           允许使用重复的 GID</p>
+<p><strong><font color='blue'>修改组中的用户：groupmems： </font></strong></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">groupmems   -a  john  -g  www    将用户john加到www组中</span><br><span class="line">groupmems   -d  john  -g  www    将用户john从xie组中移除 或 gpasswd -d  john  www</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+]]></content>
+      <categories>
+        <category>Linux基础</category>
+      </categories>
+      <tags>
+        <tag>用户</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux系统Bash初识</title>
+    <url>/Linux%E5%9F%BA%E7%A1%80/Linux%E7%B3%BB%E7%BB%9FBash%E5%88%9D%E8%AF%86%E5%88%AB/</url>
+    <content><![CDATA[<h2 id="Linux系统终端"><a href="#Linux系统终端" class="headerlink" title="Linux系统终端"></a>Linux系统终端</h2><p>服务器终端切换：Ctrl + Alt +F1 … F6</p>
+<p>虚拟机终端切换： Ctrl + Shift + Alt + F1 … F6</p>
+<p>虚拟终端由<em>mingetty</em>程序生成</p>
+<span id="more"></span>
+
+
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">//物理机执行为本地终端</span><br><span class="line">[root@dennis.com ~]$ tty</span><br><span class="line">/dev/tty1</span><br><span class="line"></span><br><span class="line">//通过网路使用模拟终端远程连接Linux, 日常运维中就是这种方式</span><br><span class="line">[root@dennis.com ~]$ tty</span><br><span class="line">/dev/pts/0</span><br></pre></td></tr></table></figure>
+
+<h2 id="Linux系统Bash系统管理"><a href="#Linux系统Bash系统管理" class="headerlink" title="Linux系统Bash系统管理"></a>Linux系统Bash系统管理</h2><p>​                                              <img src= "/img/loading.gif" data-src="https://img1.baidu.com/it/u=404627178,1930063483&fm=15&fmt=auto&gp=0.jpg" alt="img" style="zoom: 50%;" /></p>
+<p>简单的说, Shell是系统的⽤户界⾯，提供了⽤户与内核进⾏交互操作的⼀种接⼝。它接收⽤户输</p>
+<p>⼊的命令并把它送⼊内核去执⾏。</p>
+<p>​                                                <img src= "/img/loading.gif" data-src="https://images2017.cnblogs.com/blog/1222491/201801/1222491-20180128195658115-361387611.png" alt="img" style="zoom:50%;" /></p>
+<p>实际上Shell是⼀个命令解释器，它解释由⽤户输⼊的命令并且把它们送到内核。</p>
+<blockquote>
+<p>BASH Shell: 是⼀个为GNU计划编写的Unix shell, 是许多Linux发⾏版的默认Shell</p>
+<p>C Shell: 是SUN公司Shell的BSD版本。</p>
+<p>Z Shell: 它集成了bash、ksh的重要特性，同时⼜增加了⾃⼰独有的特性。</p>
+<p>还有许多传统UNIX上⽤的Shell，例如tcsh、csh、ash、bsh、ksh等, Shell Script⼤致都类</p>
+<p>同，当您学会⼀种Shell以后，其它的Shell很快就上⼿, ⼤多数的时候, ⼀个Shell脚本 通常可</p>
+<p>以在很多种Shell上使⽤。</p>
+</blockquote>
+<p>查看当前使用的shell</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@dennis.com ~]$ <span class="built_in">echo</span> <span class="variable">$SHELL</span></span><br><span class="line">/bin/bash</span><br></pre></td></tr></table></figure>
+
+<p>查看 Linux 可⽤的 shell</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@dennis.com ~]$ cat /etc/shells </span><br><span class="line">/bin/sh</span><br><span class="line">/bin/bash</span><br><span class="line">/usr/bin/sh</span><br><span class="line">/usr/bin/bash</span><br><span class="line">/sbin/nologin</span><br></pre></td></tr></table></figure>
+
+<p>Bash Shell 提示符</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="variable">$PS1</span></span><br><span class="line">[\[\e[34;1m\]\u@\[\e[0m\]\[\e[32;1m\]\H\[\e[0m\] \[\e[31;1m\]\w\[\e[0m\]]\\$</span><br><span class="line"></span><br><span class="line">[root@dennis.com ~]$ date</span><br><span class="line">Sun Jul 25 21:53:32 CST 2021</span><br></pre></td></tr></table></figure>
+
+<h2 id="基础命令语法结构"><a href="#基础命令语法结构" class="headerlink" title="基础命令语法结构"></a>基础命令语法结构</h2><ul>
+<li><p>命令 选型 参数：</p>
+<ul>
+<li>命令：命令主题功能；</li>
+<li>选项：用来调节命令的输出；</li>
+<li>参数； 对应要操作的文件或目录。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">//等待⽤户输⼊,执⾏命令,	$	=	普通⽤户,	<span class="comment">#	=	root⽤户(超级管理员)</span></span><br><span class="line">[student@desktop0	~]$</span><br><span class="line"></span><br><span class="line">//bash	Shell	执⾏命令</span><br><span class="line">//命令		选项		参数</span><br><span class="line"><span class="built_in">command</span>	[-options]	[arguments]</span><br><span class="line">[root@dennis.com ~]$ ls				<span class="comment">#命令</span></span><br><span class="line">[root@dennis.com ~]$ ls	-a			<span class="comment">#命令+选项</span></span><br><span class="line">[root@dennis.com ~]$ ls	-a	/tmp/	<span class="comment">#命令+选项+参数</span></span><br><span class="line"></span><br><span class="line">命令:	命令的主体</span><br><span class="line">				⼀个命令有多个选项,	多个选项可以合并在⼀起</span><br><span class="line">选项:	⽤于调节命令的具体功能</span><br><span class="line">				以	“-”引导短格式选项（单个字符），例如“-l”</span><br><span class="line">				以“--”引导⻓格式选项（多个字符），例如“--color”</span><br><span class="line">				多个短格式选项可以写在⼀起，只⽤⼀个“-”引导，例如“-al”</span><br><span class="line">参数:	命令操作的对象，如⽂件、⽬录名等</span><br><span class="line"><span class="comment">#	命令必须开头， 选项和参数位置可以发⽣变化</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="Bash特性-自带功能"><a href="#Bash特性-自带功能" class="headerlink" title="Bash特性-自带功能"></a>Bash特性-自带功能</h2><ol>
+<li><p>命令补全</p>
+<ul>
+<li>命令补全；</li>
+<li>路径补全；</li>
+<li><font color='red'>注意</font>: 当tab一下不行,就两下,如果两下不行,就说明路径不对,或输入的命令不对;</li>
+</ul>
+<p><strong>tab</strong>键以实现命令补全, 路径补全和命令实现⽅式⼀致, ⼯作中我们经常⽤到 tab 补全, 减少执⾏命令以及路径出错率。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">//查看ip时忘记具体了命令</span><br><span class="line">[root@dennis.com ~]$ ifcon</span><br><span class="line">//按下tab键会⾃动补全</span><br><span class="line">[root@dennis.com ~]$ ifconfig</span><br><span class="line"></span><br><span class="line">//按⼀下tab键没有反应,	按两下tab键列出所有<span class="keyword">if</span>开头的命令</span><br><span class="line">[root@dennis.com ~]$ <span class="keyword">if</span></span><br><span class="line"><span class="keyword">if</span>         ifcfg      ifconfig   ifdown     ifenslave  ifnames    ifstat     iftop      ifup</span><br><span class="line"></span><br><span class="line">//linux路径较深,	经常使⽤tab键进⾏补全,	如果路径出错是没有办法补全</span><br><span class="line">[root@dennis.com ~]$ ls	/etc/sysconfig/network-scripts/</span><br></pre></td></tr></table></figure></li>
+<li><p>快捷键</p>
+<p>快捷键可以帮助我们提升工作效率。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Ctrl	+	A				//光标跳转⾄正在输⼊的命令⾏的⾸部</span><br><span class="line">Ctrl	+	E				//光标跳转⾄正在输⼊的命令⾏的尾部</span><br><span class="line">Ctrl	+	C				//终⽌前台运⾏的程序</span><br><span class="line">Ctrl	+	D				//在shell中，ctrl-d表示推出当前shell。</span><br><span class="line">Ctrl	+	Z				//将任务暂停，挂⾄后台</span><br><span class="line">Ctrl	+	L				//清屏，和clear命令等效。</span><br><span class="line">Ctrl	+	K				//删除从光标到⾏末的所有字符</span><br><span class="line">Ctrl	+	U				//删除从光标到⾏⾸的所有字符</span><br><span class="line">Ctrl	+	R				//搜索历史命令,	利⽤关键字</span><br><span class="line">//在命令⾏前加⾯加	<span class="string">&quot;#&quot;</span>	则该命令不会被执⾏</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><p>让我先来看看linux中常用的一些简单命令：</p>
+<h3 id="History命令"><a href="#History命令" class="headerlink" title="History命令"></a>History命令</h3><p>history 查看系统命令历史, 追溯之前发⽣情况</p>
+<blockquote>
+<p>命令选项</p>
+<p>-w 保存命令历史到历史⽂件</p>
+<p>-c 清空命令历史记录, 不会清空⽂件</p>
+<p>-d 删除命令历史的第 N 条⾏</p>
+</blockquote>
+<p>history 命令历史相关快捷键</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">//使⽤双	!!	可执⾏上⼀条命令</span><br><span class="line">[root@dennis.com ~]$ ls</span><br><span class="line">hello.txt</span><br><span class="line">[root@dennis.com ~]$ !!</span><br><span class="line">ls</span><br><span class="line">hello.txt</span><br><span class="line"></span><br><span class="line">//输⼊!6,	执⾏<span class="built_in">history</span>命令历史中第 6 ⾏命令</span><br><span class="line">[root@dennis.com ~]$ !6</span><br><span class="line">ls</span><br><span class="line">hello.txt</span><br><span class="line"></span><br><span class="line">//使⽤!cat,	调⽤<span class="built_in">history</span>命令历史最近⼀次执⾏过的cat命令</span><br><span class="line">[root@dennis.com ~]$ cat /etc/sysconfig/network-scripts/ifcfg-eth0</span><br><span class="line">[root@dennis.com ~]$ !cat</span><br><span class="line">cat	/etc/sysconfig/network-scripts/ifcfg-eth0</span><br><span class="line"></span><br><span class="line">[root@dennis.com ~]$ ls	/etc/passwd</span><br><span class="line">//调⽤上⼀条命令的最后参数或选项,	按下ESC松开,	然后按下 <span class="string">&quot;.&quot;</span></span><br><span class="line">[root@dennis.com ~]$ cat</span><br><span class="line">[root@dennis.com ~]$ cat	/etc/passwd</span><br><span class="line">//第⼆种⽅式,	输⼊!$</span><br><span class="line">[root@dennis.com ~]$ ls	!$</span><br><span class="line">ls	/etc/passwd</span><br><span class="line">/etc/passwd</span><br></pre></td></tr></table></figure>
+
+<h3 id="Alias命令别名"><a href="#Alias命令别名" class="headerlink" title="Alias命令别名"></a>Alias命令别名</h3><p>命令别名将⽤户经常使⽤的复杂命令简单化, 可以⽤ “alias    别名名称=命令” 命令创建属于⾃⼰的</p>
+<p>命令别名, 若要取消⼀个命令别名，则是⽤ unalias    别名名称 命令。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">//1.定义临时别名,	if1为查看eth0⽹卡别名</span><br><span class="line">[root@dennis.com ~]$ <span class="built_in">alias</span> if0=<span class="string">&#x27;ifconfig eth0&#x27;</span></span><br><span class="line">[root@dennis.com ~]$ if0</span><br><span class="line">eth0: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 1500</span><br><span class="line">        inet 172.25.183.186  netmask 255.255.240.0  broadcast 172.25.191.255</span><br><span class="line"></span><br><span class="line">//如果定义命令本身,	会执⾏什么?</span><br><span class="line">[root@dennis.com ~]$ <span class="built_in">alias</span>	ifconfig=<span class="string">&#x27;ifconfig	eth0&#x27;</span></span><br><span class="line">//绝对路径执⾏,	调⽤命令本身</span><br><span class="line">[root@dennis.com ~]$ /sbin/ifconfig</span><br><span class="line">//通过\转义字符,	调⽤命令本身</span><br><span class="line">[root@dennis.com ~]$ \ifconfig</span><br><span class="line"></span><br><span class="line">//2.定义系统永久⽣效别名,	将命令别名添加⾄当前⽤户环境配置⽂件</span><br><span class="line">[root@dennis.com ~]$ <span class="built_in">echo</span> <span class="string">&quot;alias ifconfig=&#x27;ifconfig	eth0&#x27;&quot;</span>	&gt;&gt;	~/.bashrc</span><br><span class="line"></span><br><span class="line">//3.取消临时别名</span><br><span class="line">[root@dennis.com ~]$ <span class="built_in">unalias</span> ifconfig	</span><br></pre></td></tr></table></figure>
+
+<h2 id="Bash特性-命令流程"><a href="#Bash特性-命令流程" class="headerlink" title="Bash特性:命令流程"></a>Bash特性:命令流程</h2><p>当我们执⾏⼀个命令, 整个命令执⾏流程如下:</p>
+<ol>
+<li><p>判断命令是否通过绝对路径执⾏</p>
+</li>
+<li><p>判断命令是否存在别名</p>
+</li>
+<li><p>判断⽤户输⼊的是内部命令还是外部命令</p>
+</li>
+<li><p>内部命令直接执⾏, 外部命令检测是否存在缓存</p>
+</li>
+<li><p>检测 PATH 路径, 有执⾏, ⽆报错</p>
+</li>
+</ol>
+<blockquote>
+<p>内部命令: shell程序⾃带的命令。</p>
+<p>外部命令: 在系统PATH变量的某个路径下的可执⾏程序。</p>
+</blockquote>
+<p>使⽤ type 命令检测⽤户输⼊的命令属于内部命令还是外部命令&gt;。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">//<span class="built_in">cd</span>命令属于shell内部命令</span><br><span class="line">[root@dennis.com ~]$ <span class="built_in">type</span> -a <span class="built_in">cd</span></span><br><span class="line"><span class="built_in">cd</span> is a shell <span class="built_in">builtin</span></span><br><span class="line"><span class="built_in">cd</span> is /usr/bin/<span class="built_in">cd</span></span><br><span class="line"></span><br><span class="line">//ping属于外部命令,	同时会打印当前命令路径</span><br><span class="line">[root@dennis.com ~]$ <span class="built_in">type</span> -a ping</span><br><span class="line">ping is /usr/bin/ping</span><br></pre></td></tr></table></figure>
+
+<p>PATH 变量定义的路径, 作⽤是告诉 Bash 执⾏的外部命令存放的位置， Bash 会在这些路径中进⾏逐个扫描</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">//<span class="built_in">echo</span>所⻅即所得</span><br><span class="line">[root@dennis.com ~]$ <span class="built_in">echo</span> <span class="string">&quot;123&quot;</span></span><br><span class="line">123</span><br><span class="line">[root@dennis.com ~]$ <span class="built_in">echo</span> -e <span class="string">&quot;123 \n456&quot;</span></span><br><span class="line">123 </span><br><span class="line">456</span><br><span class="line"></span><br><span class="line">//打印当前环境变量⽬录</span><br><span class="line">[root@dennis.com ~]$ <span class="built_in">echo</span> <span class="variable">$PATH</span></span><br><span class="line">/app/node/bin:/usr/<span class="built_in">local</span>/sbin:/usr/<span class="built_in">local</span>/bin:/usr/sbin:/usr/bin:/root/bin</span><br><span class="line"></span><br><span class="line">//PATH由多个路径组成，每个路径值之间⽤冒号间隔，对这些路径的增加和删除操作都将影响到Bash解释器对Linux命令的查找。</span><br><span class="line"></span><br><span class="line">//修改PATH变量</span><br><span class="line">[root@dennis.com ~]$ PATH=/soft/bin:<span class="variable">$PATH</span></span><br><span class="line">//写⼊/etc/profile配置⽂件永久⽣效</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;export	PATH=/soft/bin:$PATH&#x27;</span>	&gt;&gt;	/etc/profile</span><br></pre></td></tr></table></figure>
+
+<p>事实上执⾏过的外部命令都会保存在内存缓存中, 当再次执⾏相同的命令, 会通过缓存调取执⾏,也就意味着不会搜索 PATH 路径。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@dennis.com ~]$ <span class="built_in">hash</span></span><br><span class="line">hits	<span class="built_in">command</span></span><br><span class="line">   1	/usr/sbin/ifconfig</span><br><span class="line">   2	/usr/bin/cat</span><br><span class="line">   </span><br><span class="line">//已缓存命令,如果移动位置会导致⽆法找到该命令</span><br><span class="line">[root@dennis.com ~]$	mv	/sbin/ifconfig	/bin/</span><br><span class="line">[root@dennis.com ~]$	ifconfig</span><br><span class="line">-bash:	/sbin/ifconfig:	No	such	file	or	</span><br><span class="line"></span><br><span class="line">//删除缓存过的ifconfig命令,	即可执⾏[root@xuliangwei	~]<span class="comment">#	hash	-d	ifconfig</span></span><br><span class="line">[root@dennis.com ~]$ ifconfig</span><br><span class="line"></span><br><span class="line">//当然可以清空缓存表</span><br><span class="line">[root@dennis.com ~]$ <span class="built_in">hash</span> -r</span><br><span class="line">[root@dennis.com ~]$ <span class="built_in">hash</span> -d ifconfig</span><br><span class="line">[root@dennis.com ~]$ ifconfig</span><br><span class="line"></span><br><span class="line">//当然可以清空缓存表</span><br><span class="line">[root@dennis.com ~]$ <span class="built_in">hash</span> -r</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">//命令缓存<span class="built_in">hash</span>需要注意如下情况:</span><br><span class="line">1.如果执⾏外部命令1次就会对该命令进⾏缓存</span><br><span class="line">2.如果将命令移动了位置</span><br><span class="line">				a.使⽤绝对路径执⾏</span><br><span class="line">				b.删除<span class="built_in">hash</span>表的缓存指令</span><br></pre></td></tr></table></figure>
+
+<p>总结, 当我们执⾏了⼀个 ping 命令之后, 整个命令执⾏的流程步骤如下:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">1.检查执⾏的是否是绝对路径执⾏</span><br><span class="line">2.检查该ping命令是否存在别名</span><br><span class="line">3.检查该ping命令是内部命令还是外部命令</span><br><span class="line">4.如果是内部指令直接执⾏, 如果是外部命令</span><br><span class="line">5.检测该命令是否有缓存,如果没有,查找PATH变量</span><br><span class="line">6.检查PATH路径直到查找到该命令然后执⾏</span><br><span class="line">7.如果没有找到该命令则返回错误。<span class="built_in">command</span> not found</span><br></pre></td></tr></table></figure>
+
+<h2 id="Bash特性：路径展开"><a href="#Bash特性：路径展开" class="headerlink" title="Bash特性：路径展开"></a>Bash特性：路径展开</h2><p>Linux    Shell 下路径展开⽤花括号包括, 逗号分隔, 这样花括号⾥的内容会被展开形成列表。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@dennis.com ~]$ mkdir /tmp/zz/a/b /tmp/a/b -pv</span><br><span class="line">mkdir: created directory ‘/tmp/zz’</span><br><span class="line">mkdir: created directory ‘/tmp/zz/a’</span><br><span class="line">mkdir: created directory ‘/tmp/zz/a/b’</span><br><span class="line">mkdir: created directory ‘/tmp/a’</span><br><span class="line">mkdir: created directory ‘/tmp/a/b’</span><br><span class="line"></span><br><span class="line">//删除⽬录</span><br><span class="line">[root@dennis.com ~]$	rm	-rf	/tmp/&#123;zz,yy&#125;</span><br><span class="line">//通过路径展开⽅式创建⽬录</span><br><span class="line">[root@dennis.com ~]$	mkdir	/tmp/&#123;zz,yy&#125;/a/b	-pv</span><br><span class="line">mkdir:	created	directory	`/tmp/zz<span class="string">&#x27;</span></span><br><span class="line"><span class="string">mkdir:	created	directory	`/tmp/zz/a&#x27;</span></span><br><span class="line">mkdir:	created	directory	`/tmp/zz/a/b<span class="string">&#x27;</span></span><br><span class="line"><span class="string">mkdir:	created	directory	`/tmp/yy</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Bash特性：转义字符"><a href="#Bash特性：转义字符" class="headerlink" title="Bash特性：转义字符"></a>Bash特性：转义字符</h2><p>Shell解释器提供了⾮常丰富的转义字符, 来实现字符处理以及命令替换。</p>
+<p><font color='purple'><strong>四类常用转义字符</strong></font>：</p>
+<ul>
+<li>反斜杠（\）：使反斜杠后⾯的⼀个变量变为字符串。</li>
+<li>单引号（’’）：转义其中所有的变量为单纯的字符串。</li>
+<li>双引号（””）：保留其中的变量属性，不进⾏转义处理。</li>
+<li>反引号（``）：把其中的命令执⾏后返回结果。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@dennis.com /]$ <span class="built_in">echo</span> <span class="string">&quot;shoping is <span class="variable">$500</span>&quot;</span></span><br><span class="line">shoping is 00</span><br><span class="line">[root@dennis.com /]$ <span class="built_in">echo</span> <span class="string">&quot;shoping is \$500&quot;</span></span><br><span class="line">shoping is <span class="variable">$500</span></span><br><span class="line"></span><br><span class="line">//转义其中特殊字符为普通字符串</span><br><span class="line">[root@dennis.com /]$ <span class="built_in">echo</span> <span class="string">&#x27;shoping is $500&#x27;</span></span><br><span class="line">shoping is <span class="variable">$500</span></span><br><span class="line"></span><br><span class="line">//使⽤$()实现命令替换</span><br><span class="line">[root@dennis.com ~]$ <span class="built_in">echo</span> <span class="string">&quot;The Directory is <span class="subst">$(pwd)</span>&quot;</span></span><br><span class="line">The Directory is /root</span><br><span class="line"></span><br><span class="line">//使⽤``实现命令替换</span><br><span class="line">[root@dennis.com ~]$ <span class="built_in">echo</span> <span class="string">&quot;The Directory is `pwd`&quot;</span></span><br><span class="line">The	Directory is /root</span><br><span class="line"></span><br><span class="line">//转义其中所有的变量为单纯的字符串</span><br><span class="line"></span><br><span class="line">[root@dennis.com ~]$ touch file-`date +%F-%H-%S`</span><br><span class="line">[root@dennis.com ~]$ ls</span><br><span class="line">file-2021-03-26-09-47</span><br><span class="line"></span><br><span class="line">[root@dennis.com ~]$ touch <span class="string">&#x27;file-`date +%F-%H-%S`&#x27;</span></span><br><span class="line">[root@dennis.com ~]$ ls</span><br><span class="line">file-2021-07-26-09-47  file-`date +%F-%H-%S`</span><br></pre></td></tr></table></figure>
+
+<p>Bash特性：获取帮助</p>
+<p>1.通过man命令获取帮助</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">⼿册的常⻅级别:	1(普通⽤户命令⼿册)	,	5(配置⽂件⼿册),	8(管理员命令⼿册) g	:	回到⼿册的顶部</span><br><span class="line">G	:	去到⽂档的底部</span><br><span class="line">/	:	输⼊要搜索的关键字,进⾏⽂档搜索</span><br><span class="line">q:	退出⽂档</span><br><span class="line">回⻋:	往下滚动⼀⾏</span><br><span class="line">空格键:	往下翻⼀⻚</span><br><span class="line">man	-a	passwd</span><br><span class="line">man		5	passwd</span><br><span class="line">man		1	passwd</span><br><span class="line">man	-k	passw		找到所有的包含passwd关键字的⼿册并且列出来</span><br></pre></td></tr></table></figure>
+
+<p>2.通过 info 或 pinfo 获得帮助</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">⾸⻚寻找Textinfo⽂档,如果没有,强制打开对应的Man⽂档</span><br><span class="line">				与vi⻛格类似,快捷键:</span><br><span class="line">								空格:翻⻚</span><br><span class="line">								HOME:	返回⻚⾯顶部</span><br><span class="line">								END:返回⻚⾯底部</span><br><span class="line">								上箭头:	光标上移动⼀⾏</span><br><span class="line">								下箭头:	光标下移动以⾏</span><br><span class="line">								左箭头:	返回上⼀章节</span><br><span class="line">								右箭头:	浏览光标所在章节</span><br><span class="line">								d:	回到⼿册⾸⻚</span><br><span class="line">								q:	退出⼿册</span><br><span class="line">				</span><br><span class="line">强制打开指定级别的man⽂档</span><br><span class="line">$	pinfo	-m	5	passwd</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src='https://cdn.jsdelivr.net/gh/sviptzk/HexoStaticFile@latest/Hexo/js/mouse_snow.min.js'></script>
+
+]]></content>
+      <categories>
+        <category>Linux基础</category>
+      </categories>
+      <tags>
+        <tag>Bash</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux系统管理</title>
+    <url>/Linux%E5%9F%BA%E7%A1%80/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86/</url>
+    <content><![CDATA[<h1 id="系统调试"><a href="#系统调试" class="headerlink" title="系统调试"></a>系统调试</h1><span id="more"></span>
+<h2 id="1-linux开机启动流程"><a href="#1-linux开机启动流程" class="headerlink" title="1. linux开机启动流程"></a>1. linux开机启动流程</h2><h3 id="1-1-centos6开机启动流程"><a href="#1-1-centos6开机启动流程" class="headerlink" title="1.1 centos6开机启动流程"></a>1.1 centos6开机启动流程</h3><p>linux启动时我们会看到许多启动信息。</p>
+<p>Linux系统的启动过程并不是大家想象中的那么复杂，其过程可以分为5个阶段：</p>
+<ul>
+<li>内核的引导。</li>
+<li>运行 init。</li>
+<li>系统初始化。</li>
+<li>建立终端 。</li>
+<li>用户登录系统。</li>
+</ul>
+<p>init程序的类型：</p>
+<ul>
+<li><strong>SysV:</strong> init, CentOS 5之前, 配置文件： /etc/inittab。</li>
+<li><strong>Upstart:</strong> init,CentOS 6, 配置文件： /etc/inittab, /etc/init/*.conf。</li>
+<li><strong>Systemd：</strong> systemd, CentOS 7,配置文件： /usr/lib/systemd/system、 /etc/systemd/system。</li>
+</ul>
+<hr>
+<h4 id="1-内核引导"><a href="#1-内核引导" class="headerlink" title="1. 内核引导"></a>1. 内核引导</h4><p> 当计算机打开电源后，首先是BIOS开机自检，按照BIOS中设置的启动设备（通常是硬盘）来启动。</p>
+<p>操作系统接管硬件以后，首先读入 /boot 目录下的内核文件。</p>
+<p><img src= "/img/loading.gif" data-src="https://www.runoob.com/wp-content/uploads/2014/06/bg2013081702.png" alt="img"></p>
+<h4 id="2-运行init"><a href="#2-运行init" class="headerlink" title="2. 运行init"></a>2. 运行init</h4><p>init 进程是系统所有进程的起点，你可以把它比拟成系统所有进程的老祖宗，没有这个进程，系统中任何进程都不会启动。</p>
+<p>init 程序首先是需要读取配置文件 /etc/inittab。</p>
+<p><img src= "/img/loading.gif" data-src="https://www.runoob.com/wp-content/uploads/2014/06/bg2013081703.png" alt="img"></p>
+<h4 id="3-运行级别"><a href="#3-运行级别" class="headerlink" title="3. 运行级别"></a>3. 运行级别</h4><p>许多程序需要开机启动。它们在Windows叫做”服务”（service），在Linux就叫做”守护进程”（daemon）。</p>
+<p>init进程的一大任务，就是去运行这些开机启动的程序。</p>
+<p>但是，不同的场合需要启动不同的程序，比如用作服务器时，需要启动Apache，用作桌面就不需要。</p>
+<p>Linux允许为不同的场合，分配不同的开机启动程序，这就叫做”运行级别”（runlevel）。也就是说，启动时根据”运行级别”，确定要运行哪些程序。</p>
+<p><img src= "/img/loading.gif" data-src="https://www.runoob.com/wp-content/uploads/2014/06/bg2013081704.png" alt="img"></p>
+<h4 id="4-系统初始化"><a href="#4-系统初始化" class="headerlink" title="4. 系统初始化"></a>4. 系统初始化</h4><p>在init的配置文件中有这么一行： si::sysinit:/etc/rc.d/rc.sysinit　它调用执行了/etc/rc.d/rc.sysinit，而rc.sysinit是一个bash shell的脚本，它主要是完成一些系统初始化的工作，rc.sysinit是每一个运行级别都要首先运行的重要脚本。</p>
+<p>它主要完成的工作有：激活交换分区，检查磁盘，加载硬件模块以及其它一些需要优先执行任务。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">l5:5:wait:/etc/rc.d/rc 5</span><br><span class="line">这一行表示以5为参数运行/etc/rc.d/rc，/etc/rc.d/rc是一个Shell脚本，它接受5作为参数，去执行/etc/rc.d/rc5.d/目录下的所有的rc启动脚本，/etc/rc.d/rc5.d/目录中的这些启动脚本实际上都是一些连接文件，而不是真正的rc启动脚本，真正的rc启动脚本实际上都是放在/etc/rc.d/init.d/目录下。</span><br><span class="line">而这些rc启动脚本有着类似的用法，它们一般能接受start、stop、restart、status等参数。</span><br><span class="line">/etc/rc.d/rc5.d/中的rc启动脚本通常是K或S开头的连接文件，对于以 S 开头的启动脚本，将以start参数来运行。</span><br><span class="line">而如果发现存在相应的脚本也存在K打头的连接，而且已经处于运行态了(以/var/lock/subsys/下的文件作为标志)，则将首先以stop为参数停止这些已经启动了的守护进程，然后再重新运行。</span><br><span class="line">这样做是为了保证是当init改变运行级别时，所有相关的守护进程都将重启。</span><br><span class="line">至于在每个运行级中将运行哪些守护进程，用户可以通过chkconfig或setup中的&quot;System Services&quot;来自行设定。</span><br></pre></td></tr></table></figure>
+
+<p><img src= "/img/loading.gif" data-src="https://www.runoob.com/wp-content/uploads/2014/06/bg2013081705.png" alt="img"></p>
+<h4 id="5-建立终端"><a href="#5-建立终端" class="headerlink" title="5. 建立终端"></a>5. 建立终端</h4><p>rc执行完毕后，返回init。这时基本系统环境已经设置好了，各种守护进程也已经启动了。</p>
+<p>init接下来会打开6个终端，以便用户登录系统。在inittab中的以下6行就是定义了6个终端：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">1:2345:respawn:/sbin/mingetty tty1</span><br><span class="line">2:2345:respawn:/sbin/mingetty tty2</span><br><span class="line">3:2345:respawn:/sbin/mingetty tty3</span><br><span class="line">4:2345:respawn:/sbin/mingetty tty4</span><br><span class="line">5:2345:respawn:/sbin/mingetty tty5</span><br><span class="line">6:2345:respawn:/sbin/mingetty tty6</span><br></pre></td></tr></table></figure>
+
+<p>从上面可以看出在2、3、4、5的运行级别中都将以respawn方式运行mingetty程序，mingetty程序能打开终端、设置模式。</p>
+<p>同时它会显示一个文本登录界面，这个界面就是我们经常看到的登录界面，在这个登录界面中会提示用户输入用户名，而用户输入的用户将作为参数传给login程序来验证用户的身份。</p>
+<h4 id="6-用户登录系统"><a href="#6-用户登录系统" class="headerlink" title="6. 用户登录系统"></a>6. 用户登录系统</h4><p>一般来说，用户的登录方式有三种：</p>
+<ul>
+<li>（1）命令行登录</li>
+<li>（2）ssh登录</li>
+<li>（3）图形界面登录</li>
+</ul>
+<p><img src= "/img/loading.gif" data-src="https://www.runoob.com/wp-content/uploads/2014/06/bg2013081706.png" alt="img"></p>
+<hr>
+<h3 id="1-2-centos7开机启动流程"><a href="#1-2-centos7开机启动流程" class="headerlink" title="1.2 centos7开机启动流程"></a>1.2 centos7开机启动流程</h3><h4 id="1-开机自检"><a href="#1-开机自检" class="headerlink" title="1. 开机自检"></a>1. 开机自检</h4><h4 id="2-MBR-GPT引导系统启动"><a href="#2-MBR-GPT引导系统启动" class="headerlink" title="2. MBR/GPT引导系统启动"></a>2. MBR/GPT引导系统启动</h4><h4 id="3-加载GRUB2菜单"><a href="#3-加载GRUB2菜单" class="headerlink" title="3. 加载GRUB2菜单"></a>3. 加载GRUB2菜单</h4><p>（选择内核版本）</p>
+<h4 id="4-加载内核选项"><a href="#4-加载内核选项" class="headerlink" title="4. 加载内核选项"></a>4. 加载内核选项</h4><h4 id="5-内核初始化使用systemd进程"><a href="#5-内核初始化使用systemd进程" class="headerlink" title="5. 内核初始化使用systemd进程"></a>5. 内核初始化使用<em>systemd</em>进程</h4><p>（启动的linux系统的第一个进程systemd）</p>
+<h4 id="6-读取运行级别"><a href="#6-读取运行级别" class="headerlink" title="6. 读取运行级别"></a>6. 读取运行级别</h4><p>(桌面模式,命令模式)(/etc/systemd/system/default.target)</p>
+<h4 id="7-初始化系统"><a href="#7-初始化系统" class="headerlink" title="7. 初始化系统"></a>7. 初始化系统</h4><p>(/usr/lib/systemd/system/sysinit.target)（挂载，启动网络，主机名……）</p>
+<h4 id="8-根据运行级-别、并行启动服务"><a href="#8-根据运行级-别、并行启动服务" class="headerlink" title="8. 根据运行级 别、并行启动服务"></a>8. 根据运行级 别、并行启动服务</h4><p>(网络服务，ssh服务，定时任务……)</p>
+<h4 id="9-显示login界面-输入用户和密码"><a href="#9-显示login界面-输入用户和密码" class="headerlink" title="9. 显示login界面 (输入用户和密码)"></a>9. 显示<em>login</em>界面 (输入用户和密码)</h4><p>(/usr/lib/systemd/system/getty.target)</p>
+<hr>
+<h2 id="2-linux关机相关操作"><a href="#2-linux关机相关操作" class="headerlink" title="2. linux关机相关操作"></a>2. linux关机相关操作</h2><h4 id="2-1-shutdown"><a href="#2-1-shutdown" class="headerlink" title="2.1 shutdown"></a>2.1 shutdown</h4><p>shutdown 会给系统计划一个时间关机。它可以被用于停止、关机、重启机器。shutdown 会给系统计划一个时间关机。它可以被用于停止、关机、重启机器。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">shutdown -p now  ### 关闭机器</span><br><span class="line">shutdown -H now  ### 停止机器      </span><br><span class="line">shutdown -r 09:35 ### 在 09:35am 重启机器</span><br></pre></td></tr></table></figure>
+
+<p>要取消即将进行的关机，只要输入下面的命令：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">shutdown -c</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-2-halt"><a href="#2-2-halt" class="headerlink" title="2.2 halt"></a>2.2 halt</h4><p>halt 命令通知硬件来停止所有的 CPU 功能，但是仍然保持通电。你可以用它使系统处于低层维护状态。注意在有些情况会它会完全关闭系统。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">halt             ### 停止机器</span><br><span class="line">halt -p          ### 关闭机器、关闭电源</span><br><span class="line">halt --reboot    ### 重启机器</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-3-poweroff"><a href="#2-3-poweroff" class="headerlink" title="2.3 poweroff"></a>2.3 poweroff</h4><p>poweroff 会发送一个 ACPI 信号来通知系统关机。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">poweroff           ### 关闭机器、关闭电源</span><br><span class="line">poweroff --halt    ### 停止机器</span><br><span class="line">poweroff --reboot  ### 重启机器</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-4-reboot"><a href="#2-4-reboot" class="headerlink" title="2.4 reboot"></a>2.4 reboot</h4><p>reboot 命令 reboot 通知系统重启。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">reboot           ### 重启机器</span><br><span class="line">reboot --halt    ### 停止机器</span><br><span class="line">reboot -p        ### 关闭机器</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-linux系统运行级别"><a href="#3-linux系统运行级别" class="headerlink" title="3. linux系统运行级别"></a>3. linux系统运行级别</h2><h4 id="3-1-centos6"><a href="#3-1-centos6" class="headerlink" title="3.1 centos6"></a>3.1 centos6</h4><p>Linux系统有7个运行级别(runlevel)：</p>
+<ul>
+<li>运行级别0：系统停机状态，系统默认运行级别不能设为0，否则不能正常启动</li>
+<li>运行级别1：单用户工作状态，root权限，用于系统维护，禁止远程登陆</li>
+<li>运行级别2：多用户状态(没有NFS)</li>
+<li>运行级别3：完全的多用户状态(有NFS)，登陆后进入控制台命令行模式</li>
+<li>运行级别4：系统未使用，保留</li>
+<li>运行级别5：X11控制台，登陆后进入图形GUI模式</li>
+<li>运行级别6：系统正常关闭并重启，默认运行级别不能设为6，否则不能正常启动</li>
+</ul>
+<h4 id="3-2-centos7"><a href="#3-2-centos7" class="headerlink" title="3.2 centos7"></a>3.2 centos7</h4><ul>
+<li>运行级别0：系统停机状态，系统默认运行级别不能设为0，否则不能正常启动</li>
+<li>运行级别1：救援模式，root权限，用于系统维护，禁止远程登陆</li>
+<li>运行级别2：多用户状态</li>
+<li>运行级别3：多用户状态</li>
+<li>运行级别4：多用户状态</li>
+<li>运行级别5：X11控制台，登陆后进入图形GUI模式</li>
+<li>运行级别6：系统正常关闭并重启，默认运行级别不能设为6，否则不能正常启动</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">centos6系统</span></span><br><span class="line">runlevel #查看运行级别</span><br><span class="line">N 3 #如果N是其他数字,代表上一次运行级别</span><br><span class="line">init 3   #切换运行级别</span><br><span class="line">/etc/inittab #永久修改运行级别存放的配置文件</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">centos7系统</span></span><br><span class="line">systemctl get-default #查看系统默认启动运行级别</span><br><span class="line">systemctl set-default TARGET.target   #</span><br><span class="line">修改默认启动运行级别（永久生效）</span><br><span class="line">multi-user.target: analogous to runlevel 3</span><br><span class="line">graphical.target: analogous to runlevel 5</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="4-系统的systemd"><a href="#4-系统的systemd" class="headerlink" title="4.系统的systemd"></a>4.系统的systemd</h2><ul>
+<li><p>什么是关闭/开启<strong>正在运行</strong>的服务/软件 systemctl stop/start sshd</p>
+</li>
+<li><p>什么是关闭/开启 <strong>开机自启动</strong>项 ?? systemctl disable/enable sshd</p>
+</li>
+</ul>
+<h4 id="1-systemd的由来"><a href="#1-systemd的由来" class="headerlink" title="1.systemd的由来"></a><strong><em>1.systemd</em>的由来</strong></h4><p><em>Linux</em>一直以来都是采用<em>init</em>进程作为祖宗进程，但是<em>init</em>有两个缺点： </p>
+<p><em>1</em>、<strong>启动时间长</strong>。<em>Init</em>进程是串行启动，只有前一个进程启动完，才会启动下一 </p>
+<p>个进程。 </p>
+<p><em>2</em>、<strong>启动脚本复杂</strong>，初始化完成后系统会加载很多脚本，脚本都会处理各自的 </p>
+<p>情况，这会让脚本多而复杂。 </p>
+<p><em>Centos5</em> 是启动速度最慢的，串行启动过程，无论进程相互之间有无依赖关系。</p>
+<p><em>Centos6</em> 相对启动速度有所改进。有依赖的进程之间依次启动而其他与之没有依赖关系的则并行同步启动。</p>
+<p><em>Centos7</em> 所有进程无论有无依赖关系则都是并行启动（当然很多时候进程没有真正启动而是只有一个信号或者说是标记而已，在真正利用的时候才会真正启 动）</p>
+<img src= "/img/loading.gif" data-src="../AppData/Roaming/Typora/typora-user-images/image-20210406205736481.png" alt="image-20210406205736481" style="zoom: 80%;" />
+
+
+
+<h4 id="2-什么是systemd"><a href="#2-什么是systemd" class="headerlink" title="2.什么是systemd"></a><strong>2.什么是systemd</strong></h4><p><em>systemd</em>即为<strong>system daemon</strong>守护进程，<em>systemd</em>主要解决上文的问题而诞 </p>
+<p>生，<em>systemd</em>的目标是，为系统的启动和管理提供一套完整的解决方案。</p>
+<p><strong>3.systemd的优势</strong></p>
+<p><em>1</em>、最新系统都采用<em>systemd</em>管理（<em>RedHat7,CentOS7,Ubuntu15</em>等） <em>systemctl</em> </p>
+<p><em>2</em>、<em>Centos7</em>支持开机并行启动服务，显著提高开机启动效率。 </p>
+<p><em>3</em>、<em>Centos7</em>关机只关闭正在运行的服务，而<em>Centos6</em>全部都关闭一次。 </p>
+<p><em>4</em>、<em>Centos7</em>服务的启动与停止不在使用脚本进行管理*,C7<em>下面都是配置</em>(/usr/lib/systemd/system/xxxx.service)<em>，也就是</em>/etc/init.d(CentOS 6)*下不在有脚 </p>
+<p>本。</p>
+<p><em>5</em>、<em>Centos7</em>使用<em>systemd</em>解决原有模式缺陷，比如原有<em>service</em>不会关闭程序产生的子进程。</p>
+<h4 id="3-systemd相关配置文件"><a href="#3-systemd相关配置文件" class="headerlink" title="3.systemd相关配置文件"></a><strong>3.systemd相关配置文件</strong></h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">/usr/lib/systemd/system/ #记录这一个就</span><br><span class="line">ok. 类似Centos6系统的启动脚本，/etc/init.d/</span><br><span class="line">/etc/systemd/system/    #系统配置存放,了解         </span><br><span class="line">\#类似Centos6系统的/etc/rc.d/rcN.d/</span><br><span class="line">/etc/systemd/system/multi-user.target.wants/*  #系统配置存放,了解</span><br></pre></td></tr></table></figure>
+
+<h4 id="4-systemd管理服务相关命令"><a href="#4-systemd管理服务相关命令" class="headerlink" title="4.systemd管理服务相关命令"></a><strong>4.systemd管理服务相关命令</strong></h4><ul>
+<li><em>systemctl</em>管理服务的启动、重启、停止、重载、查看状态等常用命令</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>System Vinit（6系统）</th>
+<th>systemctl命令（7系统）</th>
+<th><strong>作用</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>service crond start   <br>/etc/init.dcrond start</td>
+<td>systemctl start crond.service</td>
+<td>启动服务当前运行</td>
+</tr>
+<tr>
+<td>service crond stop</td>
+<td>systemctl stop crond.service</td>
+<td>停止服务</td>
+</tr>
+<tr>
+<td>service crond restart</td>
+<td>systemctl restart crond.service</td>
+<td>重启服务</td>
+</tr>
+<tr>
+<td>service crond reload</td>
+<td>systemctl reload crond.service</td>
+<td>优雅的重启重新加载配置<br>(不终止服务，不影响正在处理的请求的用户)</td>
+</tr>
+<tr>
+<td>service crond status</td>
+<td>systemctl status crond.service</td>
+<td>查看服务运行状态</td>
+</tr>
+<tr>
+<td></td>
+<td>systemctl is-active crond.service</td>
+<td>查看服务是否在运行中</td>
+</tr>
+<tr>
+<td></td>
+<td>systemctl mask  crond.service</td>
+<td>禁止服务运行</td>
+</tr>
+<tr>
+<td></td>
+<td>systemctl unmask crond.service</td>
+<td>取消禁止服务运行</td>
+</tr>
+</tbody></table>
+<ul>
+<li>systemctl 设置服务<strong>开机启动</strong>、不启动、查看各级别下服务启动状态等常用命令</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>System Vinit（6系统）</th>
+<th>systemctl命令（7系统）</th>
+<th><strong>作用</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>chkconfig crond on</td>
+<td>systemctl <strong>enable</strong> crond.service</td>
+<td>开机自动启动</td>
+</tr>
+<tr>
+<td>chkconfig crond off</td>
+<td>systemctl disable crond.service</td>
+<td>关闭开机自启动</td>
+</tr>
+<tr>
+<td>chkconfig –list</td>
+<td>systemctl list-unit-files</td>
+<td>查看各个级别下服务的<br>启动与禁用</td>
+</tr>
+<tr>
+<td>chkconfig –list crond</td>
+<td>systemctl is-enabled crond.service</td>
+<td>产看指定服务是否为开机自启动</td>
+</tr>
+<tr>
+<td>chkconfig –add crond</td>
+<td>systemctl daemon-reload</td>
+<td>创建新服务文件或者变设置</td>
+</tr>
+</tbody></table>
+<ul>
+<li>systemctl 服务状态说明</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th><strong>服务状态</strong></th>
+<th><strong>状态说明</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>loaded</td>
+<td>服务单元的配置文件已经被处理, 配置放在了/usr/lib/systemd/system/</td>
+</tr>
+<tr>
+<td>active(running)</td>
+<td>服务的一个或多个进程在运行中 最常见的状态 start</td>
+</tr>
+<tr>
+<td>active(exited)</td>
+<td><strong>一次性</strong>运行的服务成功被执行并退出(服务运行后完成任务,相关进程会自动退出)</td>
+</tr>
+<tr>
+<td>active(waiting)</td>
+<td>服务已经运行但在等待某个事件</td>
+</tr>
+<tr>
+<td>inactive</td>
+<td>服务没有在运行 stop</td>
+</tr>
+<tr>
+<td>enabled</td>
+<td>服务设定为开机运行</td>
+</tr>
+<tr>
+<td>disabled</td>
+<td>服务设定为开机不运行</td>
+</tr>
+<tr>
+<td>static</td>
+<td>服务不能被设定开机启动,但可以由其他服务启动该服务</td>
+</tr>
+</tbody></table>
+<ul>
+<li><em>systemctl</em>的<em>journalctl</em>日志 </li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">服务启动或管理,排错流程</span></span><br><span class="line">systemctl 启动/重启/关闭 服务失败,报错   </span><br><span class="line">journalctl -xe   #-e按页显示   -x进行一些翻译,指出一些故障提示</span><br><span class="line">找error 或 err 或warn 或fail </span><br><span class="line">故障模拟 修改网卡配置文件, IPADDR</span><br><span class="line"></span><br><span class="line">journalctl -n 20    #查看最后20行</span><br><span class="line">journalctl -f       #动态查看日志 ※※※</span><br><span class="line">journalctl -p err   #查看日志的级别</span><br><span class="line">journalctl -u crond #查看某个服务的单元的日志</span><br></pre></td></tr></table></figure>
+
+<p> “auto_save_delay_in_seconds”: 0.15,</p>
+<p>netstat -tupln | grep id 查看进程端口</p>
+]]></content>
+      <categories>
+        <category>Linux基础</category>
+      </categories>
+      <tags>
+        <tag>system</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>定时任务</title>
+    <url>/Linux%E5%9F%BA%E7%A1%80/%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/</url>
+    <content><![CDATA[<h1 id="Linux定时任务"><a href="#Linux定时任务" class="headerlink" title="Linux定时任务"></a>Linux定时任务</h1><hr>
+<span id="more"></span>
+<h2 id="1-定时任务基本概述"><a href="#1-定时任务基本概述" class="headerlink" title="1. 定时任务基本概述"></a>1. 定时任务基本概述</h2><ul>
+<li><p>crond简介</p>
+<p>Linux系统上面有很多计划性的工作，比如在某个时间点需要执行某个动作，在Linux中，一般使用crontab命令来实现控制计划任务，通过crontab 命令，我们可以在固定的间隔时间执行指定的系统指令或 shell script脚本。时间间隔的单位可以是分钟、小时、日、月、周及以上的任意组合。这个命令非常设合周期性的日志分析或数据备份等工作。crontab命令是基于crond这个系统服务的，crond服务是安装Linux系统时自动安装的，它会检查当前系统中是否有要执行的任务。</p>
+<p>Crond服务会定期（默认每分钟检查一次）检查系统中是否有要执行的任务工作，如果有，便会根据其预先设定的定时任务规则自动执行该定时任务工作，这个crond定时任务服务就相当于我们平时早起使用的闹钟一样。</p>
+</li>
+<li><p>Linux下的任务调度分为系统层面的任务调度和用户自定义的任务调度。</p>
+</li>
+</ul>
+<ol>
+<li><p><strong>系统级别的定时任务</strong></p>
+<p>比如写缓存数据到硬盘、临时文件清理、系统信息采集、日志文件切割。</p>
+<p>在/etc目录下有一个crontab文件，这个就是系统任务调度的配置文件。打开/etc目录，我们可以看到有很多cron相关的目录，如下：    </p>
+<img src= "/img/loading.gif" data-src="AppData/Roaming/Typora/typora-user-images/image-20210413155628596.png" alt="image-20210413155628596" style="zoom:150%;" />
+
+<p>cron.deny表示该文件中所列的用户不允许使用crontab命令;</p>
+<p>cron.daily表示每天都要按照计划完成的任务；</p>
+<p>cron.hourly表示每个小时都要按照计划完成的任务；</p>
+<p>cron.weekly表示每个小时都要按照计划完成的任务；</p>
+</li>
+<li><p><strong>用户级别的定时任务</strong></p>
+<p>定时向互联网同步时间、定时备份系统配置文件、定时备份数据库的数据。</p>
+<p>*/var/spool/cron/*目录是所有crontab文件存放的目录，以用户名命名</p>
+<p>如centos7.9下：/var/spool/cron/root </p>
+</li>
+</ol>
+<hr>
+<h2 id="2-crontab配置文件"><a href="#2-crontab配置文件" class="headerlink" title="2. crontab配置文件"></a>2. crontab配置文件</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vim /etc/crontab</span><br><span class="line">SHELL=/bin/bash</span><br><span class="line">PATH=/sbin:/bin:/usr/sbin:/usr/bin</span><br><span class="line">MAILTO=root</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> For details see man 4 crontabs</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Example of job definition:</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> .---------------- minute (0 - 59)</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> |  .------------- hour (0 - 23)</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> |  |  .---------- day of month (1 - 31)</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> |  |  |  .------- month (1 - 12) OR jan,feb,mar,apr ...</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> |  |  |  |  .---- day of week (0 - 6) (Sunday=0 or 7) OR sun,mon,tue,wed,thu,fri,sat</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> |  |  |  |  |</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> *  *  *  *  * user-name  <span class="built_in">command</span> to be executed</span></span><br><span class="line"></span><br><span class="line">备注：</span><br><span class="line">1） *  表示任意的(分、时、日、月、周)时间都执行</span><br><span class="line">2） -  表示一个时间范围段, 如5-7点</span><br><span class="line">3） ,  表示分隔时段, 如6,0,4表示周六、日、四</span><br><span class="line">4） /  表示每隔n单位时间, 如*/10 每10分钟</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="3-设置定时任务"><a href="#3-设置定时任务" class="headerlink" title="3. 设置定时任务"></a>3. 设置定时任务</h2><h3 id="3-1-crontab-命令选项："><a href="#3-1-crontab-命令选项：" class="headerlink" title="3.1 crontab 命令选项："></a>3.1 crontab 命令选项：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">-e                    #编辑定时任务</span><br><span class="line">-l                     #查看定时任务</span><br><span class="line">-r                     #删除定时任务</span><br><span class="line">-u                    #指定其他用户</span><br><span class="line">-i                     #在删除用户的crontab文件时给确认提示。</span><br></pre></td></tr></table></figure>
+
+<p><strong>服务操作说明</strong>：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">需提前安装软件包</span></span><br><span class="line">yum install -y ntpdate</span><br><span class="line">服务操作说明：</span><br><span class="line"></span><br><span class="line">/sbin/service crond start //启动服务</span><br><span class="line"></span><br><span class="line">/sbin/service crond stop //关闭服务</span><br><span class="line"></span><br><span class="line">/sbin/service crond restart //重启服务</span><br><span class="line"></span><br><span class="line">/sbin/service crond reload //重新载入配置</span><br><span class="line"></span><br><span class="line">/sbin/service crond status //启动服务</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-2-任务实例："><a href="#3-2-任务实例：" class="headerlink" title="3.2 任务实例："></a>3.2 任务实例：</h3><p><strong>示例一：</strong></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">示例1：使用root用户每2分钟执行一次时间同步</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">先在Linux系统上查看命令是否正确</span></span><br><span class="line">[root@tom ~]# ntpdate ntp1.aliyun.com</span><br><span class="line">12 Apr 12:59:18 ntpdate[69500]: adjust time server 120.25.115.20 offset 0.024905 sec</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">配置定时任务</span></span><br><span class="line"><span class="meta">#</span><span class="bash">编辑定时任务</span></span><br><span class="line">[root@tom  ~]# crontab -e -u root</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">每2分钟执行一次时间同步 by wxg At 2021.04.12</span></span><br><span class="line">*/2 * * * * /usr/sbin/ntpdate ntp1.aliyun.com &amp;&gt;/dev/null</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">查看定时任务</span></span><br><span class="line">[root@tom  ~]# crontab -l -u root</span><br><span class="line"><span class="meta">#</span><span class="bash">每2分钟执行一次时间同步 by wxg At 2021.04.12</span></span><br><span class="line">*/2 * * * * /usr/sbin/ntpdate ntp1.aliyun.com &amp;&gt;/dev/null</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例二</strong>：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">示例2：每天凌晨6点做一次备份 打包备份/etc/ 备份到/tmp中并命名当天日期</span><br><span class="line">crontab -e -u root</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">每天凌晨3点做一次备份？ 打包备份/etc/</span></span><br><span class="line"><span class="meta">#</span><span class="bash">  % 在crontab中比较特殊应用 \ 转义</span></span><br><span class="line">00 06 * * * tar zcf /tmp/`date +\%F_\%w`_etc.tar.gz /etc    </span><br><span class="line"></span><br><span class="line">pr 12 13:09:01 tom CRON[69714]: (tom) CMD (sudo tar ar zcf /tmp/`date +%F`_etc.tar.gz /etc   )</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-3-crond拒绝某个用户使用"><a href="#3-3-crond拒绝某个用户使用" class="headerlink" title="3.3 crond拒绝某个用户使用"></a>3.3 crond拒绝某个用户使用</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">1.使用root将需要拒绝的用户加入/etc/cron.deny</span></span><br><span class="line">[root@tom  ~]# echo &quot;Jerry&quot; &gt;&gt; /etc/cron.deny</span><br><span class="line"><span class="meta">#</span><span class="bash">2.登陆该普通用户，测试是否能编写定时任务</span></span><br><span class="line">[oldboy@tom  ~]$ crontab -e</span><br><span class="line">You (Jerry) are not allowed to use this program </span><br><span class="line">(crontab)</span><br><span class="line">See crontab(1) for more information</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-4-crond注意的事项"><a href="#3-4-crond注意的事项" class="headerlink" title="3.4 crond注意的事项"></a><em>3.4 crond</em>注意的事项</h3><ol>
+<li><p>给定时任务注释</p>
+</li>
+<li><p>将需要定期执行的任务写入<em>Shell</em>脚本中，避免直接使用命令无法执行的情况<em>tar date</em></p>
+</li>
+<li><p>定时任务的结尾一定要有*&amp;&gt;/dev/null*或者将结果追加重定向&gt;&gt;/tmp/date.log文件</p>
+<p>每条任务调度执行完毕，系统都会将任务输出信息通过电子邮件的形式发送给当前系统用户，这样日积月累，日志信息会非常大，可能会影响系统的正常运行，因此，将每条任务进行重定向处理非常重要。</p>
+</li>
+<li><p>注意有些命令是无法成功执行的 <em>echo “123” &gt;&gt;/tmp/test.log &amp;&gt;/dev/null</em></p>
+</li>
+<li><p>如果一定要是用命令，命令必须使用绝对路径</p>
+</li>
+</ol>
+<h3 id="3-5-crontab备份"><a href="#3-5-crontab备份" class="headerlink" title="3.5 crontab备份"></a>3.5 crontab备份</h3><p>通过查找*/var/log/cron*中执行的记录，去推算任务执行的时间</p>
+<p>定时的备份*/var/spool/cron/{username}*</p>
+<h2 id="4-定时任务安全项目实战练习"><a href="#4-定时任务安全项目实战练习" class="headerlink" title="4. 定时任务安全项目实战练习"></a>4. 定时任务安全项目实战练习</h2><ul>
+<li><p>项目名称: XXXXX网站安全检查项目</p>
+</li>
+<li><p>项目背景: 网站因为安全配置导致病毒入侵,如何快速排查出哪些是病毒(被感染的文件或命令)</p>
+</li>
+<li><p>项目步骤: </p>
+<p><img src= "/img/loading.gif" data-src="AppData/Roaming/Typora/typora-user-images/image-20210414211016694.png" alt="image-20210414211016694"></p>
+</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">将系统中/etc/目录下的文件做指纹，指纹结果定向到file.md5中</span></span><br><span class="line">find /etc/ -type f | xargs md5sum &gt;&gt; /file.md5</span><br><span class="line"><span class="meta">#</span><span class="bash">进行校验</span></span><br><span class="line"><span class="meta">#</span><span class="bash">若无文件被修改 则输出ok ，若有则输出filed</span></span><br><span class="line">md5sum -c  file.md5</span><br><span class="line"><span class="meta">#</span><span class="bash">使被篡改的文件输出</span></span><br><span class="line">md5sum -c --quiet file.md5</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="5-错误排查"><a href="#5-错误排查" class="headerlink" title="5. 错误排查"></a>5. 错误排查</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">crontab -e</span><br><span class="line">no crontab <span class="keyword">for</span> root - using an empty one</span><br><span class="line">/bin/sh: /usr/bin/vi: No such file or directory</span><br><span class="line">crontab: <span class="string">&quot;/usr/bin/vi&quot;</span> exited with status 127</span><br><span class="line"></span><br><span class="line">发生这种情况是因为没有正确定义编辑器。为此，您必须指定二进制文件的完整路径：</span><br><span class="line"><span class="built_in">export</span> EDITOR=/usr/bin/vim</span><br><span class="line">或者</span><br><span class="line"><span class="built_in">export</span> EDITOR=/usr/bin/vi</span><br></pre></td></tr></table></figure>
+
+<script src='https://cdn.jsdelivr.net/gh/sviptzk/HexoStaticFile@latest/Hexo/js/mouse_snow.min.js'></script>
+
+
+
+
+
+]]></content>
+      <categories>
+        <category>Linux基础</category>
+      </categories>
+      <tags>
+        <tag>cron</tag>
+      </tags>
+  </entry>
 </search>
