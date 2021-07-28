@@ -344,6 +344,181 @@
       </tags>
   </entry>
   <entry>
+    <title>Linux系统Bash初识</title>
+    <url>/Linux%E5%9F%BA%E7%A1%80/Linux%E7%B3%BB%E7%BB%9FBash%E5%88%9D%E8%AF%86%E5%88%AB/</url>
+    <content><![CDATA[<h2 id="Linux系统终端"><a href="#Linux系统终端" class="headerlink" title="Linux系统终端"></a>Linux系统终端</h2><p>服务器终端切换：Ctrl + Alt +F1 … F6</p>
+<p>虚拟机终端切换： Ctrl + Shift + Alt + F1 … F6</p>
+<p>虚拟终端由<em>mingetty</em>程序生成</p>
+<span id="more"></span>
+
+
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">//物理机执行为本地终端</span><br><span class="line">[root@dennis.com ~]$ tty</span><br><span class="line">/dev/tty1</span><br><span class="line"></span><br><span class="line">//通过网路使用模拟终端远程连接Linux, 日常运维中就是这种方式</span><br><span class="line">[root@dennis.com ~]$ tty</span><br><span class="line">/dev/pts/0</span><br></pre></td></tr></table></figure>
+
+<h2 id="Linux系统Bash系统管理"><a href="#Linux系统Bash系统管理" class="headerlink" title="Linux系统Bash系统管理"></a>Linux系统Bash系统管理</h2><p>​                                              <img src="https://img1.baidu.com/it/u=404627178,1930063483&fm=15&fmt=auto&gp=0.jpg" alt="img" style="zoom: 50%;" /></p>
+<p>简单的说, Shell是系统的⽤户界⾯，提供了⽤户与内核进⾏交互操作的⼀种接⼝。它接收⽤户输</p>
+<p>⼊的命令并把它送⼊内核去执⾏。</p>
+<p>​                                                <img src="https://images2017.cnblogs.com/blog/1222491/201801/1222491-20180128195658115-361387611.png" alt="img" style="zoom:50%;" /></p>
+<p>实际上Shell是⼀个命令解释器，它解释由⽤户输⼊的命令并且把它们送到内核。</p>
+<blockquote>
+<p>BASH Shell: 是⼀个为GNU计划编写的Unix shell, 是许多Linux发⾏版的默认Shell</p>
+<p>C Shell: 是SUN公司Shell的BSD版本。</p>
+<p>Z Shell: 它集成了bash、ksh的重要特性，同时⼜增加了⾃⼰独有的特性。</p>
+<p>还有许多传统UNIX上⽤的Shell，例如tcsh、csh、ash、bsh、ksh等, Shell Script⼤致都类</p>
+<p>同，当您学会⼀种Shell以后，其它的Shell很快就上⼿, ⼤多数的时候, ⼀个Shell脚本 通常可</p>
+<p>以在很多种Shell上使⽤。</p>
+</blockquote>
+<p>查看当前使用的shell</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@dennis.com ~]$ <span class="built_in">echo</span> <span class="variable">$SHELL</span></span><br><span class="line">/bin/bash</span><br></pre></td></tr></table></figure>
+
+<p>查看 Linux 可⽤的 shell</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@dennis.com ~]$ cat /etc/shells </span><br><span class="line">/bin/sh</span><br><span class="line">/bin/bash</span><br><span class="line">/usr/bin/sh</span><br><span class="line">/usr/bin/bash</span><br><span class="line">/sbin/nologin</span><br></pre></td></tr></table></figure>
+
+<p>Bash Shell 提示符</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="variable">$PS1</span></span><br><span class="line">[\[\e[34;1m\]\u@\[\e[0m\]\[\e[32;1m\]\H\[\e[0m\] \[\e[31;1m\]\w\[\e[0m\]]\\$</span><br><span class="line"></span><br><span class="line">[root@dennis.com ~]$ date</span><br><span class="line">Sun Jul 25 21:53:32 CST 2021</span><br></pre></td></tr></table></figure>
+
+<h2 id="基础命令语法结构"><a href="#基础命令语法结构" class="headerlink" title="基础命令语法结构"></a>基础命令语法结构</h2><ul>
+<li><p>命令 选型 参数：</p>
+<ul>
+<li>命令：命令主题功能；</li>
+<li>选项：用来调节命令的输出；</li>
+<li>参数； 对应要操作的文件或目录。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">//等待⽤户输⼊,执⾏命令,	$	=	普通⽤户,	<span class="comment">#	=	root⽤户(超级管理员)</span></span><br><span class="line">[student@desktop0	~]$</span><br><span class="line"></span><br><span class="line">//bash	Shell	执⾏命令</span><br><span class="line">//命令		选项		参数</span><br><span class="line"><span class="built_in">command</span>	[-options]	[arguments]</span><br><span class="line">[root@dennis.com ~]$ ls				<span class="comment">#命令</span></span><br><span class="line">[root@dennis.com ~]$ ls	-a			<span class="comment">#命令+选项</span></span><br><span class="line">[root@dennis.com ~]$ ls	-a	/tmp/	<span class="comment">#命令+选项+参数</span></span><br><span class="line"></span><br><span class="line">命令:	命令的主体</span><br><span class="line">				⼀个命令有多个选项,	多个选项可以合并在⼀起</span><br><span class="line">选项:	⽤于调节命令的具体功能</span><br><span class="line">				以	“-”引导短格式选项（单个字符），例如“-l”</span><br><span class="line">				以“--”引导⻓格式选项（多个字符），例如“--color”</span><br><span class="line">				多个短格式选项可以写在⼀起，只⽤⼀个“-”引导，例如“-al”</span><br><span class="line">参数:	命令操作的对象，如⽂件、⽬录名等</span><br><span class="line"><span class="comment">#	命令必须开头， 选项和参数位置可以发⽣变化</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="Bash特性-自带功能"><a href="#Bash特性-自带功能" class="headerlink" title="Bash特性-自带功能"></a>Bash特性-自带功能</h2><ol>
+<li><p>命令补全</p>
+<ul>
+<li>命令补全；</li>
+<li>路径补全；</li>
+<li><font color='red'>注意</font>: 当tab一下不行,就两下,如果两下不行,就说明路径不对,或输入的命令不对;</li>
+</ul>
+<p><strong>tab</strong>键以实现命令补全, 路径补全和命令实现⽅式⼀致, ⼯作中我们经常⽤到 tab 补全, 减少执⾏命令以及路径出错率。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">//查看ip时忘记具体了命令</span><br><span class="line">[root@dennis.com ~]$ ifcon</span><br><span class="line">//按下tab键会⾃动补全</span><br><span class="line">[root@dennis.com ~]$ ifconfig</span><br><span class="line"></span><br><span class="line">//按⼀下tab键没有反应,	按两下tab键列出所有<span class="keyword">if</span>开头的命令</span><br><span class="line">[root@dennis.com ~]$ <span class="keyword">if</span></span><br><span class="line"><span class="keyword">if</span>         ifcfg      ifconfig   ifdown     ifenslave  ifnames    ifstat     iftop      ifup</span><br><span class="line"></span><br><span class="line">//linux路径较深,	经常使⽤tab键进⾏补全,	如果路径出错是没有办法补全</span><br><span class="line">[root@dennis.com ~]$ ls	/etc/sysconfig/network-scripts/</span><br></pre></td></tr></table></figure></li>
+<li><p>快捷键</p>
+<p>快捷键可以帮助我们提升工作效率。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Ctrl	+	A				//光标跳转⾄正在输⼊的命令⾏的⾸部</span><br><span class="line">Ctrl	+	E				//光标跳转⾄正在输⼊的命令⾏的尾部</span><br><span class="line">Ctrl	+	C				//终⽌前台运⾏的程序</span><br><span class="line">Ctrl	+	D				//在shell中，ctrl-d表示推出当前shell。</span><br><span class="line">Ctrl	+	Z				//将任务暂停，挂⾄后台</span><br><span class="line">Ctrl	+	L				//清屏，和clear命令等效。</span><br><span class="line">Ctrl	+	K				//删除从光标到⾏末的所有字符</span><br><span class="line">Ctrl	+	U				//删除从光标到⾏⾸的所有字符</span><br><span class="line">Ctrl	+	R				//搜索历史命令,	利⽤关键字</span><br><span class="line">//在命令⾏前加⾯加	<span class="string">&quot;#&quot;</span>	则该命令不会被执⾏</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><p>让我先来看看linux中常用的一些简单命令：</p>
+<h3 id="History命令"><a href="#History命令" class="headerlink" title="History命令"></a>History命令</h3><p>history 查看系统命令历史, 追溯之前发⽣情况</p>
+<blockquote>
+<p>命令选项</p>
+<p>-w 保存命令历史到历史⽂件</p>
+<p>-c 清空命令历史记录, 不会清空⽂件</p>
+<p>-d 删除命令历史的第 N 条⾏</p>
+</blockquote>
+<p>history 命令历史相关快捷键</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">//使⽤双	!!	可执⾏上⼀条命令</span><br><span class="line">[root@dennis.com ~]$ ls</span><br><span class="line">hello.txt</span><br><span class="line">[root@dennis.com ~]$ !!</span><br><span class="line">ls</span><br><span class="line">hello.txt</span><br><span class="line"></span><br><span class="line">//输⼊!6,	执⾏<span class="built_in">history</span>命令历史中第 6 ⾏命令</span><br><span class="line">[root@dennis.com ~]$ !6</span><br><span class="line">ls</span><br><span class="line">hello.txt</span><br><span class="line"></span><br><span class="line">//使⽤!cat,	调⽤<span class="built_in">history</span>命令历史最近⼀次执⾏过的cat命令</span><br><span class="line">[root@dennis.com ~]$ cat /etc/sysconfig/network-scripts/ifcfg-eth0</span><br><span class="line">[root@dennis.com ~]$ !cat</span><br><span class="line">cat	/etc/sysconfig/network-scripts/ifcfg-eth0</span><br><span class="line"></span><br><span class="line">[root@dennis.com ~]$ ls	/etc/passwd</span><br><span class="line">//调⽤上⼀条命令的最后参数或选项,	按下ESC松开,	然后按下 <span class="string">&quot;.&quot;</span></span><br><span class="line">[root@dennis.com ~]$ cat</span><br><span class="line">[root@dennis.com ~]$ cat	/etc/passwd</span><br><span class="line">//第⼆种⽅式,	输⼊!$</span><br><span class="line">[root@dennis.com ~]$ ls	!$</span><br><span class="line">ls	/etc/passwd</span><br><span class="line">/etc/passwd</span><br></pre></td></tr></table></figure>
+
+<h3 id="Alias命令别名"><a href="#Alias命令别名" class="headerlink" title="Alias命令别名"></a>Alias命令别名</h3><p>命令别名将⽤户经常使⽤的复杂命令简单化, 可以⽤ “alias    别名名称=命令” 命令创建属于⾃⼰的</p>
+<p>命令别名, 若要取消⼀个命令别名，则是⽤ unalias    别名名称 命令。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">//1.定义临时别名,	if1为查看eth0⽹卡别名</span><br><span class="line">[root@dennis.com ~]$ <span class="built_in">alias</span> if0=<span class="string">&#x27;ifconfig eth0&#x27;</span></span><br><span class="line">[root@dennis.com ~]$ if0</span><br><span class="line">eth0: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 1500</span><br><span class="line">        inet 172.25.183.186  netmask 255.255.240.0  broadcast 172.25.191.255</span><br><span class="line"></span><br><span class="line">//如果定义命令本身,	会执⾏什么?</span><br><span class="line">[root@dennis.com ~]$ <span class="built_in">alias</span>	ifconfig=<span class="string">&#x27;ifconfig	eth0&#x27;</span></span><br><span class="line">//绝对路径执⾏,	调⽤命令本身</span><br><span class="line">[root@dennis.com ~]$ /sbin/ifconfig</span><br><span class="line">//通过\转义字符,	调⽤命令本身</span><br><span class="line">[root@dennis.com ~]$ \ifconfig</span><br><span class="line"></span><br><span class="line">//2.定义系统永久⽣效别名,	将命令别名添加⾄当前⽤户环境配置⽂件</span><br><span class="line">[root@dennis.com ~]$ <span class="built_in">echo</span> <span class="string">&quot;alias ifconfig=&#x27;ifconfig	eth0&#x27;&quot;</span>	&gt;&gt;	~/.bashrc</span><br><span class="line"></span><br><span class="line">//3.取消临时别名</span><br><span class="line">[root@dennis.com ~]$ <span class="built_in">unalias</span> ifconfig	</span><br></pre></td></tr></table></figure>
+
+<h2 id="Bash特性-命令流程"><a href="#Bash特性-命令流程" class="headerlink" title="Bash特性:命令流程"></a>Bash特性:命令流程</h2><p>当我们执⾏⼀个命令, 整个命令执⾏流程如下:</p>
+<ol>
+<li><p>判断命令是否通过绝对路径执⾏</p>
+</li>
+<li><p>判断命令是否存在别名</p>
+</li>
+<li><p>判断⽤户输⼊的是内部命令还是外部命令</p>
+</li>
+<li><p>内部命令直接执⾏, 外部命令检测是否存在缓存</p>
+</li>
+<li><p>检测 PATH 路径, 有执⾏, ⽆报错</p>
+</li>
+</ol>
+<blockquote>
+<p>内部命令: shell程序⾃带的命令。</p>
+<p>外部命令: 在系统PATH变量的某个路径下的可执⾏程序。</p>
+</blockquote>
+<p>使⽤ type 命令检测⽤户输⼊的命令属于内部命令还是外部命令&gt;。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">//<span class="built_in">cd</span>命令属于shell内部命令</span><br><span class="line">[root@dennis.com ~]$ <span class="built_in">type</span> -a <span class="built_in">cd</span></span><br><span class="line"><span class="built_in">cd</span> is a shell <span class="built_in">builtin</span></span><br><span class="line"><span class="built_in">cd</span> is /usr/bin/<span class="built_in">cd</span></span><br><span class="line"></span><br><span class="line">//ping属于外部命令,	同时会打印当前命令路径</span><br><span class="line">[root@dennis.com ~]$ <span class="built_in">type</span> -a ping</span><br><span class="line">ping is /usr/bin/ping</span><br></pre></td></tr></table></figure>
+
+<p>PATH 变量定义的路径, 作⽤是告诉 Bash 执⾏的外部命令存放的位置， Bash 会在这些路径中进⾏逐个扫描</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">//<span class="built_in">echo</span>所⻅即所得</span><br><span class="line">[root@dennis.com ~]$ <span class="built_in">echo</span> <span class="string">&quot;123&quot;</span></span><br><span class="line">123</span><br><span class="line">[root@dennis.com ~]$ <span class="built_in">echo</span> -e <span class="string">&quot;123 \n456&quot;</span></span><br><span class="line">123 </span><br><span class="line">456</span><br><span class="line"></span><br><span class="line">//打印当前环境变量⽬录</span><br><span class="line">[root@dennis.com ~]$ <span class="built_in">echo</span> <span class="variable">$PATH</span></span><br><span class="line">/app/node/bin:/usr/<span class="built_in">local</span>/sbin:/usr/<span class="built_in">local</span>/bin:/usr/sbin:/usr/bin:/root/bin</span><br><span class="line"></span><br><span class="line">//PATH由多个路径组成，每个路径值之间⽤冒号间隔，对这些路径的增加和删除操作都将影响到Bash解释器对Linux命令的查找。</span><br><span class="line"></span><br><span class="line">//修改PATH变量</span><br><span class="line">[root@dennis.com ~]$ PATH=/soft/bin:<span class="variable">$PATH</span></span><br><span class="line">//写⼊/etc/profile配置⽂件永久⽣效</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;export	PATH=/soft/bin:$PATH&#x27;</span>	&gt;&gt;	/etc/profile</span><br></pre></td></tr></table></figure>
+
+<p>事实上执⾏过的外部命令都会保存在内存缓存中, 当再次执⾏相同的命令, 会通过缓存调取执⾏,也就意味着不会搜索 PATH 路径。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@dennis.com ~]$ <span class="built_in">hash</span></span><br><span class="line">hits	<span class="built_in">command</span></span><br><span class="line">   1	/usr/sbin/ifconfig</span><br><span class="line">   2	/usr/bin/cat</span><br><span class="line">   </span><br><span class="line">//已缓存命令,如果移动位置会导致⽆法找到该命令</span><br><span class="line">[root@dennis.com ~]$	mv	/sbin/ifconfig	/bin/</span><br><span class="line">[root@dennis.com ~]$	ifconfig</span><br><span class="line">-bash:	/sbin/ifconfig:	No	such	file	or	</span><br><span class="line"></span><br><span class="line">//删除缓存过的ifconfig命令,	即可执⾏[root@xuliangwei	~]<span class="comment">#	hash	-d	ifconfig</span></span><br><span class="line">[root@dennis.com ~]$ ifconfig</span><br><span class="line"></span><br><span class="line">//当然可以清空缓存表</span><br><span class="line">[root@dennis.com ~]$ <span class="built_in">hash</span> -r</span><br><span class="line">[root@dennis.com ~]$ <span class="built_in">hash</span> -d ifconfig</span><br><span class="line">[root@dennis.com ~]$ ifconfig</span><br><span class="line"></span><br><span class="line">//当然可以清空缓存表</span><br><span class="line">[root@dennis.com ~]$ <span class="built_in">hash</span> -r</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">//命令缓存<span class="built_in">hash</span>需要注意如下情况:</span><br><span class="line">1.如果执⾏外部命令1次就会对该命令进⾏缓存</span><br><span class="line">2.如果将命令移动了位置</span><br><span class="line">				a.使⽤绝对路径执⾏</span><br><span class="line">				b.删除<span class="built_in">hash</span>表的缓存指令</span><br></pre></td></tr></table></figure>
+
+<p>总结, 当我们执⾏了⼀个 ping 命令之后, 整个命令执⾏的流程步骤如下:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">1.检查执⾏的是否是绝对路径执⾏</span><br><span class="line">2.检查该ping命令是否存在别名</span><br><span class="line">3.检查该ping命令是内部命令还是外部命令</span><br><span class="line">4.如果是内部指令直接执⾏, 如果是外部命令</span><br><span class="line">5.检测该命令是否有缓存,如果没有,查找PATH变量</span><br><span class="line">6.检查PATH路径直到查找到该命令然后执⾏</span><br><span class="line">7.如果没有找到该命令则返回错误。<span class="built_in">command</span> not found</span><br></pre></td></tr></table></figure>
+
+<h2 id="Bash特性：路径展开"><a href="#Bash特性：路径展开" class="headerlink" title="Bash特性：路径展开"></a>Bash特性：路径展开</h2><p>Linux    Shell 下路径展开⽤花括号包括, 逗号分隔, 这样花括号⾥的内容会被展开形成列表。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@dennis.com ~]$ mkdir /tmp/zz/a/b /tmp/a/b -pv</span><br><span class="line">mkdir: created directory ‘/tmp/zz’</span><br><span class="line">mkdir: created directory ‘/tmp/zz/a’</span><br><span class="line">mkdir: created directory ‘/tmp/zz/a/b’</span><br><span class="line">mkdir: created directory ‘/tmp/a’</span><br><span class="line">mkdir: created directory ‘/tmp/a/b’</span><br><span class="line"></span><br><span class="line">//删除⽬录</span><br><span class="line">[root@dennis.com ~]$	rm	-rf	/tmp/&#123;zz,yy&#125;</span><br><span class="line">//通过路径展开⽅式创建⽬录</span><br><span class="line">[root@dennis.com ~]$	mkdir	/tmp/&#123;zz,yy&#125;/a/b	-pv</span><br><span class="line">mkdir:	created	directory	`/tmp/zz<span class="string">&#x27;</span></span><br><span class="line"><span class="string">mkdir:	created	directory	`/tmp/zz/a&#x27;</span></span><br><span class="line">mkdir:	created	directory	`/tmp/zz/a/b<span class="string">&#x27;</span></span><br><span class="line"><span class="string">mkdir:	created	directory	`/tmp/yy</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Bash特性：转义字符"><a href="#Bash特性：转义字符" class="headerlink" title="Bash特性：转义字符"></a>Bash特性：转义字符</h2><p>Shell解释器提供了⾮常丰富的转义字符, 来实现字符处理以及命令替换。</p>
+<p><font color='purple'><strong>四类常用转义字符</strong></font>：</p>
+<ul>
+<li>反斜杠（\）：使反斜杠后⾯的⼀个变量变为字符串。</li>
+<li>单引号（’’）：转义其中所有的变量为单纯的字符串。</li>
+<li>双引号（””）：保留其中的变量属性，不进⾏转义处理。</li>
+<li>反引号（``）：把其中的命令执⾏后返回结果。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@dennis.com /]$ <span class="built_in">echo</span> <span class="string">&quot;shoping is <span class="variable">$500</span>&quot;</span></span><br><span class="line">shoping is 00</span><br><span class="line">[root@dennis.com /]$ <span class="built_in">echo</span> <span class="string">&quot;shoping is \$500&quot;</span></span><br><span class="line">shoping is <span class="variable">$500</span></span><br><span class="line"></span><br><span class="line">//转义其中特殊字符为普通字符串</span><br><span class="line">[root@dennis.com /]$ <span class="built_in">echo</span> <span class="string">&#x27;shoping is $500&#x27;</span></span><br><span class="line">shoping is <span class="variable">$500</span></span><br><span class="line"></span><br><span class="line">//使⽤$()实现命令替换</span><br><span class="line">[root@dennis.com ~]$ <span class="built_in">echo</span> <span class="string">&quot;The Directory is <span class="subst">$(pwd)</span>&quot;</span></span><br><span class="line">The Directory is /root</span><br><span class="line"></span><br><span class="line">//使⽤``实现命令替换</span><br><span class="line">[root@dennis.com ~]$ <span class="built_in">echo</span> <span class="string">&quot;The Directory is `pwd`&quot;</span></span><br><span class="line">The	Directory is /root</span><br><span class="line"></span><br><span class="line">//转义其中所有的变量为单纯的字符串</span><br><span class="line"></span><br><span class="line">[root@dennis.com ~]$ touch file-`date +%F-%H-%S`</span><br><span class="line">[root@dennis.com ~]$ ls</span><br><span class="line">file-2021-03-26-09-47</span><br><span class="line"></span><br><span class="line">[root@dennis.com ~]$ touch <span class="string">&#x27;file-`date +%F-%H-%S`&#x27;</span></span><br><span class="line">[root@dennis.com ~]$ ls</span><br><span class="line">file-2021-07-26-09-47  file-`date +%F-%H-%S`</span><br></pre></td></tr></table></figure>
+
+<p>Bash特性：获取帮助</p>
+<p>1.通过man命令获取帮助</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">⼿册的常⻅级别:	1(普通⽤户命令⼿册)	,	5(配置⽂件⼿册),	8(管理员命令⼿册) g	:	回到⼿册的顶部</span><br><span class="line">G	:	去到⽂档的底部</span><br><span class="line">/	:	输⼊要搜索的关键字,进⾏⽂档搜索</span><br><span class="line">q:	退出⽂档</span><br><span class="line">回⻋:	往下滚动⼀⾏</span><br><span class="line">空格键:	往下翻⼀⻚</span><br><span class="line">man	-a	passwd</span><br><span class="line">man		5	passwd</span><br><span class="line">man		1	passwd</span><br><span class="line">man	-k	passw		找到所有的包含passwd关键字的⼿册并且列出来</span><br></pre></td></tr></table></figure>
+
+<p>2.通过 info 或 pinfo 获得帮助</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">⾸⻚寻找Textinfo⽂档,如果没有,强制打开对应的Man⽂档</span><br><span class="line">				与vi⻛格类似,快捷键:</span><br><span class="line">								空格:翻⻚</span><br><span class="line">								HOME:	返回⻚⾯顶部</span><br><span class="line">								END:返回⻚⾯底部</span><br><span class="line">								上箭头:	光标上移动⼀⾏</span><br><span class="line">								下箭头:	光标下移动以⾏</span><br><span class="line">								左箭头:	返回上⼀章节</span><br><span class="line">								右箭头:	浏览光标所在章节</span><br><span class="line">								d:	回到⼿册⾸⻚</span><br><span class="line">								q:	退出⼿册</span><br><span class="line">				</span><br><span class="line">强制打开指定级别的man⽂档</span><br><span class="line">$	pinfo	-m	5	passwd</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src='https://cdn.jsdelivr.net/gh/sviptzk/HexoStaticFile@latest/Hexo/js/mouse_snow.min.js'></script>
+
+]]></content>
+      <categories>
+        <category>Linux基础</category>
+      </categories>
+      <tags>
+        <tag>Bash</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Linux系统管理</title>
     <url>/Linux%E5%9F%BA%E7%A1%80/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86/</url>
     <content><![CDATA[<h1 id="系统调试"><a href="#系统调试" class="headerlink" title="系统调试"></a>系统调试</h1><span id="more"></span>
@@ -611,181 +786,6 @@
       </categories>
       <tags>
         <tag>system</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Linux系统Bash初识</title>
-    <url>/Linux%E5%9F%BA%E7%A1%80/Linux%E7%B3%BB%E7%BB%9FBash%E5%88%9D%E8%AF%86%E5%88%AB/</url>
-    <content><![CDATA[<h2 id="Linux系统终端"><a href="#Linux系统终端" class="headerlink" title="Linux系统终端"></a>Linux系统终端</h2><p>服务器终端切换：Ctrl + Alt +F1 … F6</p>
-<p>虚拟机终端切换： Ctrl + Shift + Alt + F1 … F6</p>
-<p>虚拟终端由<em>mingetty</em>程序生成</p>
-<span id="more"></span>
-
-
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">//物理机执行为本地终端</span><br><span class="line">[root@dennis.com ~]$ tty</span><br><span class="line">/dev/tty1</span><br><span class="line"></span><br><span class="line">//通过网路使用模拟终端远程连接Linux, 日常运维中就是这种方式</span><br><span class="line">[root@dennis.com ~]$ tty</span><br><span class="line">/dev/pts/0</span><br></pre></td></tr></table></figure>
-
-<h2 id="Linux系统Bash系统管理"><a href="#Linux系统Bash系统管理" class="headerlink" title="Linux系统Bash系统管理"></a>Linux系统Bash系统管理</h2><p>​                                              <img src="https://img1.baidu.com/it/u=404627178,1930063483&fm=15&fmt=auto&gp=0.jpg" alt="img" style="zoom: 50%;" /></p>
-<p>简单的说, Shell是系统的⽤户界⾯，提供了⽤户与内核进⾏交互操作的⼀种接⼝。它接收⽤户输</p>
-<p>⼊的命令并把它送⼊内核去执⾏。</p>
-<p>​                                                <img src="https://images2017.cnblogs.com/blog/1222491/201801/1222491-20180128195658115-361387611.png" alt="img" style="zoom:50%;" /></p>
-<p>实际上Shell是⼀个命令解释器，它解释由⽤户输⼊的命令并且把它们送到内核。</p>
-<blockquote>
-<p>BASH Shell: 是⼀个为GNU计划编写的Unix shell, 是许多Linux发⾏版的默认Shell</p>
-<p>C Shell: 是SUN公司Shell的BSD版本。</p>
-<p>Z Shell: 它集成了bash、ksh的重要特性，同时⼜增加了⾃⼰独有的特性。</p>
-<p>还有许多传统UNIX上⽤的Shell，例如tcsh、csh、ash、bsh、ksh等, Shell Script⼤致都类</p>
-<p>同，当您学会⼀种Shell以后，其它的Shell很快就上⼿, ⼤多数的时候, ⼀个Shell脚本 通常可</p>
-<p>以在很多种Shell上使⽤。</p>
-</blockquote>
-<p>查看当前使用的shell</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@dennis.com ~]$ <span class="built_in">echo</span> <span class="variable">$SHELL</span></span><br><span class="line">/bin/bash</span><br></pre></td></tr></table></figure>
-
-<p>查看 Linux 可⽤的 shell</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@dennis.com ~]$ cat /etc/shells </span><br><span class="line">/bin/sh</span><br><span class="line">/bin/bash</span><br><span class="line">/usr/bin/sh</span><br><span class="line">/usr/bin/bash</span><br><span class="line">/sbin/nologin</span><br></pre></td></tr></table></figure>
-
-<p>Bash Shell 提示符</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="variable">$PS1</span></span><br><span class="line">[\[\e[34;1m\]\u@\[\e[0m\]\[\e[32;1m\]\H\[\e[0m\] \[\e[31;1m\]\w\[\e[0m\]]\\$</span><br><span class="line"></span><br><span class="line">[root@dennis.com ~]$ date</span><br><span class="line">Sun Jul 25 21:53:32 CST 2021</span><br></pre></td></tr></table></figure>
-
-<h2 id="基础命令语法结构"><a href="#基础命令语法结构" class="headerlink" title="基础命令语法结构"></a>基础命令语法结构</h2><ul>
-<li><p>命令 选型 参数：</p>
-<ul>
-<li>命令：命令主题功能；</li>
-<li>选项：用来调节命令的输出；</li>
-<li>参数； 对应要操作的文件或目录。</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">//等待⽤户输⼊,执⾏命令,	$	=	普通⽤户,	<span class="comment">#	=	root⽤户(超级管理员)</span></span><br><span class="line">[student@desktop0	~]$</span><br><span class="line"></span><br><span class="line">//bash	Shell	执⾏命令</span><br><span class="line">//命令		选项		参数</span><br><span class="line"><span class="built_in">command</span>	[-options]	[arguments]</span><br><span class="line">[root@dennis.com ~]$ ls				<span class="comment">#命令</span></span><br><span class="line">[root@dennis.com ~]$ ls	-a			<span class="comment">#命令+选项</span></span><br><span class="line">[root@dennis.com ~]$ ls	-a	/tmp/	<span class="comment">#命令+选项+参数</span></span><br><span class="line"></span><br><span class="line">命令:	命令的主体</span><br><span class="line">				⼀个命令有多个选项,	多个选项可以合并在⼀起</span><br><span class="line">选项:	⽤于调节命令的具体功能</span><br><span class="line">				以	“-”引导短格式选项（单个字符），例如“-l”</span><br><span class="line">				以“--”引导⻓格式选项（多个字符），例如“--color”</span><br><span class="line">				多个短格式选项可以写在⼀起，只⽤⼀个“-”引导，例如“-al”</span><br><span class="line">参数:	命令操作的对象，如⽂件、⽬录名等</span><br><span class="line"><span class="comment">#	命令必须开头， 选项和参数位置可以发⽣变化</span></span><br></pre></td></tr></table></figure></li>
-</ul>
-<h2 id="Bash特性-自带功能"><a href="#Bash特性-自带功能" class="headerlink" title="Bash特性-自带功能"></a>Bash特性-自带功能</h2><ol>
-<li><p>命令补全</p>
-<ul>
-<li>命令补全；</li>
-<li>路径补全；</li>
-<li><font color='red'>注意</font>: 当tab一下不行,就两下,如果两下不行,就说明路径不对,或输入的命令不对;</li>
-</ul>
-<p><strong>tab</strong>键以实现命令补全, 路径补全和命令实现⽅式⼀致, ⼯作中我们经常⽤到 tab 补全, 减少执⾏命令以及路径出错率。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">//查看ip时忘记具体了命令</span><br><span class="line">[root@dennis.com ~]$ ifcon</span><br><span class="line">//按下tab键会⾃动补全</span><br><span class="line">[root@dennis.com ~]$ ifconfig</span><br><span class="line"></span><br><span class="line">//按⼀下tab键没有反应,	按两下tab键列出所有<span class="keyword">if</span>开头的命令</span><br><span class="line">[root@dennis.com ~]$ <span class="keyword">if</span></span><br><span class="line"><span class="keyword">if</span>         ifcfg      ifconfig   ifdown     ifenslave  ifnames    ifstat     iftop      ifup</span><br><span class="line"></span><br><span class="line">//linux路径较深,	经常使⽤tab键进⾏补全,	如果路径出错是没有办法补全</span><br><span class="line">[root@dennis.com ~]$ ls	/etc/sysconfig/network-scripts/</span><br></pre></td></tr></table></figure></li>
-<li><p>快捷键</p>
-<p>快捷键可以帮助我们提升工作效率。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Ctrl	+	A				//光标跳转⾄正在输⼊的命令⾏的⾸部</span><br><span class="line">Ctrl	+	E				//光标跳转⾄正在输⼊的命令⾏的尾部</span><br><span class="line">Ctrl	+	C				//终⽌前台运⾏的程序</span><br><span class="line">Ctrl	+	D				//在shell中，ctrl-d表示推出当前shell。</span><br><span class="line">Ctrl	+	Z				//将任务暂停，挂⾄后台</span><br><span class="line">Ctrl	+	L				//清屏，和clear命令等效。</span><br><span class="line">Ctrl	+	K				//删除从光标到⾏末的所有字符</span><br><span class="line">Ctrl	+	U				//删除从光标到⾏⾸的所有字符</span><br><span class="line">Ctrl	+	R				//搜索历史命令,	利⽤关键字</span><br><span class="line">//在命令⾏前加⾯加	<span class="string">&quot;#&quot;</span>	则该命令不会被执⾏</span><br></pre></td></tr></table></figure></li>
-</ol>
-<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><p>让我先来看看linux中常用的一些简单命令：</p>
-<h3 id="History命令"><a href="#History命令" class="headerlink" title="History命令"></a>History命令</h3><p>history 查看系统命令历史, 追溯之前发⽣情况</p>
-<blockquote>
-<p>命令选项</p>
-<p>-w 保存命令历史到历史⽂件</p>
-<p>-c 清空命令历史记录, 不会清空⽂件</p>
-<p>-d 删除命令历史的第 N 条⾏</p>
-</blockquote>
-<p>history 命令历史相关快捷键</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">//使⽤双	!!	可执⾏上⼀条命令</span><br><span class="line">[root@dennis.com ~]$ ls</span><br><span class="line">hello.txt</span><br><span class="line">[root@dennis.com ~]$ !!</span><br><span class="line">ls</span><br><span class="line">hello.txt</span><br><span class="line"></span><br><span class="line">//输⼊!6,	执⾏<span class="built_in">history</span>命令历史中第 6 ⾏命令</span><br><span class="line">[root@dennis.com ~]$ !6</span><br><span class="line">ls</span><br><span class="line">hello.txt</span><br><span class="line"></span><br><span class="line">//使⽤!cat,	调⽤<span class="built_in">history</span>命令历史最近⼀次执⾏过的cat命令</span><br><span class="line">[root@dennis.com ~]$ cat /etc/sysconfig/network-scripts/ifcfg-eth0</span><br><span class="line">[root@dennis.com ~]$ !cat</span><br><span class="line">cat	/etc/sysconfig/network-scripts/ifcfg-eth0</span><br><span class="line"></span><br><span class="line">[root@dennis.com ~]$ ls	/etc/passwd</span><br><span class="line">//调⽤上⼀条命令的最后参数或选项,	按下ESC松开,	然后按下 <span class="string">&quot;.&quot;</span></span><br><span class="line">[root@dennis.com ~]$ cat</span><br><span class="line">[root@dennis.com ~]$ cat	/etc/passwd</span><br><span class="line">//第⼆种⽅式,	输⼊!$</span><br><span class="line">[root@dennis.com ~]$ ls	!$</span><br><span class="line">ls	/etc/passwd</span><br><span class="line">/etc/passwd</span><br></pre></td></tr></table></figure>
-
-<h3 id="Alias命令别名"><a href="#Alias命令别名" class="headerlink" title="Alias命令别名"></a>Alias命令别名</h3><p>命令别名将⽤户经常使⽤的复杂命令简单化, 可以⽤ “alias    别名名称=命令” 命令创建属于⾃⼰的</p>
-<p>命令别名, 若要取消⼀个命令别名，则是⽤ unalias    别名名称 命令。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">//1.定义临时别名,	if1为查看eth0⽹卡别名</span><br><span class="line">[root@dennis.com ~]$ <span class="built_in">alias</span> if0=<span class="string">&#x27;ifconfig eth0&#x27;</span></span><br><span class="line">[root@dennis.com ~]$ if0</span><br><span class="line">eth0: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 1500</span><br><span class="line">        inet 172.25.183.186  netmask 255.255.240.0  broadcast 172.25.191.255</span><br><span class="line"></span><br><span class="line">//如果定义命令本身,	会执⾏什么?</span><br><span class="line">[root@dennis.com ~]$ <span class="built_in">alias</span>	ifconfig=<span class="string">&#x27;ifconfig	eth0&#x27;</span></span><br><span class="line">//绝对路径执⾏,	调⽤命令本身</span><br><span class="line">[root@dennis.com ~]$ /sbin/ifconfig</span><br><span class="line">//通过\转义字符,	调⽤命令本身</span><br><span class="line">[root@dennis.com ~]$ \ifconfig</span><br><span class="line"></span><br><span class="line">//2.定义系统永久⽣效别名,	将命令别名添加⾄当前⽤户环境配置⽂件</span><br><span class="line">[root@dennis.com ~]$ <span class="built_in">echo</span> <span class="string">&quot;alias ifconfig=&#x27;ifconfig	eth0&#x27;&quot;</span>	&gt;&gt;	~/.bashrc</span><br><span class="line"></span><br><span class="line">//3.取消临时别名</span><br><span class="line">[root@dennis.com ~]$ <span class="built_in">unalias</span> ifconfig	</span><br></pre></td></tr></table></figure>
-
-<h2 id="Bash特性-命令流程"><a href="#Bash特性-命令流程" class="headerlink" title="Bash特性:命令流程"></a>Bash特性:命令流程</h2><p>当我们执⾏⼀个命令, 整个命令执⾏流程如下:</p>
-<ol>
-<li><p>判断命令是否通过绝对路径执⾏</p>
-</li>
-<li><p>判断命令是否存在别名</p>
-</li>
-<li><p>判断⽤户输⼊的是内部命令还是外部命令</p>
-</li>
-<li><p>内部命令直接执⾏, 外部命令检测是否存在缓存</p>
-</li>
-<li><p>检测 PATH 路径, 有执⾏, ⽆报错</p>
-</li>
-</ol>
-<blockquote>
-<p>内部命令: shell程序⾃带的命令。</p>
-<p>外部命令: 在系统PATH变量的某个路径下的可执⾏程序。</p>
-</blockquote>
-<p>使⽤ type 命令检测⽤户输⼊的命令属于内部命令还是外部命令&gt;。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">//<span class="built_in">cd</span>命令属于shell内部命令</span><br><span class="line">[root@dennis.com ~]$ <span class="built_in">type</span> -a <span class="built_in">cd</span></span><br><span class="line"><span class="built_in">cd</span> is a shell <span class="built_in">builtin</span></span><br><span class="line"><span class="built_in">cd</span> is /usr/bin/<span class="built_in">cd</span></span><br><span class="line"></span><br><span class="line">//ping属于外部命令,	同时会打印当前命令路径</span><br><span class="line">[root@dennis.com ~]$ <span class="built_in">type</span> -a ping</span><br><span class="line">ping is /usr/bin/ping</span><br></pre></td></tr></table></figure>
-
-<p>PATH 变量定义的路径, 作⽤是告诉 Bash 执⾏的外部命令存放的位置， Bash 会在这些路径中进⾏逐个扫描</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">//<span class="built_in">echo</span>所⻅即所得</span><br><span class="line">[root@dennis.com ~]$ <span class="built_in">echo</span> <span class="string">&quot;123&quot;</span></span><br><span class="line">123</span><br><span class="line">[root@dennis.com ~]$ <span class="built_in">echo</span> -e <span class="string">&quot;123 \n456&quot;</span></span><br><span class="line">123 </span><br><span class="line">456</span><br><span class="line"></span><br><span class="line">//打印当前环境变量⽬录</span><br><span class="line">[root@dennis.com ~]$ <span class="built_in">echo</span> <span class="variable">$PATH</span></span><br><span class="line">/app/node/bin:/usr/<span class="built_in">local</span>/sbin:/usr/<span class="built_in">local</span>/bin:/usr/sbin:/usr/bin:/root/bin</span><br><span class="line"></span><br><span class="line">//PATH由多个路径组成，每个路径值之间⽤冒号间隔，对这些路径的增加和删除操作都将影响到Bash解释器对Linux命令的查找。</span><br><span class="line"></span><br><span class="line">//修改PATH变量</span><br><span class="line">[root@dennis.com ~]$ PATH=/soft/bin:<span class="variable">$PATH</span></span><br><span class="line">//写⼊/etc/profile配置⽂件永久⽣效</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;export	PATH=/soft/bin:$PATH&#x27;</span>	&gt;&gt;	/etc/profile</span><br></pre></td></tr></table></figure>
-
-<p>事实上执⾏过的外部命令都会保存在内存缓存中, 当再次执⾏相同的命令, 会通过缓存调取执⾏,也就意味着不会搜索 PATH 路径。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@dennis.com ~]$ <span class="built_in">hash</span></span><br><span class="line">hits	<span class="built_in">command</span></span><br><span class="line">   1	/usr/sbin/ifconfig</span><br><span class="line">   2	/usr/bin/cat</span><br><span class="line">   </span><br><span class="line">//已缓存命令,如果移动位置会导致⽆法找到该命令</span><br><span class="line">[root@dennis.com ~]$	mv	/sbin/ifconfig	/bin/</span><br><span class="line">[root@dennis.com ~]$	ifconfig</span><br><span class="line">-bash:	/sbin/ifconfig:	No	such	file	or	</span><br><span class="line"></span><br><span class="line">//删除缓存过的ifconfig命令,	即可执⾏[root@xuliangwei	~]<span class="comment">#	hash	-d	ifconfig</span></span><br><span class="line">[root@dennis.com ~]$ ifconfig</span><br><span class="line"></span><br><span class="line">//当然可以清空缓存表</span><br><span class="line">[root@dennis.com ~]$ <span class="built_in">hash</span> -r</span><br><span class="line">[root@dennis.com ~]$ <span class="built_in">hash</span> -d ifconfig</span><br><span class="line">[root@dennis.com ~]$ ifconfig</span><br><span class="line"></span><br><span class="line">//当然可以清空缓存表</span><br><span class="line">[root@dennis.com ~]$ <span class="built_in">hash</span> -r</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">//命令缓存<span class="built_in">hash</span>需要注意如下情况:</span><br><span class="line">1.如果执⾏外部命令1次就会对该命令进⾏缓存</span><br><span class="line">2.如果将命令移动了位置</span><br><span class="line">				a.使⽤绝对路径执⾏</span><br><span class="line">				b.删除<span class="built_in">hash</span>表的缓存指令</span><br></pre></td></tr></table></figure>
-
-<p>总结, 当我们执⾏了⼀个 ping 命令之后, 整个命令执⾏的流程步骤如下:</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">1.检查执⾏的是否是绝对路径执⾏</span><br><span class="line">2.检查该ping命令是否存在别名</span><br><span class="line">3.检查该ping命令是内部命令还是外部命令</span><br><span class="line">4.如果是内部指令直接执⾏, 如果是外部命令</span><br><span class="line">5.检测该命令是否有缓存,如果没有,查找PATH变量</span><br><span class="line">6.检查PATH路径直到查找到该命令然后执⾏</span><br><span class="line">7.如果没有找到该命令则返回错误。<span class="built_in">command</span> not found</span><br></pre></td></tr></table></figure>
-
-<h2 id="Bash特性：路径展开"><a href="#Bash特性：路径展开" class="headerlink" title="Bash特性：路径展开"></a>Bash特性：路径展开</h2><p>Linux    Shell 下路径展开⽤花括号包括, 逗号分隔, 这样花括号⾥的内容会被展开形成列表。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@dennis.com ~]$ mkdir /tmp/zz/a/b /tmp/a/b -pv</span><br><span class="line">mkdir: created directory ‘/tmp/zz’</span><br><span class="line">mkdir: created directory ‘/tmp/zz/a’</span><br><span class="line">mkdir: created directory ‘/tmp/zz/a/b’</span><br><span class="line">mkdir: created directory ‘/tmp/a’</span><br><span class="line">mkdir: created directory ‘/tmp/a/b’</span><br><span class="line"></span><br><span class="line">//删除⽬录</span><br><span class="line">[root@dennis.com ~]$	rm	-rf	/tmp/&#123;zz,yy&#125;</span><br><span class="line">//通过路径展开⽅式创建⽬录</span><br><span class="line">[root@dennis.com ~]$	mkdir	/tmp/&#123;zz,yy&#125;/a/b	-pv</span><br><span class="line">mkdir:	created	directory	`/tmp/zz<span class="string">&#x27;</span></span><br><span class="line"><span class="string">mkdir:	created	directory	`/tmp/zz/a&#x27;</span></span><br><span class="line">mkdir:	created	directory	`/tmp/zz/a/b<span class="string">&#x27;</span></span><br><span class="line"><span class="string">mkdir:	created	directory	`/tmp/yy</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="Bash特性：转义字符"><a href="#Bash特性：转义字符" class="headerlink" title="Bash特性：转义字符"></a>Bash特性：转义字符</h2><p>Shell解释器提供了⾮常丰富的转义字符, 来实现字符处理以及命令替换。</p>
-<p><font color='purple'><strong>四类常用转义字符</strong></font>：</p>
-<ul>
-<li>反斜杠（\）：使反斜杠后⾯的⼀个变量变为字符串。</li>
-<li>单引号（’’）：转义其中所有的变量为单纯的字符串。</li>
-<li>双引号（””）：保留其中的变量属性，不进⾏转义处理。</li>
-<li>反引号（``）：把其中的命令执⾏后返回结果。</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@dennis.com /]$ <span class="built_in">echo</span> <span class="string">&quot;shoping is <span class="variable">$500</span>&quot;</span></span><br><span class="line">shoping is 00</span><br><span class="line">[root@dennis.com /]$ <span class="built_in">echo</span> <span class="string">&quot;shoping is \$500&quot;</span></span><br><span class="line">shoping is <span class="variable">$500</span></span><br><span class="line"></span><br><span class="line">//转义其中特殊字符为普通字符串</span><br><span class="line">[root@dennis.com /]$ <span class="built_in">echo</span> <span class="string">&#x27;shoping is $500&#x27;</span></span><br><span class="line">shoping is <span class="variable">$500</span></span><br><span class="line"></span><br><span class="line">//使⽤$()实现命令替换</span><br><span class="line">[root@dennis.com ~]$ <span class="built_in">echo</span> <span class="string">&quot;The Directory is <span class="subst">$(pwd)</span>&quot;</span></span><br><span class="line">The Directory is /root</span><br><span class="line"></span><br><span class="line">//使⽤``实现命令替换</span><br><span class="line">[root@dennis.com ~]$ <span class="built_in">echo</span> <span class="string">&quot;The Directory is `pwd`&quot;</span></span><br><span class="line">The	Directory is /root</span><br><span class="line"></span><br><span class="line">//转义其中所有的变量为单纯的字符串</span><br><span class="line"></span><br><span class="line">[root@dennis.com ~]$ touch file-`date +%F-%H-%S`</span><br><span class="line">[root@dennis.com ~]$ ls</span><br><span class="line">file-2021-03-26-09-47</span><br><span class="line"></span><br><span class="line">[root@dennis.com ~]$ touch <span class="string">&#x27;file-`date +%F-%H-%S`&#x27;</span></span><br><span class="line">[root@dennis.com ~]$ ls</span><br><span class="line">file-2021-07-26-09-47  file-`date +%F-%H-%S`</span><br></pre></td></tr></table></figure>
-
-<p>Bash特性：获取帮助</p>
-<p>1.通过man命令获取帮助</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">⼿册的常⻅级别:	1(普通⽤户命令⼿册)	,	5(配置⽂件⼿册),	8(管理员命令⼿册) g	:	回到⼿册的顶部</span><br><span class="line">G	:	去到⽂档的底部</span><br><span class="line">/	:	输⼊要搜索的关键字,进⾏⽂档搜索</span><br><span class="line">q:	退出⽂档</span><br><span class="line">回⻋:	往下滚动⼀⾏</span><br><span class="line">空格键:	往下翻⼀⻚</span><br><span class="line">man	-a	passwd</span><br><span class="line">man		5	passwd</span><br><span class="line">man		1	passwd</span><br><span class="line">man	-k	passw		找到所有的包含passwd关键字的⼿册并且列出来</span><br></pre></td></tr></table></figure>
-
-<p>2.通过 info 或 pinfo 获得帮助</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">⾸⻚寻找Textinfo⽂档,如果没有,强制打开对应的Man⽂档</span><br><span class="line">				与vi⻛格类似,快捷键:</span><br><span class="line">								空格:翻⻚</span><br><span class="line">								HOME:	返回⻚⾯顶部</span><br><span class="line">								END:返回⻚⾯底部</span><br><span class="line">								上箭头:	光标上移动⼀⾏</span><br><span class="line">								下箭头:	光标下移动以⾏</span><br><span class="line">								左箭头:	返回上⼀章节</span><br><span class="line">								右箭头:	浏览光标所在章节</span><br><span class="line">								d:	回到⼿册⾸⻚</span><br><span class="line">								q:	退出⼿册</span><br><span class="line">				</span><br><span class="line">强制打开指定级别的man⽂档</span><br><span class="line">$	pinfo	-m	5	passwd</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<script src='https://cdn.jsdelivr.net/gh/sviptzk/HexoStaticFile@latest/Hexo/js/mouse_snow.min.js'></script>
-
-]]></content>
-      <categories>
-        <category>Linux基础</category>
-      </categories>
-      <tags>
-        <tag>Bash</tag>
       </tags>
   </entry>
   <entry>
