@@ -1209,4 +1209,167 @@
         <tag>磁盘</tag>
       </tags>
   </entry>
+  <entry>
+    <title>Linux基础命令</title>
+    <url>/Linux%E5%9F%BA%E7%A1%80/Linux%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<h1 id="Linux基础命令"><a href="#Linux基础命令" class="headerlink" title="Linux基础命令"></a>Linux基础命令</h1><p>Linux系统的基础命令可以说是数不胜数，所以我们分为以下几个分类去总结。</p>
+<h2 id="系统目录结构"><a href="#系统目录结构" class="headerlink" title="系统目录结构"></a>系统目录结构</h2><p>⼏乎所有的计算机操作系统都是⽤⽬录结构组织⽂件。具体来说就是在⼀个⽬录中存放⼦⽬录和⽂件, ⽽在⼦⽬录中⼜会进⼀步存放⼦⽬录和⽂件，以此类推形成⼀个树状的⽂件结构，由于其结构很像⼀棵树的分⽀, 所以该结构⼜被称为“⽬录树”。Linux系统中也沿⽤了这种⽂件结构, 所有⽬录和⽂件都在 “根⽬录”下, ⽬录名为”/“。FHS（⽂件系统层次标准）定义了在根⽬录下的主要⽬录以及每个⽬录应该存放什么⽂件。</p>
+<p><img src="https://note.youdao.com/yws/api/personal/file/WEBf9d7b9b67a753782c35f78bfa90965de?method=download&shareKey=37a1114867c1dcb78edae25e163a8754" alt="img"></p>
+<table>
+<thead>
+<tr>
+<th>目录名称</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>/etc</td>
+<td>系统重要配置文件，以及常用服务配置文件</td>
+</tr>
+<tr>
+<td>/var</td>
+<td>存放系统引导启动时产生的可变文件，文件通常动态改变，例如：缓存目录，日志文件</td>
+</tr>
+<tr>
+<td>/run</td>
+<td>系统启动后,    运⾏的程序产⽣的运⾏时数据，包括进程的pid⽂件,锁⽂件等</td>
+</tr>
+<tr>
+<td>/home</td>
+<td>普通⽤户的主⽬录，普通⽤户的家⽬录默认为/HOME/USERNAME</td>
+</tr>
+<tr>
+<td>/root</td>
+<td>超级管理员的主⽬录,    普通⽤户⽆权操作</td>
+</tr>
+<tr>
+<td>/tmp</td>
+<td>存放临时⽂件,    ⼀般存放超过10天以上都会⾃动删除,可以更改删除临时⽂件的期限</td>
+</tr>
+<tr>
+<td>/boot</td>
+<td>存放系统引导时候需要的⽂件</td>
+</tr>
+<tr>
+<td>/dev</td>
+<td>存放设备⽂件</td>
+</tr>
+<tr>
+<td>/usr</td>
+<td>安装的软件,    共享库</td>
+</tr>
+<tr>
+<td>/usr/bin</td>
+<td>⽤户命令⽬录</td>
+</tr>
+<tr>
+<td>/usr/sbin</td>
+<td>管理员命令⽬录</td>
+</tr>
+<tr>
+<td>/usr/local</td>
+<td>本地⾃定义安装的软件</td>
+</tr>
+</tbody></table>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">##注意： </span></span><br><span class="line"><span class="comment">#在Linux7系统中, /bin, /sbin, /lib,	/lib64都以软链接的形式链接到/usr/⽬录下,例如:</span></span><br><span class="line">/bin --&gt; /usr/bin</span><br><span class="line">/sbin --&gt; /usr/sbin</span><br><span class="line">lib --&gt; usr/lib</span><br><span class="line">lib64 --&gt; usr/lib64</span><br></pre></td></tr></table></figure>
+
+<h2 id="文件路径定位"><a href="#文件路径定位" class="headerlink" title="文件路径定位"></a>文件路径定位</h2><p>路径的作⽤:定位⽂件具体位置信息</p>
+<p>你要在那⾥创建什么⽂件?</p>
+<p>你要将什么⽂件复制到什么地⽅?</p>
+<p>你要删除的⽂件在什么地⽅?</p>
+<h3 id="特殊目录：-和"><a href="#特殊目录：-和" class="headerlink" title="特殊目录：(.)和(..)"></a>特殊目录：(.)和(..)</h3><p>在每个⽬录下, 都会固定存在两个特殊⽬录, 分别是⼀个点(.)和两个(..)的⽬录。⼀个点代表当的是当前⽬录, 两个点代表的是当前⽬录的上层⽬录。注意: 在Linux下所有以点开始的⽂件都是”隐藏⽂件”, 对于这类⽂件, 只使⽤命令 <em>ls    -l</em> 是看不到的, 必须要使⽤ <em>ls    -la</em> 才可以看到,如下所示:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@dennis.com /opt]$ ls -a</span><br><span class="line">.  ..</span><br></pre></td></tr></table></figure>
+
+<h3 id="绝对路径"><a href="#绝对路径" class="headerlink" title="绝对路径"></a>绝对路径</h3><p>Linux系统采⽤了⽬录树的⽂件组织结构, 在Linux下每个⽬录或⽂件都可以从根⽬录处开始寻找,⽐如: /usr/bin ⽬录。这种从根⽬录开始的全路径被称为”绝对路径”, 绝对路径⼀定是以 “/” 开头的。</p>
+<p>如何确认当前所在的⽬录, 可以使⽤ pwd 命令查看:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@dennis.com /]$ <span class="built_in">cd</span> tmp/</span><br><span class="line">[root@dennis.com /tmp]$ <span class="built_in">pwd</span></span><br><span class="line">/tmp</span><br></pre></td></tr></table></figure>
+
+<h3 id="相对路径"><a href="#相对路径" class="headerlink" title="相对路径"></a>相对路径</h3><p>相对路径, 关键点在于当前在什么路径下。假设当前⽬录在 /usr/local 下, 那么它的上层⽬录(/usr⽬录)可以⽤ ../ 表示, ⽽` /usr/local 的下层⽬录(src)则可以⽤ ./src 表示。所谓的(.)和(..)⽬录实际上也是属于相对路径</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@dennis.com /tmp]$ <span class="built_in">cd</span> /opt/</span><br><span class="line">[root@dennis.com /opt]$ ls -la</span><br><span class="line">total 8</span><br><span class="line">drwxr-xr-x.  2 root root 4096 Apr 11  2018 .</span><br><span class="line">dr-xr-xr-x. 21 root root 4096 Jul 27 20:23 ..</span><br><span class="line"></span><br><span class="line"><span class="comment">#进⼊当前⽬录</span></span><br><span class="line">[root@dennis.com /opt]$ <span class="built_in">cd</span> .</span><br><span class="line">/<span class="comment">#显示当前⽬录</span></span><br><span class="line">[root@dennis.com /opt]$ <span class="built_in">pwd</span></span><br><span class="line">/opt</span><br><span class="line"></span><br><span class="line"><span class="comment">#进⼊当前⽬录的上层⽬录</span></span><br><span class="line">[root@dennis.com /opt]$ <span class="built_in">cd</span> ..</span><br><span class="line"><span class="comment">#进⼊上层⽬录,也就是/⽬录</span></span><br><span class="line">[root@dennis.com /]$ <span class="built_in">pwd</span></span><br><span class="line">/</span><br><span class="line">[root@dennis.com /]$ </span><br></pre></td></tr></table></figure>
+
+<h3 id="cd-命令常见用法"><a href="#cd-命令常见用法" class="headerlink" title="cd 命令常见用法"></a><em>cd</em> 命令常见用法</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">.	表示⽤户所处的当前⽬录</span><br><span class="line">..	表示上级⽬录;</span><br><span class="line">~	表示当前⽤户⾃⼰的家⽬录</span><br><span class="line"></span><br><span class="line">cd -	#切换上次所在⽬录</span><br><span class="line">cd ~	#切换当前用户家目录</span><br><span class="line">cd      #切换当前用户家目录</span><br><span class="line">cd .    #代表当前⽬录,⼀般在拷⻉、移动等情况下使⽤</span><br><span class="line">cd ..	#切换⾄当前⽬录的上级⽬录</span><br></pre></td></tr></table></figure>
+
+<h2 id="目录管理命令"><a href="#目录管理命令" class="headerlink" title="目录管理命令"></a>目录管理命令</h2><h3 id="目录创建命令mkdir"><a href="#目录创建命令mkdir" class="headerlink" title="目录创建命令mkdir"></a>目录创建命令<em>mkdir</em></h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#	mkdir dir1</span></span><br><span class="line"><span class="comment">#	mkdir /dir1	/home/xuliangwei/dir2</span></span><br><span class="line"><span class="comment">#	mkdir &#123;dir4,dir5&#125; -v</span></span><br><span class="line"><span class="comment">#	mkdir /dir6/dir6-1 -pv</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="以树状显示目录结构命令tree"><a href="#以树状显示目录结构命令tree" class="headerlink" title="以树状显示目录结构命令tree"></a>以树状显示目录结构命令<em>tree</em></h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">-L: 显示目录树的层级</span><br><span class="line"></span><br><span class="line"><span class="comment">#显示当前目录下的结构</span></span><br><span class="line">tree</span><br><span class="line"></span><br><span class="line"><span class="comment">#显示一级目录</span></span><br><span class="line">tree -L 1</span><br></pre></td></tr></table></figure>
+
+<h2 id="文件管理命令"><a href="#文件管理命令" class="headerlink" title="文件管理命令"></a>文件管理命令</h2><p>Linux ⼀切皆为⽂件, 在对 Linux 进⾏配置时, 很⼤程度上就是处理⽂件的过程, 所以掌握⽂件的相关操作是⾮常有必要的。下⾯我们介绍如何对⽂件进⾏, 创建、删除、移动、重命名, 以及查看⽂件内容, ⾄于如何编辑⽂件, 在后⾯具体介绍编辑器的时候在做详细阐述。</p>
+<h3 id="文件创建命令touch"><a href="#文件创建命令touch" class="headerlink" title="文件创建命令touch"></a>文件创建命令<em>touch</em></h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">touch	filename</span><br><span class="line">touch	filename_1	filename_2</span><br><span class="line">touch	/home/xuliangwei/file5	file6</span><br><span class="line">touch	file&#123;1..10&#125;</span><br><span class="line">touch	file&#123;a,b,c&#125;</span><br><span class="line">touch	file&#123;a..z&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="文件时间stat"><a href="#文件时间stat" class="headerlink" title="文件时间stat"></a>文件时间<em>stat</em></h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@dennis.com /]$ <span class="built_in">stat</span> /etc/passwd</span><br><span class="line">  File: ‘/etc/passwd’</span><br><span class="line">  Size: 1166      	Blocks: 8          IO Block: 4096   regular file</span><br><span class="line">Device: fd01h/64769d	Inode: 920061      Links: 1</span><br><span class="line">Access: (0644/-rw-r--r--)  Uid: (    0/    root)   Gid: (    0/    root)</span><br><span class="line">Access: 2021-07-31 00:30:01.842102166 +0800</span><br><span class="line">Modify: 2021-07-13 00:20:38.628719887 +0800</span><br><span class="line">Change: 2021-07-13 00:20:38.629719911 +0800</span><br><span class="line"> Birth: -</span><br><span class="line"></span><br><span class="line">访问时间:atime，查看内容</span><br><span class="line">修改时间:mtime，修改内容</span><br><span class="line">改变时间:ctime，⽂件属性，⽐如权限</span><br><span class="line">删除时间:dtime，⽂件被删除的时间</span><br></pre></td></tr></table></figure>
+
+<h3 id="⽂件⽬录复制命令-cp"><a href="#⽂件⽬录复制命令-cp" class="headerlink" title="⽂件⽬录复制命令 cp"></a>⽂件⽬录复制命令 <em>cp</em></h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cp [OPTION]... [-T]	SOURCE DEST</span><br><span class="line">cp [OPTION]... SOURCE... DIRECTORY</span><br><span class="line">cp [OPTION]... -t DIRECTORY SOURCE...</span><br><span class="line"></span><br><span class="line">//将name⽂件复制⾄/tmp⽬录中</span><br><span class="line"><span class="comment"># cp name /tmp/name_copy</span></span><br><span class="line">//如果复制过想保持原⽂件名,不修改名称</span><br><span class="line"><span class="comment"># cp name /tmp/name</span></span><br><span class="line">//如果复制过想保持原来的属性, -p保持原⽂件或⽬录的属性</span><br><span class="line"><span class="comment"># cp -p name /tmp/name_p</span></span><br><span class="line">//复制⽬录只需要使⽤-r参数,递归复制</span><br><span class="line"><span class="comment"># mkdir name_name</span></span><br><span class="line"><span class="comment"># cp -r name_name/ /tmp/name_tmp</span></span><br><span class="line">//将多个⽂件拷⻉同⼀个⽬录</span><br><span class="line"><span class="comment"># cp -rv /etc/hosts /etc/hostname /tmp</span></span><br><span class="line"><span class="comment"># cp -rv /etc/hosts /etc/hostname ./</span></span><br><span class="line"></span><br><span class="line">//</span><br><span class="line"><span class="comment"># cp -rv /etc/hosts /etc/hosts.bak</span></span><br><span class="line"><span class="comment"># cp -rv /etc/&#123;hosts,hosts.bak&#125;</span></span><br><span class="line"><span class="comment"># cp -rv /etc/hosts&#123;,-org&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="⽂件⽬录移动命令-mv"><a href="#⽂件⽬录移动命令-mv" class="headerlink" title="⽂件⽬录移动命令 mv"></a>⽂件⽬录移动命令 <em>mv</em></h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mv [OPTION]... [-T]	SOURCE DEST</span><br><span class="line">mv [OPTION]... SOURCE... DIRECTORY</span><br><span class="line">mv [OPTION]... -t DIRECTORY SOURCE...</span><br><span class="line"></span><br><span class="line">//移动⽂件⾄tmp⽬录</span><br><span class="line"><span class="comment"># mv file /tmp/</span></span><br><span class="line"></span><br><span class="line">//移动⽂件⾄tmp⽬录并修改名称为file_test</span><br><span class="line"><span class="comment"># mv file /tmp/file_test</span></span><br><span class="line"></span><br><span class="line">//移动⽬录⾄/tmp⽬录下</span><br><span class="line"><span class="comment"># mv dir/ /tmp/</span></span><br><span class="line"></span><br><span class="line">//移动多个⽂件或多个⽬录⾄同⼀个⽬录</span><br><span class="line"><span class="comment"># touch file&#123;1..3&#125;</span></span><br><span class="line"><span class="comment"># mv file1 file2 file3 /opt/</span></span><br><span class="line"><span class="comment"># mkdir dir&#123;1..3&#125;</span></span><br><span class="line"><span class="comment"># mv dir1/ dir2/ dir3/ /opt</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="文件目录删除命令rm"><a href="#文件目录删除命令rm" class="headerlink" title="文件目录删除命令rm"></a>文件目录删除命令<em>rm</em></h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">rm OPTION]... FILE...</span><br><span class="line">-r 递归</span><br><span class="line">-f 强制删除</span><br><span class="line">-v 详细过程</span><br><span class="line"></span><br><span class="line"><span class="comment">#删除⽂件,默认会提醒是否删除⽂件</span></span><br><span class="line">rm anan</span><br><span class="line"></span><br><span class="line"><span class="comment">#强制删除⽂件,不提醒</span></span><br><span class="line">rm anan -f</span><br><span class="line"></span><br><span class="line"><span class="comment">#强制删除目录，会提醒</span></span><br><span class="line">rm -r dir/</span><br><span class="line"></span><br><span class="line"><span class="comment">#强制删除目录，不提醒</span></span><br><span class="line">rm -rf dir/</span><br><span class="line"></span><br><span class="line"><span class="comment">#示例</span></span><br><span class="line">mkdir /home/dir10</span><br><span class="line">touch /home/dir10/&#123;file2,file3,.file4&#125;</span><br><span class="line">rm -rf /home/dir10/* <span class="comment">#不包括隐藏⽂件</span></span><br><span class="line">ls /home/dir10/	-a</span><br><span class="line">.	..	.file4</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//示例2</span><br><span class="line">touch file&#123;1..10&#125;</span><br><span class="line">touch &#123;1..10&#125;.pdf</span><br><span class="line">rm -rf file*	</span><br><span class="line">rm -rf *.pdf</span><br></pre></td></tr></table></figure>
+
+<h3 id="文件查看命令"><a href="#文件查看命令" class="headerlink" title="文件查看命令"></a>文件查看命令</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cat	 //查看⽂件内容</span><br><span class="line">示例：cat /etc/passwd</span><br><span class="line">示例：cat -n /etc/passwd <span class="comment">#-n参数⾏号</span></span><br><span class="line">示例：cat &gt;&gt; aa.txt &lt;&lt;<span class="string">EOF #追加数据</span></span><br><span class="line"><span class="string">         &gt;&gt; test</span></span><br><span class="line"><span class="string">		 &gt;&gt; EOF</span></span><br><span class="line"></span><br><span class="line">head <span class="comment">#查看⽂件头部内容，默认前⼗⾏</span></span><br><span class="line">示例：head	/etc/passwd				</span><br><span class="line">示例：head	-n5 /etc/passwd  <span class="comment">#-n参数指定查看头⼏⾏</span></span><br><span class="line"></span><br><span class="line">tail <span class="comment">#查看⽂件尾部内容，默认最后⼗⾏</span></span><br><span class="line">示例：tail	/etc/passwd				</span><br><span class="line">示例：tail	-f /var/<span class="built_in">log</span>/messages  <span class="comment">#-f参数跟随尾部输出⽽变化</span></span><br><span class="line"></span><br><span class="line">more <span class="comment">#按空格可翻⻚查看⽂件内容，按q可推出</span></span><br><span class="line">示例：more	/etc/passwd</span><br><span class="line">less //和more类似</span><br><span class="line">示例：less	/etc/passwd</span><br></pre></td></tr></table></figure>
+
+<h3 id="文件下载命令"><a href="#文件下载命令" class="headerlink" title="文件下载命令"></a>文件下载命令</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">wget /<span class="comment">#⽂件下载</span></span><br><span class="line">-O <span class="comment">#指定下载地址,更改名称		</span></span><br><span class="line">-T <span class="comment">#超时时间</span></span><br><span class="line">-q <span class="comment">#安静下载(关闭wget输出)</span></span><br><span class="line">--spider <span class="comment">#⽹络爬⾍		</span></span><br><span class="line">示例：wget	http://www.baidu.com</span><br><span class="line">curl <span class="comment">#⽂件下载</span></span><br><span class="line">示例：curl -o http://www.baidu.com</span><br><span class="line">yum	install lrzsz</span><br><span class="line">rz <span class="comment">#⽂件上传</span></span><br><span class="line">sz <span class="comment">#⽂件下载</span></span><br><span class="line">示例：sz filename</span><br></pre></td></tr></table></figure>
+
+<h3 id="命令查找命令"><a href="#命令查找命令" class="headerlink" title="命令查找命令"></a>命令查找命令</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">locate	<span class="comment">#查找⽂件或者⽬录</span></span><br><span class="line">示例：locate /etc/sh <span class="comment">#搜索etc⽬录下所有以sh开头的⽂件</span></span><br><span class="line">示例：locate -i /etc/sh <span class="comment">#搜索etc⽬录下，所有以sh开头的⽂件，忽略⼤⼩写</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">which</span> <span class="comment">#查找系统PATH变量⽬录下的命令(绝对路径)</span></span><br><span class="line">示例：<span class="built_in">which</span> ls</span><br><span class="line"></span><br><span class="line">whereis	<span class="comment">#查找⽂件索引数据库下的命令、源⽂件、man⽂件。⾮PATH变量查找，所以查找的⾯⽐which要⼴ -b, -m</span></span><br><span class="line">示例：whereis ls</span><br><span class="line">示例：whereis -b ls</span><br></pre></td></tr></table></figure>
+
+<h2 id="字符处理命令"><a href="#字符处理命令" class="headerlink" title="字符处理命令"></a>字符处理命令</h2><h3 id="使用sort排序"><a href="#使用sort排序" class="headerlink" title="使用sort排序"></a>使用<em>sort</em>排序</h3><p>很多情况下需要对无序的数据排序，这是需要用到sort排序了。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sort [OPTION]... [FILE]...</span><br><span class="line">-r：倒序</span><br><span class="line">-n：按数字排序</span><br><span class="line">-t：指定分隔符(默认空格)</span><br><span class="line">-k：指定第⼏列, 指定⼏列⼏字符（指定1.1, 3.1, 3.3）</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#演示soft的⽤法, ⾸先创建⼀个⽂件:</span></span><br><span class="line">[root@dennis.com ~]<span class="comment"># cat &gt;&gt; sort.txt &lt;&lt;EOF</span></span><br><span class="line">b:3</span><br><span class="line">c:2</span><br><span class="line">a:4</span><br><span class="line">e:5</span><br><span class="line">d:1</span><br><span class="line">f:11</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line"><span class="comment">#下⾯对输出的内容进⾏排序:</span></span><br><span class="line">[root@dennis.com ~]<span class="comment"># sort sort.txt</span></span><br><span class="line">a:4</span><br><span class="line">b:3</span><br><span class="line">c:2</span><br><span class="line">d:1</span><br><span class="line">e:5</span><br><span class="line">f:11</span><br><span class="line"></span><br><span class="line"><span class="comment">#可观察到,	sort⽂件具有⼀个特点,第⼀个字符是字⺟,第三个字符是数字,中间是⽤冒号隔开。</span></span><br><span class="line"><span class="comment">#这样我们可以使⽤-t指定分隔符,	使⽤-k指定⽤于排序的列了。</span></span><br><span class="line">[root@dennis.com ~]<span class="comment"># sort -t &quot;:&quot; -k2 sort.txt</span></span><br><span class="line">d:1</span><br><span class="line">f:11 <span class="comment">#第⼆⾏为什么是11？不应该按照顺序排列？</span></span><br><span class="line">c:2</span><br><span class="line">b:3</span><br><span class="line">a:4</span><br><span class="line">e:5</span><br><span class="line"></span><br><span class="line"><span class="comment">#按照排序的⽅式,	只会看到第⼀个字符,11的第⼀个字符是1,	按照字符来排序确实⽐2⼩。</span></span><br><span class="line"><span class="comment">#如果想要按照数字的⽅式进⾏排序, 需要使⽤-n参数。</span></span><br><span class="line">[root@dennis.com ~]<span class="comment"># sort -t &quot;:&quot; -n -k2 sort.txt</span></span><br><span class="line">d:1</span><br><span class="line">c:2</span><br><span class="line">b:3</span><br><span class="line">a:4</span><br><span class="line">e:5</span><br><span class="line">f:11</span><br><span class="line"></span><br><span class="line"><span class="comment">#测试案例,对下⾯内容进⾏排序</span></span><br><span class="line">192.168.3.1 00:0F:AF:81:19:1F</span><br><span class="line">192.168.3.2 00:0F:AF:85:6C:25</span><br><span class="line">192.168.3.3 00:0F:AF:85:70:42</span><br><span class="line">192.168.2.20 00:0F:AF:85:55:DE</span><br><span class="line">192.168.2.21 00:0F:AF:85:6C:09</span><br><span class="line">192.168.2.22 00:0F:AF:85:5C:41</span><br><span class="line">192.168.0.151 00:0F:AF:85:6C:F6</span><br><span class="line">192.168.0.152 00:0F:AF:83:1F:65</span><br><span class="line">192.168.0.153 00:0F:AF:85:70:03</span><br><span class="line">192.168.1.10 00:30:15:A2:3B:B6</span><br><span class="line">192.168.1.11 00:30:15:A3:23:B7</span><br><span class="line">192.168.1.12 00:30:15:A2:3A:A1</span><br><span class="line">192.168.1.1 00:0F:AF:81:19:1F</span><br><span class="line">192.168.2.2 00:0F:AF:85:6C:25</span><br><span class="line">192.168.3.3 00:0F:AF:85:70:42</span><br><span class="line">192.168.2.20 00:0F:AF:85:55:DE</span><br><span class="line">192.168.1.21 00:0F:AF:85:6C:09</span><br><span class="line">192.168.2.22 00:0F:AF:85:5C:41</span><br><span class="line">192.168.0.151 00:0F:AF:85:6C:F6</span><br><span class="line">192.168.1.152 00:0F:AF:83:1F:65</span><br><span class="line">192.168.0.153 00:0F:AF:85:70:03</span><br><span class="line">192.168.3.10 00:30:15:A2:3B:B6</span><br><span class="line">192.168.1.11 00:30:15:A3:23:B7</span><br><span class="line">192.168.3.12 00:30:15:A2:3A:A1</span><br><span class="line"><span class="comment">#针对第三列的第⼀个字符,第四列的第⼀个字符到第三个字符排序才是正确</span></span><br><span class="line">[root@dennis.com ]<span class="comment"># sor -t. -k3.1,3.1nr -k4.1,4.3nr test.txt使⽤uniq删除重复内容</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="使用uniq删除重复内容"><a href="#使用uniq删除重复内容" class="headerlink" title="使用uniq删除重复内容"></a>使用<em>uniq</em>删除重复内容</h3><p>如果⽂件中有多⾏完全相同的内容, 当前是希望能删除重复的⾏，同时还可以统计出完全相同的行出现的总次数, 那么就可以使⽤ uniq 命令解决这个问题(但是必须配合 sort 使⽤)。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">uniq [OPTION]... [INPUT [OUTPUT]]</span><br><span class="line">-c 计算重复的⾏</span><br><span class="line"></span><br><span class="line">//演示uniq的⽤法,⾸先创建⼀个⽂件:</span><br><span class="line">[root@dennis.com~]<span class="comment">#	cat	uniq.txt</span></span><br><span class="line">abc</span><br><span class="line">123</span><br><span class="line">abc</span><br><span class="line">123</span><br><span class="line">//uniq需要和sort⼀起使⽤, 先使⽤sort排序,让重复内容连续在⼀起</span><br><span class="line">[root@dennis.com~]<span class="comment">#	cat	uniq.txt | sort</span></span><br><span class="line">123</span><br><span class="line">123</span><br><span class="line">abc</span><br><span class="line">abc</span><br><span class="line">//使⽤uniq去除相邻重复的⾏</span><br><span class="line">[root@dennis.com ~]<span class="comment"># cat uniq.txt | sort | uniq</span></span><br><span class="line">123</span><br><span class="line">abc</span><br><span class="line">//使⽤-c参数,能统计出⽂件中每⾏内容重复的次数</span><br><span class="line">[root@dennis.com ~]<span class="comment"># cat uniq.txt | sort | uniq	-c</span></span><br><span class="line">2 123</span><br><span class="line">2 abc</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用cut命令截取某一个字段"><a href="#使用cut命令截取某一个字段" class="headerlink" title="使用cut命令截取某一个字段"></a>使用cut命令截取某一个字段</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cut	OPTION... [FILE]...</span><br><span class="line">-d：指定分隔符</span><br><span class="line">-f：数字,取第⼏列 –f3,6三列和6列</span><br><span class="line">-c：按字符取(空格也算)</span><br><span class="line"></span><br><span class="line">//测试数据,	过滤出⽂件⾥ xuliangwei以及552408925</span><br><span class="line"><span class="comment">#echo “Im xuliangwei, is QQ 552408925” &gt; xuliangwei.com</span></span><br><span class="line"></span><br><span class="line">//实践思路</span><br><span class="line">sed <span class="string">&#x27;s#,# #g&#x27;</span> xuliangwei.txt | cut -d <span class="string">&quot; &quot;</span> -f2,6</span><br><span class="line">sed <span class="string">&#x27;s#,# #g&#x27;</span> xuliangwei.txt | awk -F <span class="string">&quot; &quot;</span> <span class="string">&#x27;&#123;print $2 &quot; &quot; $5&#125;&#x27;</span></span><br><span class="line">awk -F <span class="string">&#x27;[, ]+&#x27;</span> <span class="string">&#x27;&#123;print $2,$5&#125;&#x27;</span> xuliangwei.txt	</span><br><span class="line">awk <span class="string">&#x27;&#123;print $2 $5&#125;&#x27;</span> xuliangwei.txt | awk -F	<span class="string">&quot;,&quot;</span>	<span class="string">&#x27;&#123;print $1&quot;	&quot;$2&#125;&#x27;</span></span><br><span class="line">awk -F <span class="string">&quot;[, ]&quot;</span> <span class="string">&#x27;&#123;print $2 &quot; &quot; $6&#125;&#x27;</span>	xuliangwei.txt	</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">此类问题是运维⼯作中最常⻅的问题。可以演变成分析⽇志，查看TCP各个状态连接数，查看单IP接数排名等</span><br><span class="line">[root@dennis.com]<span class="comment">#	cat	web.log</span></span><br><span class="line">http://www.xuliangwei.com/index.html</span><br><span class="line">http://www.xuliangwei.com/1.html</span><br><span class="line">http://post.xuliangwei.com/index.html</span><br><span class="line">http://mp3.xuliangwei.com/index.html</span><br><span class="line">http://www.xuliangwei.com/3.html</span><br><span class="line">http://post.xuliangwei.com/2.html</span><br><span class="line"></span><br><span class="line">[root@dennis.com ]<span class="comment">#	awk -F &#x27;/&#x27; &#x27;&#123;print $3&#125;&#x27; web.log | sort -rn | uniq –c</span></span><br><span class="line">3 www.xuliangwei.comxuliangwei.com</span><br><span class="line">2 post.xuliangwei.comxuliangwei.com</span><br><span class="line">1 mp3.xuliangwei.comxuliangwei.com</span><br><span class="line"></span><br><span class="line">[root@dennis.com ]<span class="comment">#	cut	-d / -f3 web.log | sort -rn | uniq –c</span></span><br><span class="line">3 www.xuliangwei.comxuliangwei.com</span><br><span class="line">2 post.xuliangwei.comxuliangwei.com</span><br><span class="line">1 mp3.xuliangwei.comxuliang</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用wc统计"><a href="#使用wc统计" class="headerlink" title="使用wc统计"></a>使用wc统计</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">wc - <span class="built_in">print</span> newline,	word, and byte counts <span class="keyword">for</span> each file显示⽂件的⾏、单词与字节统计信息</span><br><span class="line"></span><br><span class="line"><span class="comment">#统计fstab有多少⾏</span></span><br><span class="line">[root@dennis.com ~]<span class="comment"># wc -l /etc/fstab</span></span><br><span class="line">15 /etc/fstab</span><br><span class="line"></span><br><span class="line"><span class="comment">#显示/etc/services	⽂件⾏号</span></span><br><span class="line">[root@dennis.com ~]<span class="comment"># wc -l /etc/services	</span></span><br><span class="line">10774 /etc/services</span><br><span class="line"></span><br><span class="line"><span class="comment">#扩展⽅法</span></span><br><span class="line">[root@dennis.com ~]<span class="comment"># grep -n &quot;.&quot; /etc/services | tail -1</span></span><br><span class="line">[root@dennis.com ~]<span class="comment"># awk &#x27;&#123;print NR	$0&#125;&#x27; /etc/services | tail -1</span></span><br><span class="line">[root@dennis.com ~]<span class="comment"># cat -n /etc/services | tail -1</span></span><br><span class="line">[root@dennis.com ~]<span class="comment"># sed &#x27;=&#x27; /etc/services | tail -2</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src='https://cdn.jsdelivr.net/gh/sviptzk/HexoStaticFile@latest/Hexo/js/mouse_snow.min.js'></script>
+
+]]></content>
+      <categories>
+        <category>Linux基础</category>
+      </categories>
+      <tags>
+        <tag>命令</tag>
+      </tags>
+  </entry>
 </search>
