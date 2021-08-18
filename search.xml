@@ -1,6 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Docker储存卷概述</title>
+    <url>/%E4%BA%91%E8%AE%A1%E7%AE%97/Docker%E5%82%A8%E5%AD%98%E5%8D%B7%E6%A6%82%E8%BF%B0/</url>
+    <content><![CDATA[<h1 id="一-docker存储卷概述"><a href="#一-docker存储卷概述" class="headerlink" title="一.docker存储卷概述"></a>一.docker存储卷概述</h1><h2 id="1-什么是存储卷"><a href="#1-什么是存储卷" class="headerlink" title="1.什么是存储卷"></a>1.什么是存储卷</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">存储卷就是将宿主机的本地文件系统中存在的某个目录直接与容器内部的文件系统上的某一目录建立绑定关系。</span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+
+<h2 id="2-在容器创建测试文件，而后在宿主机查看器存储路径"><a href="#2-在容器创建测试文件，而后在宿主机查看器存储路径" class="headerlink" title="2.在容器创建测试文件，而后在宿主机查看器存储路径"></a>2.在容器创建测试文件，而后在宿主机查看器存储路径</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">如下图所示，我们在容器创建测试文件，在宿主机查找时发现了2个文件路径。</span><br><span class="line"></span><br><span class="line">我们需要进入的是包含&quot;merged&quot;的路径哟~因为它才是真正存储容器的位置呢。</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://note.youdao.com/yws/api/personal/file/DA59FE1ECAF1404D91B18661DA329454?method=download&shareKey=33dd7ad731f574dfa48b332f161ecca9" alt="image-20210613120822148"></p>
+<h2 id="3-默认情况下，容器在宿主机存储的数据会随着容器的生命周期而消亡"><a href="#3-默认情况下，容器在宿主机存储的数据会随着容器的生命周期而消亡" class="headerlink" title="3.默认情况下，容器在宿主机存储的数据会随着容器的生命周期而消亡"></a>3.默认情况下，容器在宿主机存储的数据会随着容器的生命周期而消亡</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">如下图所示，当我们删除容器时，那也意味着在宿主机存储的数也随之删除。</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://note.youdao.com/yws/api/personal/file/B24DEE89B42042CC896918DE03AFEEB5?method=download&shareKey=7b5e8e0baa12f61c993fdd55659584a5" alt="image-20210613124621520"></p>
+<h1 id="二-在宿主机中上传测试代码，观察容器是否能够正常提供服务"><a href="#二-在宿主机中上传测试代码，观察容器是否能够正常提供服务" class="headerlink" title="二.在宿主机中上传测试代码，观察容器是否能够正常提供服务"></a>二.在宿主机中上传测试代码，观察容器是否能够正常提供服务</h1><h2 id="1-安装依赖包环境"><a href="#1-安装依赖包环境" class="headerlink" title="1.安装依赖包环境"></a>1.安装依赖包环境</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[root@docker201.oldboyedu.com ~]# yum -y install unzip</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="2-创建测试的nginx容器"><a href="#2-创建测试的nginx容器" class="headerlink" title="2.创建测试的nginx容器"></a>2.创建测试的nginx容器</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[root@docker201.oldboyedu.com ~]# docker run -it -d -p 80:80 nginx:1.20.1 </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://note.youdao.com/yws/api/personal/file/56F3678D3D834CB0AE16DBBC8E4F317A?method=download&shareKey=b58837ff19789200595c4b867fcae377" alt="image-20210613125456367"></p>
+<h2 id="3-将软件包上传到docker的宿主机目录"><a href="#3-将软件包上传到docker的宿主机目录" class="headerlink" title="3.将软件包上传到docker的宿主机目录"></a>3.将软件包上传到docker的宿主机目录</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[root@docker201.oldboyedu.com /var/lib/docker/overlay2/c8f3eaf1cba887b7370d1dd86521989a76f5d642a76c3b790111b42b05d0212e/merged/usr/share/nginx/html]# unzip xiaoniaofeifei.zip </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://note.youdao.com/yws/api/personal/file/D18114A3424D4795A2863B445E13505A?method=download&shareKey=e6fffc9e0c49f516ebf987c554125941" alt="image-20210613130158901"></p>
+<h2 id="4-测试软件包部署是否生效。"><a href="#4-测试软件包部署是否生效。" class="headerlink" title="4.测试软件包部署是否生效。"></a>4.测试软件包部署是否生效。</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[root@docker201.oldboyedu.com ~]# docker logs -f -n 5 3e755e41ce6f</span><br><span class="line"></span><br><span class="line">温馨提示:</span><br><span class="line">	你知道为什么使用&quot;docker logs&quot;能在终端查看到日志吗？</span><br><span class="line">	想知道原因就得进到容器内查看&quot;/var/log/nginx&quot;目录哟~</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://note.youdao.com/yws/api/personal/file/8EB27FFC58744D74BA5F0499E7FC58C5?method=download&shareKey=9fda364e87408cc27a520491790eef1c" alt="image-20210613130933031"></p>
+<h2 id="5-课堂练习"><a href="#5-课堂练习" class="headerlink" title="5.课堂练习"></a>5.课堂练习</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">请思考除了使用上面的方式是否还有其它方式实现容器的代码更新呢？</span><br><span class="line"></span><br><span class="line">温馨提示:</span><br><span class="line">	(1)使用&quot;docker container cp&quot;指令，直接将代码拷贝到指定容器的指定目录;</span><br><span class="line">	(2)使用存储卷;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="三-基于存储卷的方式实现代码的更新"><a href="#三-基于存储卷的方式实现代码的更新" class="headerlink" title="三.基于存储卷的方式实现代码的更新"></a>三.基于存储卷的方式实现代码的更新</h1><h2 id="1-创建挂载源代码的目录及测试数据"><a href="#1-创建挂载源代码的目录及测试数据" class="headerlink" title="1.创建挂载源代码的目录及测试数据"></a>1.创建挂载源代码的目录及测试数据</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">如下图所示，将代码上传到指定的目录并解压。</span><br></pre></td></tr></table></figure>
+
+<img src="https://note.youdao.com/yws/api/personal/file/7071ECC52E9042F68C22D66A44883296?method=download&amp;shareKey=7ee3e9ff69677d6be4544d840b525590" alt="image-20210613132759874" style="zoom:200%;" />
+
+
+
+<h2 id="2-创建容器时挂载宿主机目录"><a href="#2-创建容器时挂载宿主机目录" class="headerlink" title="2.创建容器时挂载宿主机目录"></a>2.创建容器时挂载宿主机目录</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[root@docker201.oldboyedu.com ~]# docker container run -d -p 8888:80 -v /oldboy/code:/usr/share/nginx/html nginx:1.20.1 </span><br><span class="line"></span><br><span class="line">[root@docker201.oldboyedu.com ~]# docker container run -d -p 9999:80 -v /oldboy/code:/usr/share/nginx/html nginx:1.20.1 </span><br><span class="line"></span><br><span class="line">温馨提示:</span><br><span class="line">	相比之前的方法，如果想要多个容器使用同一份数据，需要将同一份数据拷贝到多个不同的容器内部，而使用存储卷的方式，则无需拷贝多份数据啦。</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://note.youdao.com/yws/api/personal/file/7E1C69742C0244C5AEA6C87A66C7D085?method=download&shareKey=30ec960096909c0b68c9c0b680f132da" alt="image-20210613134342301"></p>
+<h2 id="3-尝试修改宿主机代码，观察两个容器的变化"><a href="#3-尝试修改宿主机代码，观察两个容器的变化" class="headerlink" title="3.尝试修改宿主机代码，观察两个容器的变化"></a>3.尝试修改宿主机代码，观察两个容器的变化</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">如下图所示，根本无需重启容器，只需更改宿主机器的代码即可。</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://note.youdao.com/yws/api/personal/file/75240C4D259F4AD08C79939BF9CE23C0?method=download&shareKey=661555dc41be51b90abb5d6555fe3cab" alt="image-20210613135357947"></p>
+<h2 id="4-多个容器使用存储卷的原理"><a href="#4-多个容器使用存储卷的原理" class="headerlink" title="4.多个容器使用存储卷的原理"></a>4.多个容器使用存储卷的原理</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">如下图所示，展示了多个容器使用同一个宿主机绝对路径的挂载原理。</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://note.youdao.com/yws/api/personal/file/74414B219EFF4FAAB37E53A1B7AC2842?method=download&shareKey=8ac856b7dade7822eff1d76c33b744b3" alt="image-20210613141522517"></p>
+<h2 id="5-删除容器时宿主机的数据并不会被删除"><a href="#5-删除容器时宿主机的数据并不会被删除" class="headerlink" title="5.删除容器时宿主机的数据并不会被删除"></a>5.删除容器时宿主机的数据并不会被删除</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">如下图所示，当我们删除容器时，发现并不会一同删除挂载的存储卷。换句话说，就是不会删除宿主机的文件。</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://note.youdao.com/yws/api/personal/file/9585DC7D42B843B5A0747A5E674D76EE?method=download&shareKey=90562a88c70e5c403ed5952113e742ec" alt="image-20210613141713206"></p>
+<h1 id="四-基于存储卷挂载（例如保存MySQL的数据）"><a href="#四-基于存储卷挂载（例如保存MySQL的数据）" class="headerlink" title="四.基于存储卷挂载（例如保存MySQL的数据）"></a>四.基于存储卷挂载（例如保存MySQL的数据）</h1><h2 id="1-创建存储卷"><a href="#1-创建存储卷" class="headerlink" title="1.创建存储卷"></a>1.创建存储卷</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[root@docker201.oldboyedu.com ~]# docker volume create oldboyedu</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">温馨提示:</span><br><span class="line">	存储卷的默认存储路径位于&quot;/var/lib/docker/volumes&quot;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://note.youdao.com/yws/api/personal/file/BCBD993C436A4B359D0EEE7DA14B9B39?method=download&shareKey=5fd09310fbfa36aa65cb7a0112bb4dd0" alt="image-20210613142925176"></p>
+<h2 id="2-使用存储卷挂载"><a href="#2-使用存储卷挂载" class="headerlink" title="2.使用存储卷挂载"></a>2.使用存储卷挂载</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[root@docker201.oldboyedu.com ~]# docker container run -it -d -p 8888:80 -v oldboyedu:/usr/share/nginx/html nginx:1.20.1 </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://note.youdao.com/yws/api/personal/file/030787724658440A9B1FC5C5612FE6E6?method=download&shareKey=58a75afe82b5ad983441f5bd4b64615d" alt="image-20210613144202513"></p>
+<h2 id="3-删除容器时，存储卷的数据并不会丢失"><a href="#3-删除容器时，存储卷的数据并不会丢失" class="headerlink" title="3.删除容器时，存储卷的数据并不会丢失"></a>3.删除容器时，存储卷的数据并不会丢失</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">如下图所示，当我们删除容器时，存储卷中的数据并不会丢失！</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://note.youdao.com/yws/api/personal/file/3F58FE180E64457DBB0C5B7797D48C9B?method=download&shareKey=0d9f21d3d446b41f76e09ff2efe11683" alt="image-20210613144542740"></p>
+<h2 id="4-固定的卷名，也可以实现数据共享"><a href="#4-固定的卷名，也可以实现数据共享" class="headerlink" title="4.固定的卷名，也可以实现数据共享"></a>4.固定的卷名，也可以实现数据共享</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">数据卷的最强大的功能就是持久化数据，我们可以将多个容器挂载到同一个数据卷，从而实现了数据的共享。但有的容器并不支持挂载同一个目录，比如MySQL多实例的情况，如果指定的数据目录存在文件，则数据库会初始化失败哟。</span><br><span class="line"></span><br><span class="line">如下图所示，本篇案例演示的都是基于本地卷进行挂载，我们可以借助插件的方式帮咱们实现远程的数据挂载哟;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://note.youdao.com/yws/api/personal/file/1596EB11C9C34408BA1096FCA267F935?method=download&shareKey=137e63e8bf8c5595fb1eb14ba26da479" alt="image-20210613150225823"></p>
+<h2 id="5-关于存储卷的其它说明"><a href="#5-关于存储卷的其它说明" class="headerlink" title="5.关于存储卷的其它说明"></a>5.关于存储卷的其它说明</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">如果存储卷下面没有数据，它会将容器指定目录下的文件持久化到存储卷的数据目录下。</span><br><span class="line"></span><br><span class="line">如果存储卷下面有数据，它会把存储卷的数据目录挂载到容器的指定目录。</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="五-跟某个容器挂载所有相同的卷"><a href="#五-跟某个容器挂载所有相同的卷" class="headerlink" title="五.跟某个容器挂载所有相同的卷"></a>五.跟某个容器挂载所有相同的卷</h1><h2 id="1-创建一个测试卷"><a href="#1-创建一个测试卷" class="headerlink" title="1.创建一个测试卷"></a>1.创建一个测试卷</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[root@docker201.oldboyedu.com ~]# ll /oldboy/code/</span><br><span class="line">总用量 232</span><br><span class="line">-rw-r--r-- 1 root root 15329 8月   2 2014 2000.png</span><br><span class="line">-rw-r--r-- 1 root root 51562 8月   2 2014 21.js</span><br><span class="line">-rw-r--r-- 1 root root   254 8月   2 2014 icon.png</span><br><span class="line">drwxr-xr-x 2 root root   102 8月   8 2014 img</span><br><span class="line">-rw-r--r-- 1 root root  3059 6月  13 13:58 index.html</span><br><span class="line">drwxr-xr-x 7 root root   171 6月  13 15:39 kod</span><br><span class="line">-rw-r--r-- 1 root root 63008 8月   2 2014 sound1.mp3</span><br><span class="line">-rw-r--r-- 1 root root 91014 6月  13 13:25 xiaoniaofeifei.zip</span><br><span class="line">[root@docker201.oldboyedu.com ~]# </span><br><span class="line">[root@docker201.oldboyedu.com ~]# docker ps -a</span><br><span class="line">CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES</span><br><span class="line">[root@docker201.oldboyedu.com ~]# </span><br><span class="line">[root@docker201.oldboyedu.com ~]# docker run -d -p 80:80 -v /oldboy/code:/usr/share/nginx/html nginx:1.20.1 </span><br><span class="line">220264c94b193fa8f4eab215d4561e0f7664fed9f4eb92ebba101c4a89be200d</span><br><span class="line">[root@docker201.oldboyedu.com ~]# </span><br><span class="line">[root@docker201.oldboyedu.com ~]# docker ps -a</span><br><span class="line">CONTAINER ID   IMAGE          COMMAND                  CREATED         STATUS         PORTS                               NAMES</span><br><span class="line">220264c94b19   nginx:1.20.1   &quot;/docker-entrypoint.…&quot;   4 seconds ago   Up 4 seconds   0.0.0.0:80-&gt;80/tcp, :::80-&gt;80/tcp   priceless_euler</span><br><span class="line">[root@docker201.oldboyedu.com ~]# </span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="2-再次创建一个测试卷"><a href="#2-再次创建一个测试卷" class="headerlink" title="2.再次创建一个测试卷"></a>2.再次创建一个测试卷</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[root@docker201.oldboyedu.com ~]# docker ps -a</span><br><span class="line">CONTAINER ID   IMAGE          COMMAND                  CREATED         STATUS         PORTS                               NAMES</span><br><span class="line">220264c94b19   nginx:1.20.1   &quot;/docker-entrypoint.…&quot;   4 seconds ago   Up 4 seconds   0.0.0.0:80-&gt;80/tcp, :::80-&gt;80/tcp   priceless_euler</span><br><span class="line">[root@docker201.oldboyedu.com ~]# </span><br><span class="line">[root@docker201.oldboyedu.com ~]# docker run -d -p 8888:80 --volumes-from 220264c94b19 nginx:1.20.1 </span><br><span class="line">c4b4058ab33f7c40e04177c8b0a1872789780dd08f4d227eceda6eb7ffbc35f2</span><br><span class="line">[root@docker201.oldboyedu.com ~]# </span><br><span class="line">[root@docker201.oldboyedu.com ~]# docker ps -a</span><br><span class="line">CONTAINER ID   IMAGE          COMMAND                  CREATED          STATUS          PORTS                                   NAMES</span><br><span class="line">c4b4058ab33f   nginx:1.20.1   &quot;/docker-entrypoint.…&quot;   2 seconds ago    Up 2 seconds    0.0.0.0:8888-&gt;80/tcp, :::8888-&gt;80/tcp   great_grothendieck</span><br><span class="line">220264c94b19   nginx:1.20.1   &quot;/docker-entrypoint.…&quot;   16 seconds ago   Up 16 seconds   0.0.0.0:80-&gt;80/tcp, :::80-&gt;80/tcp       priceless_euler</span><br><span class="line">[root@docker201.oldboyedu.com ~]# </span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="3-测试结果"><a href="#3-测试结果" class="headerlink" title="3.测试结果"></a>3.测试结果</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">如下图所示，分别访问两个容器暴露的端口，返回的结果却是一样的。</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://note.youdao.com/yws/api/personal/file/8025AB3E9D2B499F957CFF17EC867B5A?method=download&shareKey=3208f2fa80b111c141996d6279acc7d3" alt="image-20210613172137918"></p>
+<h1 id="六-持久化数据到随机卷（适合保存变化的数据，例如日志文件）"><a href="#六-持久化数据到随机卷（适合保存变化的数据，例如日志文件）" class="headerlink" title="六.持久化数据到随机卷（适合保存变化的数据，例如日志文件）"></a>六.持久化数据到随机卷（适合保存变化的数据，例如日志文件）</h1><h2 id="1-创建随机卷来持久化容器的目录下的数据"><a href="#1-创建随机卷来持久化容器的目录下的数据" class="headerlink" title="1.创建随机卷来持久化容器的目录下的数据"></a>1.创建随机卷来持久化容器的目录下的数据</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">如下图所示，我们可以直接指定nginx的日志目录分别挂载不同的存储卷上。</span><br><span class="line"></span><br><span class="line">温馨提示:</span><br><span class="line">	静态的文件，可以共享。比如代码文件。</span><br><span class="line">	变化的文件，不能共享，需要单独保存。比如日志文件。</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://note.youdao.com/yws/api/personal/file/8F31C42E581740F292E980279DCC5978?method=download&shareKey=2277dd0769c0f03c7544f3dd684b9596" alt="image-20210613160612142"></p>
+<h2 id="2-删除容器"><a href="#2-删除容器" class="headerlink" title="2.删除容器"></a>2.删除容器</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">如下图所示，当我们删除容器时，数据并未丢失哟。</span><br><span class="line"></span><br><span class="line">温馨提示:</span><br><span class="line">	下面的只是一个测试案例，不用在乎软连接，我只是为了测试一下效果。</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://note.youdao.com/yws/api/personal/file/D0C05B6F2C0E4D87B7BE3B3A98B51BBA?method=download&shareKey=ffb790ef6f3be9851b02124c5a543c8e" alt="image-20210613162308624"></p>
+<h2 id="3-课堂练习"><a href="#3-课堂练习" class="headerlink" title="3.课堂练习"></a>3.课堂练习</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">只允许启动一个nginx容器，要求如下:</span><br><span class="line">	(1)访问8888端口，出现nginx默认的欢迎首页。</span><br><span class="line">	(2)访问8889端口，出现&quot;小鸟飞飞&quot;。</span><br><span class="line">	</span><br><span class="line">温馨提示:</span><br><span class="line">	实现效果如下图所示。</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://note.youdao.com/yws/api/personal/file/6EB22D3CF7814C0FB9AA0742170775A2?method=download&shareKey=021e225b44f9159428d9719eac618111" alt="image-20210613164524532"></p>
+<h1 id="七-课堂练习案例多种解法"><a href="#七-课堂练习案例多种解法" class="headerlink" title="七.课堂练习案例多种解法"></a>七.课堂练习案例多种解法</h1><h2 id="1-解法一"><a href="#1-解法一" class="headerlink" title="1.解法一"></a>1.解法一</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">(1)本地创建测试代码</span><br><span class="line">[root@docker201.oldboyedu.com ~]# ll /oldboy/code/</span><br><span class="line">总用量 232</span><br><span class="line">-rw-r--r-- 1 root root 15329 8月   2 2014 2000.png</span><br><span class="line">-rw-r--r-- 1 root root 51562 8月   2 2014 21.js</span><br><span class="line">-rw-r--r-- 1 root root   254 8月   2 2014 icon.png</span><br><span class="line">drwxr-xr-x 2 root root   102 8月   8 2014 img</span><br><span class="line">-rw-r--r-- 1 root root  3059 6月  13 13:58 index.html</span><br><span class="line">drwxr-xr-x 7 root root   171 6月  13 15:39 kod</span><br><span class="line">-rw-r--r-- 1 root root 63008 8月   2 2014 sound1.mp3</span><br><span class="line">-rw-r--r-- 1 root root 91014 6月  13 13:25 xiaoniaofeifei.zip</span><br><span class="line">[root@docker201.oldboyedu.com ~]# </span><br><span class="line"></span><br><span class="line">(2)挂载本地目录到容器(但请不要覆盖nginx容器默认的代码文件，因为我们是要访问2个站点目录)</span><br><span class="line">[root@docker201.oldboyedu.com ~]# docker run -d -p 8888:80 -p 9999:9999 -v /oldboy/code:/oldboyedu/code nginx:1.20.1 </span><br><span class="line"></span><br><span class="line">(3)进入容器生成配置文件(由于没有vi命令，因此我们可以借助echo或者cat生成nginx的配置文件)</span><br><span class="line">[root@docker201.oldboyedu.com ~]# docker exec -it e634dfcc6248 bash</span><br><span class="line">root@e634dfcc6248:/# ls /oldboyedu/code/</span><br><span class="line">2000.png  21.js  icon.png  img	index.html  kod  sound1.mp3  xiaoniaofeifei.zip</span><br><span class="line">root@e634dfcc6248:/# </span><br><span class="line">root@e634dfcc6248:/etc/nginx/conf.d# cat xiaoniao.conf </span><br><span class="line">    server &#123;</span><br><span class="line">      listen 9999;</span><br><span class="line">      server_name localhost;</span><br><span class="line">      location / &#123;</span><br><span class="line">        root /oldboyedu/code;</span><br><span class="line">        index index.html index.htm;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">root@e634dfcc6248:/etc/nginx/conf.d# </span><br><span class="line"></span><br><span class="line">(4)对nginx的配置文件进行测试</span><br><span class="line">root@e634dfcc6248:/etc/nginx/conf.d# nginx -t</span><br><span class="line">nginx: the configuration file /etc/nginx/nginx.conf syntax is ok</span><br><span class="line">nginx: configuration file /etc/nginx/nginx.conf test is successful</span><br><span class="line">root@e634dfcc6248:/etc/nginx/conf.d# </span><br><span class="line"></span><br><span class="line">(5)重启nginx的配置文件</span><br><span class="line">[root@docker201.oldboyedu.com ~]# docker container restart e634dfcc6248</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">温馨提示:</span><br><span class="line">	有小伙伴可能会质疑，为啥我不用nginx的reload指令呢？的确进入到容器进行reload是是一个可行的方案哟，但不是所有的服务都得reload，比如tomcat就不支持reload指令哟。</span><br><span class="line">	综上所诉，我们上面演示的方法更加通用。</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://note.youdao.com/yws/api/personal/file/782B7D902A264EBD8EC3CA4EF4C25CE4?method=download&shareKey=dc58fb05f936244c5118bd920ab0a209" alt="img"></p>
+<h2 id="2-解法二"><a href="#2-解法二" class="headerlink" title="2.解法二"></a>2.解法二</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">(1)本地创建测试代码</span><br><span class="line">[root@docker201.oldboyedu.com ~]# ll /oldboy/code/</span><br><span class="line">总用量 232</span><br><span class="line">-rw-r--r-- 1 root root 15329 8月   2 2014 2000.png</span><br><span class="line">-rw-r--r-- 1 root root 51562 8月   2 2014 21.js</span><br><span class="line">-rw-r--r-- 1 root root   254 8月   2 2014 icon.png</span><br><span class="line">drwxr-xr-x 2 root root   102 8月   8 2014 img</span><br><span class="line">-rw-r--r-- 1 root root  3059 6月  13 13:58 index.html</span><br><span class="line">drwxr-xr-x 7 root root   171 6月  13 15:39 kod</span><br><span class="line">-rw-r--r-- 1 root root 63008 8月   2 2014 sound1.mp3</span><br><span class="line">-rw-r--r-- 1 root root 91014 6月  13 13:25 xiaoniaofeifei.zip</span><br><span class="line">[root@docker201.oldboyedu.com ~]# </span><br><span class="line"></span><br><span class="line">(2)挂载本地目录到容器(但请不要覆盖nginx容器默认的代码文件，因为我们是要访问2个站点目录)</span><br><span class="line">[root@docker201.oldboyedu.com ~]# docker run -d -p 8888:80 -p 9999:9999 -v /oldboy/code:/oldboyedu/code nginx:1.20.1 </span><br><span class="line"></span><br><span class="line">(3)在宿主机上生成配置文件</span><br><span class="line">[root@docker201.oldboyedu.com ~]# vim xiaoniao.conf</span><br><span class="line">[root@docker201.oldboyedu.com ~]# </span><br><span class="line">[root@docker201.oldboyedu.com ~]# cat xiaoniao.conf</span><br><span class="line">    server &#123;</span><br><span class="line">      listen 9999;</span><br><span class="line">      server_name localhost;</span><br><span class="line">      location / &#123;</span><br><span class="line">        root /oldboyedu/code;</span><br><span class="line">        index index.html index.htm;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">[root@docker201.oldboyedu.com ~]# </span><br><span class="line"></span><br><span class="line">(3)将宿主机的配置文件拷贝到其他电脑上</span><br><span class="line">[root@docker201.oldboyedu.com ~]# docker container cp xiaoniao.conf c5f11694d7d9:/etc/nginx/conf.d</span><br><span class="line"></span><br><span class="line">(4)重启容器</span><br><span class="line">	如下图所示，重启容器后，可以使用浏览器访问到相应的数据哟~</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://note.youdao.com/yws/api/personal/file/F1312156C6F3426584545FC3A2B4FF32?method=download&shareKey=be0e5b9629a4a5eee6fac1ad308224c8" alt="image-20210613170047487"></p>
+<h2 id="3-解法三"><a href="#3-解法三" class="headerlink" title="3.解法三"></a>3.解法三</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[root@docker201.oldboyedu.com ~]# docker run -d -p 8888:80 -p 9999:9999 -v /root/xiaoniao.conf:/etc/nginx/conf.d/xiaoniao.conf -v /oldboy/code:/oldboyedu/code nginx:1.20.1 </span><br><span class="line"></span><br><span class="line">温馨提示:</span><br><span class="line">	理解了前面的两种解法后，第三种解法自然就明白了。</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://note.youdao.com/yws/api/personal/file/D95B166706B047488E707DD1F74E24DC?method=download&shareKey=b91b46a7d7a6181ce5bdfbbbf5460798" alt="image-20210613170602173"></p>
+]]></content>
+      <categories>
+        <category>云计算 -</category>
+      </categories>
+      <tags>
+        <tag>Doker -</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Docker的架构介绍及部署实战</title>
     <url>/%E4%BA%91%E8%AE%A1%E7%AE%97/Docker%E7%9A%84%E6%9E%B6%E6%9E%84%E4%BB%8B%E7%BB%8D%E5%8F%8A%E9%83%A8%E7%BD%B2%E5%AE%9E%E6%88%98/</url>
     <content><![CDATA[<h1 id="一-Docker架构分析"><a href="#一-Docker架构分析" class="headerlink" title="一.Docker架构分析"></a>一.Docker架构分析</h1><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">如下图所示，Docker采用的是 Client/Server 架构。客户端向服务器发送请求，服务器负责构建、运行和分发容器。</span><br><span class="line"></span><br><span class="line">　　客户端和服务器可以运行在同一个 Host 上，客户端也可以通过socket或 REST API与远程的服务器通信。</span><br><span class="line">　　</span><br><span class="line">　　推荐阅读:</span><br><span class="line">	https://docs.docker.com/get-started/overview/</span><br></pre></td></tr></table></figure>
@@ -761,6 +862,172 @@
       </tags>
   </entry>
   <entry>
+    <title>docker镜像常用命令</title>
+    <url>/%E4%BA%91%E8%AE%A1%E7%AE%97/docker%E9%95%9C%E5%83%8F%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<h1 id="一-docker常用命令概述"><a href="#一-docker常用命令概述" class="headerlink" title="一.docker常用命令概述"></a>一.docker常用命令概述</h1><h2 id="1-docker命令的使用方法"><a href="#1-docker命令的使用方法" class="headerlink" title="1.docker命令的使用方法"></a>1.docker命令的使用方法</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">如下图所示，对应的是docker命令的使用方法。</span><br><span class="line"></span><br><span class="line">root@docker201.oldboyedu.com ~]# docker</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://note.youdao.com/yws/api/personal/file/WEBa1b09cd4e8367cff954da5894fd62145?method=download&shareKey=b79e77e15aae2b5c0eb95265453925bf" alt="image-20210609213405422"></p>
+<h2 id="2-查看docker子命令的帮助信息"><a href="#2-查看docker子命令的帮助信息" class="headerlink" title="2.查看docker子命令的帮助信息"></a>2.查看docker子命令的帮助信息</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">如下图所示，我们可以查看docker命令的帮助信息哟~</span><br><span class="line"></span><br><span class="line">root@docker201.oldboyedu.com ~]# docker search --help</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://note.youdao.com/yws/api/personal/file/WEB6e05b6635d195f21b94e1d8f640d1cb7?method=download&shareKey=974002314d9cfbb8263faf9e53cf84d0" alt="image-20210609214340268"></p>
+<h2 id="3-镜像管理命令概述"><a href="#3-镜像管理命令概述" class="headerlink" title="3.镜像管理命令概述"></a>3.镜像管理命令概述</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">如下图所示，不难发现&quot;docker image ls&quot;和&quot;docker images&quot;的效果是一样的。&quot;docker image pull&quot;和&quot;docker pull&quot;效果是相同的。</span><br><span class="line"></span><br><span class="line">后者是较老docker版本者的使用习惯，有关镜像管理命令由于历史性原因保留了两种用法。</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://note.youdao.com/yws/api/personal/file/WEBb0e3f973d439eba1eef3db8cfb1062cb?method=download&shareKey=23f3fb4eff247598f7b54f8a47ebfcdc" alt="image-20210609223402204"></p>
+<h1 id="二-生产环境中常用的-docker镜像相关指令"><a href="#二-生产环境中常用的-docker镜像相关指令" class="headerlink" title="二.生产环境中常用的 docker镜像相关指令"></a>二.生产环境中常用的 docker镜像相关指令</h1><h2 id="1-搜索docker镜像-search"><a href="#1-搜索docker镜像-search" class="headerlink" title="1.搜索docker镜像(search)"></a>1.搜索docker镜像(search)</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[root@docker201.oldboyedu.com ~]# docker search mysql</span><br><span class="line"></span><br><span class="line">[root@docker201.oldboyedu.com ~]# docker search mysql --limit 5</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">搜索效果如下图所示，其提供了五个字段，分别代表的含义解释如下:</span><br><span class="line">	NAME:</span><br><span class="line">		镜像的名称。</span><br><span class="line">	</span><br><span class="line">	DESCRIPTION:</span><br><span class="line">    	镜像的描述信息。</span><br><span class="line">    	</span><br><span class="line">    STARS:</span><br><span class="line">    	镜像的星星数量，星星越多，说明受欢迎度越高哟~</span><br><span class="line">    	</span><br><span class="line">    OFFICIAL:</span><br><span class="line">    	该镜像是否是官方发布。</span><br><span class="line">    	</span><br><span class="line">    AUTOMATED</span><br><span class="line">		该镜像是否支持支持自动化构建功能。</span><br><span class="line">		</span><br><span class="line">温馨提示:</span><br><span class="line">	(1)选镜像时建议优先考虑官方(OFFICIAL)和星星(STARS)数量较多的镜像，官方镜像仓库地址如下所示:</span><br><span class="line">	hub.docker.com</span><br><span class="line">	(2)关于自动化构建，此处建议先战略性跳过，感兴趣的小伙伴可参考以下连接哟;</span><br><span class="line">	https://docs.docker.com/docker-hub/builds/</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://note.youdao.com/yws/api/personal/file/WEBaaa2c96612a58cef5deb98e155635c7f?method=download&shareKey=f1c2441038068a631fd4a29b68fd9040" alt="image-20210609215802087"></p>
+<h2 id="2-下载镜像-pull"><a href="#2-下载镜像-pull" class="headerlink" title="2.下载镜像(pull)"></a>2.下载镜像(pull)</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[root@docker201.oldboyedu.com ~]# docker pull nginx:1.20.1</span><br><span class="line"></span><br><span class="line">[root@docker201.oldboyedu.com ~]# docker pull nginx</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://note.youdao.com/yws/api/personal/file/WEBfce8b97916ed696de7356e76ee0bc9d3?method=download&shareKey=12be685d09ee3c80a504e63e14650a8a" alt="image-20210609222829366"></p>
+<h2 id="3-上传镜像-push，先战略性跳过"><a href="#3-上传镜像-push，先战略性跳过" class="headerlink" title="3.上传镜像(push，先战略性跳过)"></a>3.上传镜像(push，先战略性跳过)</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">在后面构建镜像仓库的时候讲解，此处战略性跳过。</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="4-查看本地镜像列表-ls"><a href="#4-查看本地镜像列表-ls" class="headerlink" title="4.查看本地镜像列表(ls)"></a>4.查看本地镜像列表(ls)</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[root@docker201.oldboyedu.com ~]# docker images</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://note.youdao.com/yws/api/personal/file/WEB83aa1364dcf8b67a47486ce846338194?method=download&shareKey=feeeb9254f51a80eecdab20ee3184217" alt="image-20210609224007741"></p>
+<h2 id="5-导出镜像-save"><a href="#5-导出镜像-save" class="headerlink" title="5.导出镜像(save)"></a>5.导出镜像(save)</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[root@docker201.oldboyedu.com ~]# docker save nginx:1.20.1 -o oldboyedu_docker_nginx.tar.gz</span><br><span class="line"></span><br><span class="line">温馨提示:</span><br><span class="line">	如下图所示，我们可以基于镜像的ID从而导出指定的镜像。我不推荐这样做，因为导入镜像的时候会发现镜像名称和其版本号均为&quot;&lt;none&gt;&quot;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://note.youdao.com/yws/api/personal/file/WEB792460399beee2a5e441a474626151e3?method=download&shareKey=7a1a43b230e1e236e9dea135ec6216bf" alt="image-20210609224811160"></p>
+<h2 id="6-删除镜像-rm"><a href="#6-删除镜像-rm" class="headerlink" title="6.删除镜像(rm)"></a>6.删除镜像(rm)</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[root@docker201.oldboyedu.com ~]# docker rmi 993ef3592f66温馨提示:	(1)我们可以基于镜像的ID来删除指定的镜像文件，当然，也可以基于镜像名称和TAG编号一起删除;	(2)很明显&quot;docker image rm&quot;有&quot;docker rmi&quot;,&quot;docker remove&quot;多个别名哟;	(3)使用&quot;docker rm&quot;删除的是容器哟，而非镜像;	(4)想要批量删除镜像，可以先停止docker服务，然后将&quot;/var/lib/docker/*&quot;目录全部删除，这意味着对docker进行初始化操作，因为它意味着删除了所有数据，该操作是不可逆的。</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://note.youdao.com/yws/api/personal/file/WEB626ccb680756386d7f9c08e5e912cc2c?method=download&shareKey=a0517324a685e303c0b3b8051d85bc80" alt="image-20210609231702768"></p>
+<h2 id="7-导入镜像-load"><a href="#7-导入镜像-load" class="headerlink" title="7.导入镜像(load)"></a>7.导入镜像(load)</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[root@docker201.oldboyedu.com ~]# docker image load -i oldboyedu_docker_nginx.tar.gz </span><br></pre></td></tr></table></figure>
+
+<p><img src="https://note.youdao.com/yws/api/personal/file/WEB98eda67f056a6b51e47dfa1f93ac94da?method=download&shareKey=90dca910bd88fe01bf9e7b358c29b1d5" alt="image-20210609232131913"></p>
+<h2 id="8-导入镜像-import"><a href="#8-导入镜像-import" class="headerlink" title="8.导入镜像(import)"></a>8.导入镜像(import)</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">如下图所示，使用import指令也可以导入镜像，但都没有名字哟~	请先允许我买个关子哈，后面给大家介绍一下它的妙用哟！</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://note.youdao.com/yws/api/personal/file/WEBc3f8a54d9320315c7f7ff5c5442baa72?method=download&shareKey=c23168b37d24ef706578dfd95065874d" alt="image-20210609234235462"></p>
+<h2 id="9-打标签-tag"><a href="#9-打标签-tag" class="headerlink" title="9.打标签(tag)"></a>9.打标签(tag)</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">如下图所示，我们可以为一个镜像打多个标签哟~</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://note.youdao.com/yws/api/personal/file/WEBb4cfc8c013b11809d5b2cafd8f768f76?method=download&shareKey=bbf931b6eaf86df870c85747556a1945" alt="image-20210610000547806"></p>
+<h2 id="10-清除无效镜像-prune"><a href="#10-清除无效镜像-prune" class="headerlink" title="10.清除无效镜像(prune)"></a>10.清除无效镜像(prune)</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">如下图所示，我们可以清理无效的镜像。所谓的无效的镜像我们指的就是没有镜像名称和标签的。</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://note.youdao.com/yws/api/personal/file/WEBdd07e56007d4e20ed0796223213c22fb?method=download&shareKey=e5b489a02a2be0070d56640c9ae3145d" alt="image-20210610000922663"></p>
+<h2 id="11-构建镜像-build，战略性跳过"><a href="#11-构建镜像-build，战略性跳过" class="headerlink" title="11.构建镜像(build，战略性跳过)"></a>11.构建镜像(build，战略性跳过)</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker image build -t oldboyedu_dockerfile_xiaoniao:v1 .</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://note.youdao.com/yws/api/personal/file/WEB14a2c2d450069aa8557b4d4651cde152?method=download&shareKey=291fdf5664cded2e6a4545140031da07" alt="image-20210616224136999"></p>
+<h2 id="12-查看构建历史-history，战略性跳过"><a href="#12-查看构建历史-history，战略性跳过" class="headerlink" title="12.查看构建历史(history，战略性跳过)"></a>12.查看构建历史(history，战略性跳过)</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker image history centos:7 --no-trunc</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://note.youdao.com/yws/api/personal/file/WEBf9169889087fb0b58b1b2bb4758b31fd?method=download&shareKey=0279059f27439fce1252af6baf0740cc" alt="image-20210616235412627"></p>
+<h2 id="13-查看镜像属性-inspect，战略性跳过"><a href="#13-查看镜像属性-inspect，战略性跳过" class="headerlink" title="13.查看镜像属性(inspect，战略性跳过)"></a>13.查看镜像属性(inspect，战略性跳过)</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">后期会补，此处先跳过。</span><br></pre></td></tr></table></figure>
+
+<h1 id="三-课堂练习"><a href="#三-课堂练习" class="headerlink" title="三.课堂练习"></a>三.课堂练习</h1><h2 id="1-批量导入镜像"><a href="#1-批量导入镜像" class="headerlink" title="1.批量导入镜像"></a>1.批量导入镜像</h2><h3 id="请批量导入镜像"><a href="#请批量导入镜像" class="headerlink" title="请批量导入镜像"></a>请批量导入镜像</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">如下图所示，以oldboyedu开头的都是我提前打包好的镜像，请批量完成打包操作。</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://note.youdao.com/yws/api/personal/file/WEBc318f490aef27748b0be3970515c13c8?method=download&shareKey=52bf1d33ba0e9668d5f9254505cb768e" alt="image-20210610004039213"></p>
+<h3 id="参考案例"><a href="#参考案例" class="headerlink" title="参考案例"></a>参考案例</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[root@docker201.oldboyedu.com ~]# for image in `ls *.tar.gz`; do docker load -i $image; done</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://note.youdao.com/yws/api/personal/file/WEB4bc9b0ac34f5e1893979ba4e6d8b29e5?method=download&shareKey=d32997c9e0e92f62c48a6903272c54c6" alt="image-20210610004612153"></p>
+<h2 id="2-批量导出镜像"><a href="#2-批量导出镜像" class="headerlink" title="2.批量导出镜像"></a>2.批量导出镜像</h2><h3 id="请批量导出镜像"><a href="#请批量导出镜像" class="headerlink" title="请批量导出镜像"></a>请批量导出镜像</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">请将上述案例的&quot;nginx:latest&quot;和&quot;mysql:latest&quot;两个软件包打包到同一个文件中。</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="参考案例-1"><a href="#参考案例-1" class="headerlink" title="参考案例"></a>参考案例</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[root@docker201.oldboyedu.com ~]# docker save -o oldboyedu_docker_demo.tar.gz nginx:latest mysql:latest</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://note.youdao.com/yws/api/personal/file/WEB0ff6f2fc014e3a2bc9392b49102d81d5?method=download&shareKey=6869c3f127ec541ab17f846906f263a4" alt="image-20210610005328968"></p>
+]]></content>
+      <categories>
+        <category>云计算</category>
+      </categories>
+      <tags>
+        <tag>Docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>docker镜像手动制作</title>
+    <url>/uncategorized/docker%E9%95%9C%E5%83%8F%E6%89%8B%E5%8A%A8%E5%88%B6%E4%BD%9C/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>定时任务</title>
+    <url>/Linux%E5%9F%BA%E7%A1%80/%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/</url>
+    <content><![CDATA[<h1 id="Linux定时任务"><a href="#Linux定时任务" class="headerlink" title="Linux定时任务"></a>Linux定时任务</h1><h2 id="定时任务基本概述"><a href="#定时任务基本概述" class="headerlink" title="定时任务基本概述"></a>定时任务基本概述</h2><ul>
+<li><p>crond简介</p>
+<p>Linux系统上面有很多计划性的工作，比如在某个时间点需要执行某个动作，在Linux中，一般使用crontab命令来实现控制计划任务，通过crontab 命令，我们可以在固定的间隔时间执行指定的系统指令或 shell script脚本。时间间隔的单位可以是分钟、小时、日、月、周及以上的任意组合。这个命令非常设合周期性的日志分析或数据备份等工作。crontab命令是基于crond这个系统服务的，crond服务是安装Linux系统时自动安装的，它会检查当前系统中是否有要执行的任务。</p>
+<p>Crond服务会定期（默认每分钟检查一次）检查系统中是否有要执行的任务工作，如果有，便会根据其预先设定的定时任务规则自动执行该定时任务工作，这个crond定时任务服务就相当于我们平时早起使用的闹钟一样。</p>
+</li>
+<li><p>Linux下的任务调度分为系统层面的任务调度和用户自定义的任务调度。</p>
+</li>
+</ul>
+<ol>
+<li><p><strong>系统级别的定时任务</strong></p>
+<p>比如写缓存数据到硬盘、临时文件清理、系统信息采集、日志文件切割。</p>
+<p>在/etc目录下有一个crontab文件，这个就是系统任务调度的配置文件。打开/etc目录，我们可以看到有很多cron相关的目录，如下：    </p>
+<img src="AppData/Roaming/Typora/typora-user-images/image-20210413155628596.png" alt="image-20210413155628596" style="zoom:150%;" />
+
+<p>cron.deny表示该文件中所列的用户不允许使用crontab命令;</p>
+<p>cron.daily表示每天都要按照计划完成的任务；</p>
+<p>cron.hourly表示每个小时都要按照计划完成的任务；</p>
+<p>cron.weekly表示每个小时都要按照计划完成的任务；</p>
+</li>
+<li><p><strong>用户级别的定时任务</strong></p>
+<p>定时向互联网同步时间、定时备份系统配置文件、定时备份数据库的数据。</p>
+<p>*/var/spool/cron/*目录是所有crontab文件存放的目录，以用户名命名</p>
+<p>如centos7.9下：/var/spool/cron/root </p>
+</li>
+</ol>
+<hr>
+<h2 id="crontab配置文件"><a href="#crontab配置文件" class="headerlink" title="crontab配置文件"></a>crontab配置文件</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vim /etc/crontab</span><br><span class="line">SHELL=/bin/bash</span><br><span class="line">PATH=/sbin:/bin:/usr/sbin:/usr/bin</span><br><span class="line">MAILTO=root</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> For details see man 4 crontabs</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Example of job definition:</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> .---------------- minute (0 - 59)</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> |  .------------- hour (0 - 23)</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> |  |  .---------- day of month (1 - 31)</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> |  |  |  .------- month (1 - 12) OR jan,feb,mar,apr ...</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> |  |  |  |  .---- day of week (0 - 6) (Sunday=0 or 7) OR sun,mon,tue,wed,thu,fri,sat</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> |  |  |  |  |</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> *  *  *  *  * user-name  <span class="built_in">command</span> to be executed</span></span><br><span class="line"></span><br><span class="line">备注：</span><br><span class="line">1） *  表示任意的(分、时、日、月、周)时间都执行</span><br><span class="line">2） -  表示一个时间范围段, 如5-7点</span><br><span class="line">3） ,  表示分隔时段, 如6,0,4表示周六、日、四</span><br><span class="line">4） /  表示每隔n单位时间, 如*/10 每10分钟</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="设置定时任务"><a href="#设置定时任务" class="headerlink" title="设置定时任务"></a>设置定时任务</h2><h3 id="crontab-命令选项："><a href="#crontab-命令选项：" class="headerlink" title="crontab 命令选项："></a>crontab 命令选项：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">-e                    #编辑定时任务</span><br><span class="line">-l                     #查看定时任务</span><br><span class="line">-r                     #删除定时任务</span><br><span class="line">-u                    #指定其他用户</span><br><span class="line">-i                     #在删除用户的crontab文件时给确认提示。</span><br></pre></td></tr></table></figure>
+
+<p><strong>服务操作说明</strong>：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">需提前安装软件包</span></span><br><span class="line">yum install -y ntpdate</span><br><span class="line">服务操作说明：</span><br><span class="line"></span><br><span class="line">/sbin/service crond start //启动服务</span><br><span class="line"></span><br><span class="line">/sbin/service crond stop //关闭服务</span><br><span class="line"></span><br><span class="line">/sbin/service crond restart //重启服务</span><br><span class="line"></span><br><span class="line">/sbin/service crond reload //重新载入配置</span><br><span class="line"></span><br><span class="line">/sbin/service crond status //启动服务</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-2-任务实例："><a href="#3-2-任务实例：" class="headerlink" title="3.2 任务实例："></a>3.2 任务实例：</h3><p><strong>示例一：</strong></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">示例1：使用root用户每2分钟执行一次时间同步</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">先在Linux系统上查看命令是否正确</span></span><br><span class="line">[root@tom ~]# ntpdate ntp1.aliyun.com</span><br><span class="line">12 Apr 12:59:18 ntpdate[69500]: adjust time server 120.25.115.20 offset 0.024905 sec</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">配置定时任务</span></span><br><span class="line"><span class="meta">#</span><span class="bash">编辑定时任务</span></span><br><span class="line">[root@tom  ~]# crontab -e -u root</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">每2分钟执行一次时间同步 by wxg At 2021.04.12</span></span><br><span class="line">*/2 * * * * /usr/sbin/ntpdate ntp1.aliyun.com &amp;&gt;/dev/null</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">查看定时任务</span></span><br><span class="line">[root@tom  ~]# crontab -l -u root</span><br><span class="line"><span class="meta">#</span><span class="bash">每2分钟执行一次时间同步 by wxg At 2021.04.12</span></span><br><span class="line">*/2 * * * * /usr/sbin/ntpdate ntp1.aliyun.com &amp;&gt;/dev/null</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例二</strong>：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">示例2：每天凌晨6点做一次备份 打包备份/etc/ 备份到/tmp中并命名当天日期</span><br><span class="line">crontab -e -u root</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">每天凌晨3点做一次备份？ 打包备份/etc/</span></span><br><span class="line"><span class="meta">#</span><span class="bash">  % 在crontab中比较特殊应用 \ 转义</span></span><br><span class="line">00 06 * * * tar zcf /tmp/`date +\%F_\%w`_etc.tar.gz /etc    </span><br><span class="line"></span><br><span class="line">pr 12 13:09:01 tom CRON[69714]: (tom) CMD (sudo tar ar zcf /tmp/`date +%F`_etc.tar.gz /etc   )</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-3-crond拒绝某个用户使用"><a href="#3-3-crond拒绝某个用户使用" class="headerlink" title="3.3 crond拒绝某个用户使用"></a>3.3 crond拒绝某个用户使用</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">1.使用root将需要拒绝的用户加入/etc/cron.deny</span></span><br><span class="line">[root@tom  ~]# echo &quot;Jerry&quot; &gt;&gt; /etc/cron.deny</span><br><span class="line"><span class="meta">#</span><span class="bash">2.登陆该普通用户，测试是否能编写定时任务</span></span><br><span class="line">[oldboy@tom  ~]$ crontab -e</span><br><span class="line">You (Jerry) are not allowed to use this program </span><br><span class="line">(crontab)</span><br><span class="line">See crontab(1) for more information</span><br></pre></td></tr></table></figure>
+
+<h3 id="crond注意的事项"><a href="#crond注意的事项" class="headerlink" title="crond注意的事项"></a>crond注意的事项</h3><ol>
+<li><p>给定时任务注释</p>
+</li>
+<li><p>将需要定期执行的任务写入<em>Shell</em>脚本中，避免直接使用命令无法执行的情况<em>tar date</em></p>
+</li>
+<li><p>定时任务的结尾一定要有*&amp;&gt;/dev/null*或者将结果追加重定向&gt;&gt;/tmp/date.log文件</p>
+<p>每条任务调度执行完毕，系统都会将任务输出信息通过电子邮件的形式发送给当前系统用户，这样日积月累，日志信息会非常大，可能会影响系统的正常运行，因此，将每条任务进行重定向处理非常重要。</p>
+</li>
+<li><p>注意有些命令是无法成功执行的 <em>echo “123” &gt;&gt;/tmp/test.log &amp;&gt;/dev/null</em></p>
+</li>
+<li><p>如果一定要是用命令，命令必须使用绝对路径</p>
+</li>
+</ol>
+<h3 id="crontab备份"><a href="#crontab备份" class="headerlink" title="crontab备份"></a>crontab备份</h3><p>通过查找*/var/log/cron*中执行的记录，去推算任务执行的时间</p>
+<p>定时的备份*/var/spool/cron/{username}*</p>
+<h2 id="定时任务安全项目实战练习"><a href="#定时任务安全项目实战练习" class="headerlink" title="定时任务安全项目实战练习"></a>定时任务安全项目实战练习</h2><ul>
+<li><p>项目名称: XXXXX网站安全检查项目</p>
+</li>
+<li><p>项目背景: 网站因为安全配置导致病毒入侵,如何快速排查出哪些是病毒(被感染的文件或命令)</p>
+</li>
+<li><p>项目步骤: </p>
+<p><img src="AppData/Roaming/Typora/typora-user-images/image-20210414211016694.png" alt="image-20210414211016694"></p>
+</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">将系统中/etc/目录下的文件做指纹，指纹结果定向到file.md5中</span></span><br><span class="line">find /etc/ -type f | xargs md5sum &gt;&gt; /file.md5</span><br><span class="line"><span class="meta">#</span><span class="bash">进行校验</span></span><br><span class="line"><span class="meta">#</span><span class="bash">若无文件被修改 则输出ok ，若有则输出filed</span></span><br><span class="line">md5sum -c  file.md5</span><br><span class="line"><span class="meta">#</span><span class="bash">使被篡改的文件输出</span></span><br><span class="line">md5sum -c --quiet file.md5</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="错误排查"><a href="#错误排查" class="headerlink" title="错误排查"></a>错误排查</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">crontab -e</span><br><span class="line">no crontab <span class="keyword">for</span> root - using an empty one</span><br><span class="line">/bin/sh: /usr/bin/vi: No such file or directory</span><br><span class="line">crontab: <span class="string">&quot;/usr/bin/vi&quot;</span> exited with status 127</span><br><span class="line"></span><br><span class="line">发生这种情况是因为没有正确定义编辑器。为此，您必须指定二进制文件的完整路径：</span><br><span class="line"><span class="built_in">export</span> EDITOR=/usr/bin/vim</span><br><span class="line">或者</span><br><span class="line"><span class="built_in">export</span> EDITOR=/usr/bin/vi</span><br></pre></td></tr></table></figure>
+
+<script src='https://cdn.jsdelivr.net/gh/sviptzk/HexoStaticFile@latest/Hexo/js/mouse_snow.min.js'></script>
+
+
+
+
+
+]]></content>
+      <categories>
+        <category>Linux基础</category>
+      </categories>
+      <tags>
+        <tag>cron</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Linux系统压缩打包</title>
     <url>/Linux%E5%9F%BA%E7%A1%80/Linux%E7%B3%BB%E7%BB%9F%E5%8E%8B%E7%BC%A9%E6%89%93%E5%8C%85/</url>
     <content><![CDATA[<p><code>windows</code> 下我们接触最多的压缩⽂件就是 .rar 格式, 但 Linux 有⾃⼰所特有的压缩⼯具。如果希望<code>windows</code>和<code>Linux</code>互相能使⽤的压缩⼯具, 建议 .zip 格式。</p>
@@ -1158,167 +1425,6 @@
       </categories>
       <tags>
         <tag>system</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>docker镜像常用命令</title>
-    <url>/%E4%BA%91%E8%AE%A1%E7%AE%97/docker%E9%95%9C%E5%83%8F%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<h1 id="一-docker常用命令概述"><a href="#一-docker常用命令概述" class="headerlink" title="一.docker常用命令概述"></a>一.docker常用命令概述</h1><h2 id="1-docker命令的使用方法"><a href="#1-docker命令的使用方法" class="headerlink" title="1.docker命令的使用方法"></a>1.docker命令的使用方法</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">如下图所示，对应的是docker命令的使用方法。</span><br><span class="line"></span><br><span class="line">root@docker201.oldboyedu.com ~]# docker</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://note.youdao.com/yws/api/personal/file/WEBa1b09cd4e8367cff954da5894fd62145?method=download&shareKey=b79e77e15aae2b5c0eb95265453925bf" alt="image-20210609213405422"></p>
-<h2 id="2-查看docker子命令的帮助信息"><a href="#2-查看docker子命令的帮助信息" class="headerlink" title="2.查看docker子命令的帮助信息"></a>2.查看docker子命令的帮助信息</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">如下图所示，我们可以查看docker命令的帮助信息哟~</span><br><span class="line"></span><br><span class="line">root@docker201.oldboyedu.com ~]# docker search --help</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><img src="https://note.youdao.com/yws/api/personal/file/WEB6e05b6635d195f21b94e1d8f640d1cb7?method=download&shareKey=974002314d9cfbb8263faf9e53cf84d0" alt="image-20210609214340268"></p>
-<h2 id="3-镜像管理命令概述"><a href="#3-镜像管理命令概述" class="headerlink" title="3.镜像管理命令概述"></a>3.镜像管理命令概述</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">如下图所示，不难发现&quot;docker image ls&quot;和&quot;docker images&quot;的效果是一样的。&quot;docker image pull&quot;和&quot;docker pull&quot;效果是相同的。</span><br><span class="line"></span><br><span class="line">后者是较老docker版本者的使用习惯，有关镜像管理命令由于历史性原因保留了两种用法。</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://note.youdao.com/yws/api/personal/file/WEBb0e3f973d439eba1eef3db8cfb1062cb?method=download&shareKey=23f3fb4eff247598f7b54f8a47ebfcdc" alt="image-20210609223402204"></p>
-<h1 id="二-生产环境中常用的-docker镜像相关指令"><a href="#二-生产环境中常用的-docker镜像相关指令" class="headerlink" title="二.生产环境中常用的 docker镜像相关指令"></a>二.生产环境中常用的 docker镜像相关指令</h1><h2 id="1-搜索docker镜像-search"><a href="#1-搜索docker镜像-search" class="headerlink" title="1.搜索docker镜像(search)"></a>1.搜索docker镜像(search)</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[root@docker201.oldboyedu.com ~]# docker search mysql</span><br><span class="line"></span><br><span class="line">[root@docker201.oldboyedu.com ~]# docker search mysql --limit 5</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">搜索效果如下图所示，其提供了五个字段，分别代表的含义解释如下:</span><br><span class="line">	NAME:</span><br><span class="line">		镜像的名称。</span><br><span class="line">	</span><br><span class="line">	DESCRIPTION:</span><br><span class="line">    	镜像的描述信息。</span><br><span class="line">    	</span><br><span class="line">    STARS:</span><br><span class="line">    	镜像的星星数量，星星越多，说明受欢迎度越高哟~</span><br><span class="line">    	</span><br><span class="line">    OFFICIAL:</span><br><span class="line">    	该镜像是否是官方发布。</span><br><span class="line">    	</span><br><span class="line">    AUTOMATED</span><br><span class="line">		该镜像是否支持支持自动化构建功能。</span><br><span class="line">		</span><br><span class="line">温馨提示:</span><br><span class="line">	(1)选镜像时建议优先考虑官方(OFFICIAL)和星星(STARS)数量较多的镜像，官方镜像仓库地址如下所示:</span><br><span class="line">	hub.docker.com</span><br><span class="line">	(2)关于自动化构建，此处建议先战略性跳过，感兴趣的小伙伴可参考以下连接哟;</span><br><span class="line">	https://docs.docker.com/docker-hub/builds/</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://note.youdao.com/yws/api/personal/file/WEBaaa2c96612a58cef5deb98e155635c7f?method=download&shareKey=f1c2441038068a631fd4a29b68fd9040" alt="image-20210609215802087"></p>
-<h2 id="2-下载镜像-pull"><a href="#2-下载镜像-pull" class="headerlink" title="2.下载镜像(pull)"></a>2.下载镜像(pull)</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[root@docker201.oldboyedu.com ~]# docker pull nginx:1.20.1</span><br><span class="line"></span><br><span class="line">[root@docker201.oldboyedu.com ~]# docker pull nginx</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><img src="https://note.youdao.com/yws/api/personal/file/WEBfce8b97916ed696de7356e76ee0bc9d3?method=download&shareKey=12be685d09ee3c80a504e63e14650a8a" alt="image-20210609222829366"></p>
-<h2 id="3-上传镜像-push，先战略性跳过"><a href="#3-上传镜像-push，先战略性跳过" class="headerlink" title="3.上传镜像(push，先战略性跳过)"></a>3.上传镜像(push，先战略性跳过)</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">在后面构建镜像仓库的时候讲解，此处战略性跳过。</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="4-查看本地镜像列表-ls"><a href="#4-查看本地镜像列表-ls" class="headerlink" title="4.查看本地镜像列表(ls)"></a>4.查看本地镜像列表(ls)</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[root@docker201.oldboyedu.com ~]# docker images</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://note.youdao.com/yws/api/personal/file/WEB83aa1364dcf8b67a47486ce846338194?method=download&shareKey=feeeb9254f51a80eecdab20ee3184217" alt="image-20210609224007741"></p>
-<h2 id="5-导出镜像-save"><a href="#5-导出镜像-save" class="headerlink" title="5.导出镜像(save)"></a>5.导出镜像(save)</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[root@docker201.oldboyedu.com ~]# docker save nginx:1.20.1 -o oldboyedu_docker_nginx.tar.gz</span><br><span class="line"></span><br><span class="line">温馨提示:</span><br><span class="line">	如下图所示，我们可以基于镜像的ID从而导出指定的镜像。我不推荐这样做，因为导入镜像的时候会发现镜像名称和其版本号均为&quot;&lt;none&gt;&quot;</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://note.youdao.com/yws/api/personal/file/WEB792460399beee2a5e441a474626151e3?method=download&shareKey=7a1a43b230e1e236e9dea135ec6216bf" alt="image-20210609224811160"></p>
-<h2 id="6-删除镜像-rm"><a href="#6-删除镜像-rm" class="headerlink" title="6.删除镜像(rm)"></a>6.删除镜像(rm)</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[root@docker201.oldboyedu.com ~]# docker rmi 993ef3592f66温馨提示:	(1)我们可以基于镜像的ID来删除指定的镜像文件，当然，也可以基于镜像名称和TAG编号一起删除;	(2)很明显&quot;docker image rm&quot;有&quot;docker rmi&quot;,&quot;docker remove&quot;多个别名哟;	(3)使用&quot;docker rm&quot;删除的是容器哟，而非镜像;	(4)想要批量删除镜像，可以先停止docker服务，然后将&quot;/var/lib/docker/*&quot;目录全部删除，这意味着对docker进行初始化操作，因为它意味着删除了所有数据，该操作是不可逆的。</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://note.youdao.com/yws/api/personal/file/WEB626ccb680756386d7f9c08e5e912cc2c?method=download&shareKey=a0517324a685e303c0b3b8051d85bc80" alt="image-20210609231702768"></p>
-<h2 id="7-导入镜像-load"><a href="#7-导入镜像-load" class="headerlink" title="7.导入镜像(load)"></a>7.导入镜像(load)</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[root@docker201.oldboyedu.com ~]# docker image load -i oldboyedu_docker_nginx.tar.gz </span><br></pre></td></tr></table></figure>
-
-<p><img src="https://note.youdao.com/yws/api/personal/file/WEB98eda67f056a6b51e47dfa1f93ac94da?method=download&shareKey=90dca910bd88fe01bf9e7b358c29b1d5" alt="image-20210609232131913"></p>
-<h2 id="8-导入镜像-import"><a href="#8-导入镜像-import" class="headerlink" title="8.导入镜像(import)"></a>8.导入镜像(import)</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">如下图所示，使用import指令也可以导入镜像，但都没有名字哟~	请先允许我买个关子哈，后面给大家介绍一下它的妙用哟！</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://note.youdao.com/yws/api/personal/file/WEBc3f8a54d9320315c7f7ff5c5442baa72?method=download&shareKey=c23168b37d24ef706578dfd95065874d" alt="image-20210609234235462"></p>
-<h2 id="9-打标签-tag"><a href="#9-打标签-tag" class="headerlink" title="9.打标签(tag)"></a>9.打标签(tag)</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">如下图所示，我们可以为一个镜像打多个标签哟~</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://note.youdao.com/yws/api/personal/file/WEBb4cfc8c013b11809d5b2cafd8f768f76?method=download&shareKey=bbf931b6eaf86df870c85747556a1945" alt="image-20210610000547806"></p>
-<h2 id="10-清除无效镜像-prune"><a href="#10-清除无效镜像-prune" class="headerlink" title="10.清除无效镜像(prune)"></a>10.清除无效镜像(prune)</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">如下图所示，我们可以清理无效的镜像。所谓的无效的镜像我们指的就是没有镜像名称和标签的。</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://note.youdao.com/yws/api/personal/file/WEBdd07e56007d4e20ed0796223213c22fb?method=download&shareKey=e5b489a02a2be0070d56640c9ae3145d" alt="image-20210610000922663"></p>
-<h2 id="11-构建镜像-build，战略性跳过"><a href="#11-构建镜像-build，战略性跳过" class="headerlink" title="11.构建镜像(build，战略性跳过)"></a>11.构建镜像(build，战略性跳过)</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker image build -t oldboyedu_dockerfile_xiaoniao:v1 .</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://note.youdao.com/yws/api/personal/file/WEB14a2c2d450069aa8557b4d4651cde152?method=download&shareKey=291fdf5664cded2e6a4545140031da07" alt="image-20210616224136999"></p>
-<h2 id="12-查看构建历史-history，战略性跳过"><a href="#12-查看构建历史-history，战略性跳过" class="headerlink" title="12.查看构建历史(history，战略性跳过)"></a>12.查看构建历史(history，战略性跳过)</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker image history centos:7 --no-trunc</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://note.youdao.com/yws/api/personal/file/WEBf9169889087fb0b58b1b2bb4758b31fd?method=download&shareKey=0279059f27439fce1252af6baf0740cc" alt="image-20210616235412627"></p>
-<h2 id="13-查看镜像属性-inspect，战略性跳过"><a href="#13-查看镜像属性-inspect，战略性跳过" class="headerlink" title="13.查看镜像属性(inspect，战略性跳过)"></a>13.查看镜像属性(inspect，战略性跳过)</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">后期会补，此处先跳过。</span><br></pre></td></tr></table></figure>
-
-<h1 id="三-课堂练习"><a href="#三-课堂练习" class="headerlink" title="三.课堂练习"></a>三.课堂练习</h1><h2 id="1-批量导入镜像"><a href="#1-批量导入镜像" class="headerlink" title="1.批量导入镜像"></a>1.批量导入镜像</h2><h3 id="请批量导入镜像"><a href="#请批量导入镜像" class="headerlink" title="请批量导入镜像"></a>请批量导入镜像</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">如下图所示，以oldboyedu开头的都是我提前打包好的镜像，请批量完成打包操作。</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://note.youdao.com/yws/api/personal/file/WEBc318f490aef27748b0be3970515c13c8?method=download&shareKey=52bf1d33ba0e9668d5f9254505cb768e" alt="image-20210610004039213"></p>
-<h3 id="参考案例"><a href="#参考案例" class="headerlink" title="参考案例"></a>参考案例</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[root@docker201.oldboyedu.com ~]# for image in `ls *.tar.gz`; do docker load -i $image; done</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://note.youdao.com/yws/api/personal/file/WEB4bc9b0ac34f5e1893979ba4e6d8b29e5?method=download&shareKey=d32997c9e0e92f62c48a6903272c54c6" alt="image-20210610004612153"></p>
-<h2 id="2-批量导出镜像"><a href="#2-批量导出镜像" class="headerlink" title="2.批量导出镜像"></a>2.批量导出镜像</h2><h3 id="请批量导出镜像"><a href="#请批量导出镜像" class="headerlink" title="请批量导出镜像"></a>请批量导出镜像</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">请将上述案例的&quot;nginx:latest&quot;和&quot;mysql:latest&quot;两个软件包打包到同一个文件中。</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="参考案例-1"><a href="#参考案例-1" class="headerlink" title="参考案例"></a>参考案例</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[root@docker201.oldboyedu.com ~]# docker save -o oldboyedu_docker_demo.tar.gz nginx:latest mysql:latest</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://note.youdao.com/yws/api/personal/file/WEB0ff6f2fc014e3a2bc9392b49102d81d5?method=download&shareKey=6869c3f127ec541ab17f846906f263a4" alt="image-20210610005328968"></p>
-]]></content>
-      <categories>
-        <category>云计算</category>
-      </categories>
-      <tags>
-        <tag>Docker</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>定时任务</title>
-    <url>/Linux%E5%9F%BA%E7%A1%80/%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/</url>
-    <content><![CDATA[<h1 id="Linux定时任务"><a href="#Linux定时任务" class="headerlink" title="Linux定时任务"></a>Linux定时任务</h1><h2 id="定时任务基本概述"><a href="#定时任务基本概述" class="headerlink" title="定时任务基本概述"></a>定时任务基本概述</h2><ul>
-<li><p>crond简介</p>
-<p>Linux系统上面有很多计划性的工作，比如在某个时间点需要执行某个动作，在Linux中，一般使用crontab命令来实现控制计划任务，通过crontab 命令，我们可以在固定的间隔时间执行指定的系统指令或 shell script脚本。时间间隔的单位可以是分钟、小时、日、月、周及以上的任意组合。这个命令非常设合周期性的日志分析或数据备份等工作。crontab命令是基于crond这个系统服务的，crond服务是安装Linux系统时自动安装的，它会检查当前系统中是否有要执行的任务。</p>
-<p>Crond服务会定期（默认每分钟检查一次）检查系统中是否有要执行的任务工作，如果有，便会根据其预先设定的定时任务规则自动执行该定时任务工作，这个crond定时任务服务就相当于我们平时早起使用的闹钟一样。</p>
-</li>
-<li><p>Linux下的任务调度分为系统层面的任务调度和用户自定义的任务调度。</p>
-</li>
-</ul>
-<ol>
-<li><p><strong>系统级别的定时任务</strong></p>
-<p>比如写缓存数据到硬盘、临时文件清理、系统信息采集、日志文件切割。</p>
-<p>在/etc目录下有一个crontab文件，这个就是系统任务调度的配置文件。打开/etc目录，我们可以看到有很多cron相关的目录，如下：    </p>
-<img src="AppData/Roaming/Typora/typora-user-images/image-20210413155628596.png" alt="image-20210413155628596" style="zoom:150%;" />
-
-<p>cron.deny表示该文件中所列的用户不允许使用crontab命令;</p>
-<p>cron.daily表示每天都要按照计划完成的任务；</p>
-<p>cron.hourly表示每个小时都要按照计划完成的任务；</p>
-<p>cron.weekly表示每个小时都要按照计划完成的任务；</p>
-</li>
-<li><p><strong>用户级别的定时任务</strong></p>
-<p>定时向互联网同步时间、定时备份系统配置文件、定时备份数据库的数据。</p>
-<p>*/var/spool/cron/*目录是所有crontab文件存放的目录，以用户名命名</p>
-<p>如centos7.9下：/var/spool/cron/root </p>
-</li>
-</ol>
-<hr>
-<h2 id="crontab配置文件"><a href="#crontab配置文件" class="headerlink" title="crontab配置文件"></a>crontab配置文件</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vim /etc/crontab</span><br><span class="line">SHELL=/bin/bash</span><br><span class="line">PATH=/sbin:/bin:/usr/sbin:/usr/bin</span><br><span class="line">MAILTO=root</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> For details see man 4 crontabs</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Example of job definition:</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> .---------------- minute (0 - 59)</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> |  .------------- hour (0 - 23)</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> |  |  .---------- day of month (1 - 31)</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> |  |  |  .------- month (1 - 12) OR jan,feb,mar,apr ...</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> |  |  |  |  .---- day of week (0 - 6) (Sunday=0 or 7) OR sun,mon,tue,wed,thu,fri,sat</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> |  |  |  |  |</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> *  *  *  *  * user-name  <span class="built_in">command</span> to be executed</span></span><br><span class="line"></span><br><span class="line">备注：</span><br><span class="line">1） *  表示任意的(分、时、日、月、周)时间都执行</span><br><span class="line">2） -  表示一个时间范围段, 如5-7点</span><br><span class="line">3） ,  表示分隔时段, 如6,0,4表示周六、日、四</span><br><span class="line">4） /  表示每隔n单位时间, 如*/10 每10分钟</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="设置定时任务"><a href="#设置定时任务" class="headerlink" title="设置定时任务"></a>设置定时任务</h2><h3 id="crontab-命令选项："><a href="#crontab-命令选项：" class="headerlink" title="crontab 命令选项："></a>crontab 命令选项：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">-e                    #编辑定时任务</span><br><span class="line">-l                     #查看定时任务</span><br><span class="line">-r                     #删除定时任务</span><br><span class="line">-u                    #指定其他用户</span><br><span class="line">-i                     #在删除用户的crontab文件时给确认提示。</span><br></pre></td></tr></table></figure>
-
-<p><strong>服务操作说明</strong>：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">需提前安装软件包</span></span><br><span class="line">yum install -y ntpdate</span><br><span class="line">服务操作说明：</span><br><span class="line"></span><br><span class="line">/sbin/service crond start //启动服务</span><br><span class="line"></span><br><span class="line">/sbin/service crond stop //关闭服务</span><br><span class="line"></span><br><span class="line">/sbin/service crond restart //重启服务</span><br><span class="line"></span><br><span class="line">/sbin/service crond reload //重新载入配置</span><br><span class="line"></span><br><span class="line">/sbin/service crond status //启动服务</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="3-2-任务实例："><a href="#3-2-任务实例：" class="headerlink" title="3.2 任务实例："></a>3.2 任务实例：</h3><p><strong>示例一：</strong></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">示例1：使用root用户每2分钟执行一次时间同步</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">先在Linux系统上查看命令是否正确</span></span><br><span class="line">[root@tom ~]# ntpdate ntp1.aliyun.com</span><br><span class="line">12 Apr 12:59:18 ntpdate[69500]: adjust time server 120.25.115.20 offset 0.024905 sec</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">配置定时任务</span></span><br><span class="line"><span class="meta">#</span><span class="bash">编辑定时任务</span></span><br><span class="line">[root@tom  ~]# crontab -e -u root</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">每2分钟执行一次时间同步 by wxg At 2021.04.12</span></span><br><span class="line">*/2 * * * * /usr/sbin/ntpdate ntp1.aliyun.com &amp;&gt;/dev/null</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">查看定时任务</span></span><br><span class="line">[root@tom  ~]# crontab -l -u root</span><br><span class="line"><span class="meta">#</span><span class="bash">每2分钟执行一次时间同步 by wxg At 2021.04.12</span></span><br><span class="line">*/2 * * * * /usr/sbin/ntpdate ntp1.aliyun.com &amp;&gt;/dev/null</span><br></pre></td></tr></table></figure>
-
-<p><strong>示例二</strong>：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">示例2：每天凌晨6点做一次备份 打包备份/etc/ 备份到/tmp中并命名当天日期</span><br><span class="line">crontab -e -u root</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">每天凌晨3点做一次备份？ 打包备份/etc/</span></span><br><span class="line"><span class="meta">#</span><span class="bash">  % 在crontab中比较特殊应用 \ 转义</span></span><br><span class="line">00 06 * * * tar zcf /tmp/`date +\%F_\%w`_etc.tar.gz /etc    </span><br><span class="line"></span><br><span class="line">pr 12 13:09:01 tom CRON[69714]: (tom) CMD (sudo tar ar zcf /tmp/`date +%F`_etc.tar.gz /etc   )</span><br></pre></td></tr></table></figure>
-
-<h3 id="3-3-crond拒绝某个用户使用"><a href="#3-3-crond拒绝某个用户使用" class="headerlink" title="3.3 crond拒绝某个用户使用"></a>3.3 crond拒绝某个用户使用</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">1.使用root将需要拒绝的用户加入/etc/cron.deny</span></span><br><span class="line">[root@tom  ~]# echo &quot;Jerry&quot; &gt;&gt; /etc/cron.deny</span><br><span class="line"><span class="meta">#</span><span class="bash">2.登陆该普通用户，测试是否能编写定时任务</span></span><br><span class="line">[oldboy@tom  ~]$ crontab -e</span><br><span class="line">You (Jerry) are not allowed to use this program </span><br><span class="line">(crontab)</span><br><span class="line">See crontab(1) for more information</span><br></pre></td></tr></table></figure>
-
-<h3 id="crond注意的事项"><a href="#crond注意的事项" class="headerlink" title="crond注意的事项"></a>crond注意的事项</h3><ol>
-<li><p>给定时任务注释</p>
-</li>
-<li><p>将需要定期执行的任务写入<em>Shell</em>脚本中，避免直接使用命令无法执行的情况<em>tar date</em></p>
-</li>
-<li><p>定时任务的结尾一定要有*&amp;&gt;/dev/null*或者将结果追加重定向&gt;&gt;/tmp/date.log文件</p>
-<p>每条任务调度执行完毕，系统都会将任务输出信息通过电子邮件的形式发送给当前系统用户，这样日积月累，日志信息会非常大，可能会影响系统的正常运行，因此，将每条任务进行重定向处理非常重要。</p>
-</li>
-<li><p>注意有些命令是无法成功执行的 <em>echo “123” &gt;&gt;/tmp/test.log &amp;&gt;/dev/null</em></p>
-</li>
-<li><p>如果一定要是用命令，命令必须使用绝对路径</p>
-</li>
-</ol>
-<h3 id="crontab备份"><a href="#crontab备份" class="headerlink" title="crontab备份"></a>crontab备份</h3><p>通过查找*/var/log/cron*中执行的记录，去推算任务执行的时间</p>
-<p>定时的备份*/var/spool/cron/{username}*</p>
-<h2 id="定时任务安全项目实战练习"><a href="#定时任务安全项目实战练习" class="headerlink" title="定时任务安全项目实战练习"></a>定时任务安全项目实战练习</h2><ul>
-<li><p>项目名称: XXXXX网站安全检查项目</p>
-</li>
-<li><p>项目背景: 网站因为安全配置导致病毒入侵,如何快速排查出哪些是病毒(被感染的文件或命令)</p>
-</li>
-<li><p>项目步骤: </p>
-<p><img src="AppData/Roaming/Typora/typora-user-images/image-20210414211016694.png" alt="image-20210414211016694"></p>
-</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">将系统中/etc/目录下的文件做指纹，指纹结果定向到file.md5中</span></span><br><span class="line">find /etc/ -type f | xargs md5sum &gt;&gt; /file.md5</span><br><span class="line"><span class="meta">#</span><span class="bash">进行校验</span></span><br><span class="line"><span class="meta">#</span><span class="bash">若无文件被修改 则输出ok ，若有则输出filed</span></span><br><span class="line">md5sum -c  file.md5</span><br><span class="line"><span class="meta">#</span><span class="bash">使被篡改的文件输出</span></span><br><span class="line">md5sum -c --quiet file.md5</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="错误排查"><a href="#错误排查" class="headerlink" title="错误排查"></a>错误排查</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">crontab -e</span><br><span class="line">no crontab <span class="keyword">for</span> root - using an empty one</span><br><span class="line">/bin/sh: /usr/bin/vi: No such file or directory</span><br><span class="line">crontab: <span class="string">&quot;/usr/bin/vi&quot;</span> exited with status 127</span><br><span class="line"></span><br><span class="line">发生这种情况是因为没有正确定义编辑器。为此，您必须指定二进制文件的完整路径：</span><br><span class="line"><span class="built_in">export</span> EDITOR=/usr/bin/vim</span><br><span class="line">或者</span><br><span class="line"><span class="built_in">export</span> EDITOR=/usr/bin/vi</span><br></pre></td></tr></table></figure>
-
-<script src='https://cdn.jsdelivr.net/gh/sviptzk/HexoStaticFile@latest/Hexo/js/mouse_snow.min.js'></script>
-
-
-
-
-
-]]></content>
-      <categories>
-        <category>Linux基础</category>
-      </categories>
-      <tags>
-        <tag>cron</tag>
       </tags>
   </entry>
   <entry>
